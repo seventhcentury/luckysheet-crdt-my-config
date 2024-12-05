@@ -4,7 +4,7 @@
   "type": "commonjs",
   "private": true,
   "scripts": {
-    "start": "tsc && node temp/main.js"
+    "start": "tsc && node build/main.js"
   },
   "author": "weifeng",
   "license": "Apache-2.0",

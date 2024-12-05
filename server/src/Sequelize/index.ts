@@ -2,18 +2,19 @@
  * 使用 sequelzie 操作数据库
  *  导出唯一实例，需要提供判断数据库连接是否正常的方法
  */
-import { Sequelize } from "sequelize";
-import { SQL_CONFIG } from "../Config/index";
+
+
+import { Sequelize } from 'sequelize';
+import { CONFIG } from "../Config/index";
 
 class MySQL {
     private _connected: boolean = false; // 连接状态
-    private _connectStatus: number = 0; // 连接状态
+    private _connectStatus: number = 0; /** 目前的连接状态： 0 待连接，1 连接中，2 连接成功，3 连接失败 */
     private _sequelize: Sequelize | null = null; // 连接对象
     private static timeout: number = 1000 * 10; // 超时时间 10s
 
     constructor() {
         this._connected = false;
-        /** 目前的连接状态： 0 待连接，1 连接中，2 连接成功，3 连接失败 */
         this._connectStatus = 0;
     }
 
@@ -23,7 +24,7 @@ class MySQL {
     public init() {
         this._connectStatus = 1;
 
-        const { port, host, database, user, password } = SQL_CONFIG;
+        const { port, host, database, user, password } = CONFIG.SQL_CONFIG;
 
         // 创建连接
         const URL = `mysql://${user}:${password}@${host}:${port}/${database}`;
@@ -37,7 +38,7 @@ class MySQL {
                 this._connected = true;
                 this._connectStatus = 2;
             })
-            .catch((err) => {
+            .catch((err: Error) => {
                 console.error("Unable to connect to the database:", err);
                 this._connected = false;
                 this._connectStatus = 3;
