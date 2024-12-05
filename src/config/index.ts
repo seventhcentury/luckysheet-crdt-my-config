@@ -3,7 +3,7 @@ export const BASE_LUCKYSHEET_OPTIONS = {
   showinfobar: false,
   allowUpdate: true,
   loadUrl: "", // 初始化 celldata 数据
-  updateUrl: "", // 协同服务转发服务
+  updateUrl: "ws://localhost:9090", // 协同服务转发服务
 };
 
 // 导出后台服务地址

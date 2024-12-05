@@ -18,7 +18,8 @@
 ## 项目结构说明
 
 ```js
-- Luckysheet-source-code // 原作者开源项目源码，有些需要二开的功能，都是基于这个打包实现的
+// 原作者开源项目源码，有些需要二开的功能，都是基于这个打包实现的
+- Luckysheet-source-code 
 
 - server // 本项目后台服务
     + build // 打包后的文件

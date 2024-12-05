@@ -5,6 +5,7 @@
 
 import { Sequelize } from "sequelize";
 import { SQL_CONFIG } from "../Config/index";
+import { logger } from "../Meddlewear/Logger";
 
 class MySQL {
   private _connected: boolean = false; // 连接状态
@@ -20,25 +21,28 @@ class MySQL {
   /**
    * 初始化数据库
    */
-  public init() {
+  public connect() {
     this._connectStatus = 1;
 
-    const { port, host, database, user, password } = SQL_CONFIG;
+    const { host, database, user, password } = SQL_CONFIG;
 
     // 创建连接
-    const URL = `mysql://${user}:${password}@${host}:${port}/${database}`;
-    this._sequelize = new Sequelize(URL, { logging: this.logging });
+    this._sequelize = new Sequelize(database, user, password, {
+      host,
+      dialect: "mysql",
+      logging: (sql: string) => logger.debug(sql),
+    });
 
     // 测试连接
     this._sequelize
       .authenticate()
       .then(() => {
-        console.log("Connection has been established successfully.");
+        logger.success("Connection has been established successfully.");
         this._connected = true;
         this._connectStatus = 2;
       })
       .catch((err: Error) => {
-        console.error("Unable to connect to the database:", err);
+        logger.error("Unable to connect to the database:", err);
         this._connected = false;
         this._connectStatus = 3;
       });
@@ -48,7 +52,7 @@ class MySQL {
      */
     const TIMER = setTimeout(() => {
       if (!this._connected && this._connectStatus === 1) {
-        console.log("连接超时，请检查数据库连接配置");
+        logger.error("连接超时，请检查数据库连接配置");
         this._connectStatus = 3;
       }
       clearTimeout(TIMER);
@@ -69,13 +73,6 @@ class MySQL {
    */
   public getConnected(): boolean {
     return this._connected && this._connectStatus === 2;
-  }
-
-  /**
-   * 日志记录功能
-   */
-  private logging(sql: string) {
-    console.log(sql);
   }
 }
 

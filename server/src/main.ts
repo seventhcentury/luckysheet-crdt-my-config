@@ -1,15 +1,13 @@
-// 导入 DB
-// import { DB } from "./Sequelize/index";
-
+import { createServer } from "http";
+import { DB } from "./Sequelize/index"; // 导入 DB
 import { SERVER_PORT } from "./Config/index";
+import { logger } from "./Meddlewear/Logger";
+import { createWebSocketServer } from "./WebSocket/index"; // 导入 ws
 
-// 导入 ws
-import { createWebSocketServer } from "./WebSocket/index";
+logger.info("Waiting for start Server... ");
 
 // 初始化 DB
-// DB.init();
-
-import { createServer } from "http";
+DB.connect();
 
 /** 创建http服务 */
 const httpServer = createServer();
@@ -19,5 +17,5 @@ createWebSocketServer(httpServer);
 
 /** 监听端口 */
 httpServer.listen(SERVER_PORT, () => {
-  console.log(`\nhttp server is running at: http://localhost:${SERVER_PORT}`);
+  logger.info(`http server is running at: http://localhost:${SERVER_PORT}`);
 });
