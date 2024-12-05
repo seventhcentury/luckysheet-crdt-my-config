@@ -4,18 +4,15 @@
 
 import { BASE_LUCKYSHEET_OPTIONS } from "./config";
 
-window.onload = initLuckysheet
+window.onload = initLuckysheet;
 
 function initLuckysheet() {
-    const luckysheet = Reflect.get(window, 'luckysheet')
-
+    const luckysheet = Reflect.get(window, "luckysheet");
 
     const options = {
         ...BASE_LUCKYSHEET_OPTIONS,
-        container: 'luckysheetContainer',
-    }
+        container: "luckysheetContainer",
+    };
 
     luckysheet.create(options);
-
 }
-
