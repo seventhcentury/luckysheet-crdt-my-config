@@ -8,6 +8,9 @@ import path from "path";
 // server port
 export const SERVER_PORT = 9000;
 
+// ws server port
+export const WS_SERVER_PORT = 9090;
+
 // 数据库配置对象 - sequelize
 export const SQL_CONFIG = {
   port: 3306,
