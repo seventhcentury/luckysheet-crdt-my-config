@@ -1,0 +1,21 @@
+{
+  "name": "luckysheet-crdt-server",
+  "version": "1.0.0",
+  "type": "commonjs",
+  "private": true,
+  "scripts": {
+    "start": "tsc && node temp/main.js"
+  },
+  "author": "weifeng",
+  "license": "Apache-2.0",
+  "description": "luckysheet-crdt-server",
+  "dependencies": {
+    "mysql2": "^3.11.5",
+    "sequelize": "^6.37.5",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "typescript": "^5.7.2"
+  }
+}
