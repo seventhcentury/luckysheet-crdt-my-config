@@ -25,3 +25,6 @@ dist-ssr
 
 server/build
 server/logs
+
+Luckysheet-source/dist
+Luckysheet-source/node_modules
