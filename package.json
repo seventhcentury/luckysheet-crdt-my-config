@@ -10,7 +10,8 @@
     "server": "cd server && npm run start",
     "server:dev": "cd server && npm run dev",
     "lint": "eslint --fix",
-    "source": "cd Luckysheet-source-code && npm run dev"
+    "source": "cd Luckysheet-source && npm run dev",
+    "install": "npm install && cd server && npm install"
   },
   "devDependencies": {
     "@eslint/js": "^9.16.0",
