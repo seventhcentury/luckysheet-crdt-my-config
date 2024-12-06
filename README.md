@@ -15,20 +15,20 @@
 
 
 ## 命令说明
-```json
+```bash
 "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    // ## 启动服务端
+     ## 启动服务端
     "server": "cd server && npm run start",
-    // ## 启动服务端开发环境(这个的核心是 nodemon 监听)
+     ## 启动服务端开发环境(这个的核心是 nodemon 监听)
     "server:dev": "cd server && npm run dev",
-    // ## Eslint 校验
+     ## Eslint 校验
     "lint": "eslint --fix",
-    // ## 启动源码项目
+     ## 启动源码项目
     "source": "cd Luckysheet-source && npm run dev",
-    // ## 安装依赖：安装主项目及服务端项目依赖
+     ## 安装依赖：安装主项目及服务端项目依赖
     "install": "npm install && cd server && npm install"
 }
 ```
