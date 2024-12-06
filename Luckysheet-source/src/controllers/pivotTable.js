@@ -794,7 +794,7 @@ const pivotTable = {
     isPivotRange: function (row_index, col_index) {
         let _this = this;
 
-        if (!!Store.luckysheetcurrentisPivotTable) {
+        if (Store.luckysheetcurrentisPivotTable) {
             if (row_index < _this.pivotTableBoundary[0] && col_index < _this.pivotTableBoundary[1]) {
                 return true;
             }

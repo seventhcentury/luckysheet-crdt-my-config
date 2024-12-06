@@ -5,7 +5,7 @@ import fs from "fs";
 import dayjs from "dayjs";
 import { LOGGER_CONFIG } from "../../Config";
 
-type LogMessage = string | number | object;
+type LogMessage = string | number | object | unknown;
 type LogType = "INFO" | "ERROR" | "WARN" | "DEBUG" | "SUCCESS";
 
 class Logger {

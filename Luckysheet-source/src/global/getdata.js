@@ -219,7 +219,7 @@ export function datagridgrowth(data, addr, addc, iscallback) {
         data.push([].concat(rowadd));
     }
 
-    if(!!iscallback){
+    if(iscallback){
         server.saveParam("all", Store.currentSheetIndex, data.length, { "k": "row" });
         server.saveParam("all", Store.currentSheetIndex, data[0].length, { "k": "column" });
     }

@@ -8,11 +8,13 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "server": "cd server && npm run start",
+    "server:dev": "cd server && npm run dev",
     "lint": "eslint --fix",
     "source": "cd Luckysheet-source-code && npm run dev"
   },
   "devDependencies": {
     "@eslint/js": "^9.16.0",
+    "@types/pako": "^2.0.3",
     "eslint": "^9.16.0",
     "globals": "^15.13.0",
     "typescript": "^5.2.2",
@@ -21,6 +23,7 @@
   },
   "dependencies": {
     "axios": "^1.7.9",
-    "dayjs": "^1.11.13"
+    "dayjs": "^1.11.13",
+    "pako": "^2.1.0"
   }
 }

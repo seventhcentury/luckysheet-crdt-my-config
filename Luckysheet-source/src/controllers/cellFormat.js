@@ -60,7 +60,7 @@ function recycleSeletion(cycleFunction, dataIsNullFunction){
                         let cell;
 
                         let margeset = menuButton.mergeborer(data, r, c);
-                        if (!!margeset) {
+                        if (margeset) {
                             // row = margeset.row[1];
                             // row_pre = margeset.row[0];
                             let row_index = margeset.row[2];

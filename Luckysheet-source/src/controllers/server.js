@@ -200,8 +200,7 @@ const server = {
 	        _this.websocket.onmessage = function(result){
 				Store.result = result
 				let data = new Function("return " + result.data)();
-        method.createHookFunction('cooperativeMessage', data)
-				console.info(data);
+				method.createHookFunction('cooperativeMessage', data)
 				let type = data.type;
 				let {message,id} = data;
 				// 用户退出时，关闭协同编辑时其提示框
@@ -985,7 +984,7 @@ const server = {
 	        col_pre = c - 1 == -1 ? 0 : Store.visibledatacolumn[c - 1];
 
 	    let margeset = menuButton.mergeborer(Store.flowdata, r, c);
-	    if(!!margeset){
+	    if(margeset){
 	        row = margeset.row[1];
 	        row_pre = margeset.row[0];
 

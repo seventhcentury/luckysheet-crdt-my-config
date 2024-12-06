@@ -39,3 +39,29 @@
 - src // 前台服务
     + main.ts // 项目入口文件
 ```
+
+## WebSocketServer参数说明
+
+```ts
+import { createServer } from 'https';
+import { WebSocketServer } from 'ws';
+
+const server = createServer(...)
+const wss = new WebSocketServer({ server });
+
+// express 框架中，获取 http server 的形式如下：
+
+import express from "express";
+const app = express();
+const server = app.listen(...);
+const wss = new WebSocketServer({ server });
+
+/**
+ * app.listen(...) 的实现原理：
+ */
+ const http = require('http');
+ app.listen = function listen() {
+   const server = http.createServer(this);
+   return server.listen.apply(server, arguments);
+ };
+```

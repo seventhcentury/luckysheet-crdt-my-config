@@ -768,7 +768,7 @@ const functionImplementation = {
 
             birthday = new Date(birthday);
 
-            var list = new Array("猪", "鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊", "猴", "鸡", "狗");
+            var list = ["猪", "鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊", "猴", "鸡", "狗"];
             var index = (parseInt(birthday.getFullYear()) + 9) % 12;
 
             if (index != null && !isNaN(index)) {
@@ -22945,7 +22945,7 @@ const functionImplementation = {
             //计算
             function Ma(a, n){
                 var A;
-                var b = new Array();
+                var b = [];
 
                 if(n == 1){
                     A = a[0][0];
@@ -22964,15 +22964,15 @@ const functionImplementation = {
                 }
                 else{
                     A = 0;
-                    var c = new Array();
-                    var e = new Array();
+                    var c = [];
+                    var e = [];
 
                     for(var i = 0; i < n; i++){
                         b[i] = a[i][0] * Math.pow(-1, i + 1 + 1);
                     }
 
                     for(var i = 0; i < n; i++){
-                        e[i] = new Array();
+                        e[i] = [];
 
                         for(var j = 0; j < n - 1; j++){
                             e[i][j] = a[i][j + 1];
@@ -22981,7 +22981,7 @@ const functionImplementation = {
 
                     for(var i = 0; i < n; i++){
                         for(var j = 0; j < n; j++){
-                            c[j] = new Array();
+                            c[j] = [];
 
                             for(var k = 0; k < n - 1; k++){
                                 if(i > j){
@@ -25531,7 +25531,7 @@ const functionImplementation = {
 
             //定义sparklines的通用色彩设置函数，可以设置 色表【colorList】索引数值 或者 具体颜色值
             var sparkColorSetting = function(attr, value){
-                if(!!value){
+                if(value){
                     if(typeof(value)=="number"){
                         if(value>19){
                             value = value % 20;
@@ -25553,7 +25553,7 @@ const functionImplementation = {
 
 
             //设置辅助线，可以支持min、max、avg、median等几个字符变量，或者具体的数值。
-            if(!!normalValue){
+            if(normalValue){
                 if(typeof(normalValue)=="string"){
                     normalValue = normalValue.toLowerCase();
                     var nv = null;
@@ -25570,7 +25570,7 @@ const functionImplementation = {
                         nv = window.luckysheet_function.MEDIAN.f({"data":dataformat});
                     }
 
-                    if(!!nv){
+                    if(nv){
                         sparksetting["normalRangeMin"] = nv;
                         sparksetting["normalRangeMax"] = nv;
                     }
@@ -25672,7 +25672,7 @@ const functionImplementation = {
 
             //定义sparklines的通用色彩设置函数，可以设置 色表【colorList】索引数值 或者 具体颜色值
             var sparkColorSetting = function(attr, value){
-                if(!!value){
+                if(value){
                     if(typeof(value)=="number"){
                         if(value>19){
                             value = value % 20;
@@ -25696,7 +25696,7 @@ const functionImplementation = {
             sparksetting["lineWidth"] = lineWidth;
 
             //设置辅助线，可以支持min、max、avg、median等几个字符变量，或者具体的数值。
-            if(!!normalValue){
+            if(normalValue){
                 if(typeof(normalValue)=="string"){
                     normalValue = normalValue.toLowerCase();
                     var nv = null;
@@ -25713,7 +25713,7 @@ const functionImplementation = {
                         nv = window.luckysheet_function.MEDIAN.f({"data":dataformat});
                     }
 
-                    if(!!nv){
+                    if(nv){
                         sparksetting["normalRangeMin"] = nv;
                         sparksetting["normalRangeMax"] = nv;
                     }
@@ -25802,7 +25802,7 @@ const functionImplementation = {
 
             //定义sparklines的通用色彩设置函数，可以设置 色表【colorList】索引数值 或者 具体颜色值
             var sparkColorSetting = function(attr, value){
-                if(!!value){
+                if(value){
                     if(typeof(value)=="number"){
                         if(value>19){
                             value = value % 20;
@@ -25843,7 +25843,7 @@ const functionImplementation = {
             }
 
             var colorLists = formula.sparklinesColorMap(arguments);
-            if(!!colorLists){
+            if(colorLists){
                 sparksetting["colorMap"] = colorLists;
             }
             ////具体实现
@@ -25949,7 +25949,7 @@ const functionImplementation = {
 
             //定义sparklines的通用色彩设置函数，可以设置 色表【colorList】索引数值 或者 具体颜色值
             var sparkColorSetting = function(attr, value){
-                if(!!value){
+                if(value){
                     if(typeof(value)=="number"){
                         if(value>19){
                             value = value % 20;
@@ -25978,7 +25978,7 @@ const functionImplementation = {
             }
 
             var colorLists = formula.sparklinesColorMap(arguments, 4);
-            if(!!colorLists){
+            if(colorLists){
                 sparksetting["colorMap"] = colorLists;
             }
             ////具体实现
@@ -26039,7 +26039,7 @@ const functionImplementation = {
 
             //定义sparklines的通用色彩设置函数，可以设置 色表【colorList】索引数值 或者 具体颜色值
             var sparkColorSetting = function(attr, value){
-                if(!!value){
+                if(value){
                     if(typeof(value)=="number"){
                         if(value>19){
                             value = value % 20;
@@ -26080,7 +26080,7 @@ const functionImplementation = {
             }
 
             var colorLists = formula.sparklinesColorMap(arguments);
-            if(!!colorLists){
+            if(colorLists){
                 sparksetting["colorMap"] = colorLists;
             }
             ////具体实现
@@ -26185,7 +26185,7 @@ const functionImplementation = {
 
             //定义sparklines的通用色彩设置函数，可以设置 色表【colorList】索引数值 或者 具体颜色值
             var sparkColorSetting = function(attr, value){
-                if(!!value){
+                if(value){
                     if(typeof(value)=="number"){
                         if(value>19){
                             value = value % 20;
@@ -26214,7 +26214,7 @@ const functionImplementation = {
             }
 
             var colorLists = formula.sparklinesColorMap(arguments, 4);
-            if(!!colorLists){
+            if(colorLists){
                 sparksetting["colorMap"] = colorLists;
             }
             ////具体实现
@@ -26275,7 +26275,7 @@ const functionImplementation = {
 
             //定义sparklines的通用色彩设置函数，可以设置 色表【colorList】索引数值 或者 具体颜色值
             var sparkColorSetting = function(attr, value){
-                if(!!value){
+                if(value){
                     if(typeof(value)=="number"){
                         if(value>19){
                             value = value % 20;
@@ -26364,7 +26364,7 @@ const functionImplementation = {
 
             //定义sparklines的通用色彩设置函数，可以设置 色表【colorList】索引数值 或者 具体颜色值
             var sparkColorSetting = function(attr, value){
-                if(!!value){
+                if(value){
                     if(typeof(value)=="number"){
                         if(value>19){
                             value = value % 20;
@@ -26403,7 +26403,7 @@ const functionImplementation = {
             sparkColorSetting("zeroBarColor", zeroBarColor);
 
             var colorLists = formula.sparklinesColorMap(arguments);
-            if(!!colorLists){
+            if(colorLists){
                 sparksetting["colorMap"] = colorLists;
             }
             ////具体实现
@@ -26463,7 +26463,7 @@ const functionImplementation = {
 
             //定义sparklines的通用色彩设置函数，可以设置 色表【colorList】索引数值 或者 具体颜色值
             var sparkColorSetting = function(attr, value){
-                if(!!value){
+                if(value){
                     if(typeof(value)=="number"){
                         if(value>19){
                             value = value % 20;
@@ -26496,7 +26496,7 @@ const functionImplementation = {
             sparkColorSetting("borderColor", borderColor);
 
             var colorLists = formula.sparklinesColorMap(arguments, 4);
-            if(!!colorLists){
+            if(colorLists){
                 sparksetting["colorMap"] = colorLists;
             }
             ////具体实现
@@ -26556,7 +26556,7 @@ const functionImplementation = {
 
             //定义sparklines的通用色彩设置函数，可以设置 色表【colorList】索引数值 或者 具体颜色值
             var sparkColorSetting = function(attr, value){
-                if(!!value){
+                if(value){
                     if(typeof(value)=="number"){
                         if(value>19){
                             value = value % 20;
@@ -26646,7 +26646,7 @@ const functionImplementation = {
 
             //定义sparklines的通用色彩设置函数，可以设置 色表【colorList】索引数值 或者 具体颜色值
             var sparkColorSetting = function(attr, value){
-                if(!!value){
+                if(value){
                     if(typeof(value)=="number"){
                         if(value>19){
                             value = value % 20;
