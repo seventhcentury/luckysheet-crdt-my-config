@@ -49,12 +49,13 @@ export function createWebSocketServer(server: Server) {
    */
   function onmessage(data: RawData, client: CustomWebSocket) {
     try {
+      const data_str = unzip(data.toString());
       // 1. 用户每次编辑，都会触发 message 事件，因此，在这里实现协同数据存储
       const db_connected = DB.getConnected();
-      if (db_connected) databaseHandler();
+      if (db_connected) databaseHandler(data_str);
 
       // 2. 广播给 wss.clients 所有的客户端
-      broadcastOtherClients(wss, client, unzip(<string>(<unknown>data)));
+      broadcastOtherClients(wss, client, data_str);
     } catch (error) {
       // 3. 捕获异常 判断是否为心跳包消息,心跳不处理，异常信息则记录日志
       if (data.toString() !== "rub") logger.error(error);

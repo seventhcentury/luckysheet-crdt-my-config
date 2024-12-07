@@ -1,14 +1,6 @@
 // 封装用户请求axios
 import axios, { AxiosRequestConfig } from "axios";
 
-/**
- * 生产环境与开发环境的请求前缀是不一样的
- * 通过vite的环境变量处理该问题
- */
-
-const dev_env = import.meta.env.MODE === "development";
-axios.defaults.baseURL = dev_env ? "/baseURL" : "";
-
 export const fetch = (options: AxiosRequestConfig) => {
   return axios({
     ...options,

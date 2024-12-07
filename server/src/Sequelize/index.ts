@@ -3,6 +3,7 @@
  *  导出唯一实例，需要提供判断数据库连接是否正常的方法
  */
 
+import SequelizeModel from "./Model";
 import { Sequelize } from "sequelize";
 import { SQL_CONFIG } from "../Config/index";
 import { logger } from "../Meddlewear/Logger";
@@ -21,7 +22,7 @@ class MySQL {
   /**
    * 初始化数据库
    */
-  public connect() {
+  public async connect() {
     this._connectStatus = 1;
 
     const { host, database, user, password } = SQL_CONFIG;
@@ -33,20 +34,6 @@ class MySQL {
       logging: (sql: string) => logger.debug(sql),
     });
 
-    // 测试连接
-    this._sequelize
-      .authenticate()
-      .then(() => {
-        logger.success("Connection has been established successfully.");
-        this._connected = true;
-        this._connectStatus = 2;
-      })
-      .catch((err: Error) => {
-        logger.error("Unable to connect to the database:", err);
-        this._connected = false;
-        this._connectStatus = 3;
-      });
-
     /**
      * 判断是否超时
      */
@@ -57,6 +44,22 @@ class MySQL {
       }
       clearTimeout(TIMER);
     }, MySQL.timeout);
+
+    // 测试连接
+    try {
+      logger.info("正在连接数据库...");
+      await this._sequelize.authenticate();
+      logger.success("Connection has been established successfully.");
+      this._connected = true;
+      this._connectStatus = 2;
+
+      // 连接成功后，初始化模型表
+      await SequelizeModel.syncModel(this._sequelize);
+    } catch (error) {
+      logger.error("Unable to connect to the database:", error);
+      this._connected = false;
+      this._connectStatus = 3;
+    }
   }
 
   /**
