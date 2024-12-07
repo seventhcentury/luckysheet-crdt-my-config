@@ -1041,7 +1041,7 @@ const dataVerificationCtrl = {
             col_pre = c == 0 ? 0 : Store.visibledatacolumn[c - 1];
 
         let margeset = menuButton.mergeborer(Store.flowdata, r, c);
-        if(margeset){
+        if(!!margeset){
             row = margeset.row[1];
             row_pre = margeset.row[0];
             
@@ -1496,7 +1496,7 @@ const dataVerificationCtrl = {
             col_pre = colIndex == 0 ? 0 : Store.visibledatacolumn[colIndex - 1];
 
         let margeset = menuButton.mergeborer(Store.flowdata, rowIndex, colIndex);
-        if(margeset){
+        if(!!margeset){
             row = margeset.row[1];
             row_pre = margeset.row[0];
             
@@ -1680,8 +1680,8 @@ function validateIdCard(idCard) {
     // 如果通过该验证，说明身份证格式正确，但准确性还需计算
     if (regIdCard.test(idCard)) {
         if (idCard.length == 18) {
-            var idCardWi = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2]; // 将前17位加权因子保存在数组里
-            var idCardY = [1, 0, 10, 9, 8, 7, 6, 5, 4, 3, 2]; // 这是除以11后，可能产生的11位余数、验证码，也保存成数组
+            var idCardWi = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2); // 将前17位加权因子保存在数组里
+            var idCardY = new Array(1, 0, 10, 9, 8, 7, 6, 5, 4, 3, 2); // 这是除以11后，可能产生的11位余数、验证码，也保存成数组
             var idCardWiSum = 0; // 用来保存前17位各自乖以加权因子后的总和
             for (var i = 0; i < 17; i++) {
                 idCardWiSum += idCard.substring(i, i + 1) * idCardWi[i];

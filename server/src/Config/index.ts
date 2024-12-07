@@ -5,7 +5,7 @@
 import dayjs from "dayjs";
 import path from "path";
 
-// server port、ws server port 公用一个端口，通过 ws 创建传入 server 实现
+// server port、ws server port 共用一个端口，通过 ws 创建传入 server 实现
 export const SERVER_PORT = 9000;
 
 // 数据库配置对象 - sequelize

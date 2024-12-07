@@ -21,18 +21,18 @@ class Logger {
   }
   warn(...argus: LogMessage[]) {
     const time = this.getTime();
-    console.log("\x1b[93m %s \x1b[0m %s", `[${time}] [WARN] - `, ...argus);
+    console.log("\x1b[93m %s \x1b[0m %s", `[${time}] [WARN] -`, ...argus);
     this.writeLogFile(time, "WARN", ...argus);
   }
   debug(...argus: LogMessage[]) {
     const time = this.getTime();
-    console.log("\x1b[90m %s \x1b[0m %s", `[${time}] [DEBUG] - `, ...argus);
+    console.log("\x1b[90m %s \x1b[0m %s", `[${time}] [DEBUG] -`, ...argus);
     this.writeLogFile(time, "DEBUG", ...argus);
   }
 
   success(...argus: LogMessage[]) {
     const time = this.getTime();
-    console.log("\x1b[92m %s \x1b[0m %s", `[${time}] [SUCCESS] - `, ...argus);
+    console.log("\x1b[92m %s \x1b[0m %s", `[${time}] [SUCCESS] -`, ...argus);
     this.writeLogFile(time, "SUCCESS", ...argus);
   }
 

@@ -63,7 +63,7 @@ function getluckysheetfile(plugin) {
     // 获取图表数据
     if(plugin){
         Store.luckysheetfile.forEach(file => {
-            if(file.chart){
+            if(!!file.chart){
                 file.chart.forEach((chartObj)=>{
                     const chartJson = Store.getChartJson(chartObj.chart_id);
                     chartObj.chartOptions = chartJson;

@@ -839,7 +839,7 @@ const sheetmanage = {
                     // luckysheetrefreshgrid(0, 0);
                     $("#luckysheet_info_detail_save").html(locale_info.detailSave);
 
-                    if (file.isPivotTable) {
+                    if (!!file.isPivotTable) {
                         Store.luckysheetcurrentisPivotTable = true;
                         // pivotTable.changePivotTable(Store.currentSheetIndex); //此方法需要注释掉，在restoreSheetAll中已经执行了刷新了数据透视表，这里就不需要了
                     }
@@ -1185,7 +1185,7 @@ const sheetmanage = {
         _this.setCurSheet(index);
 
   
-        if (file.isPivotTable) {
+        if (!!file.isPivotTable) {
             Store.luckysheetcurrentisPivotTable = true;
             if (!isPivotInitial) {
                 pivotTable.changePivotTable(index);

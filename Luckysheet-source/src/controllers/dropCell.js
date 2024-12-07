@@ -397,7 +397,7 @@ const luckysheetDropCell = {
 
         for(let r = str_r; r <= end_r; r++){
             for(let c = str_c; c <= end_c; c++){
-                if(Store.flowdata[r][c]){
+                if(!!Store.flowdata[r][c]){
                     let cell = Store.flowdata[r][c];
 
                     if(getObjType(cell) == "object" && cell["v"] != null && cell["f"] == null){
@@ -1155,7 +1155,7 @@ const luckysheetDropCell = {
         //纯数字类型
         let copyD_number = copyD["number"];
         let applyD_number = [];
-        if(copyD_number){
+        if(!!copyD_number){
             for(let i = 0; i < copyD_number.length; i++){
                 let s = _this.getLenS(copyD_number[i]["index"], rsd);
                 let len = copyD_number[i]["index"].length * num + s;
@@ -1179,7 +1179,7 @@ const luckysheetDropCell = {
         //扩展数字型（即一串字符最后面的是数字）
         let copyD_extendNumber = copyD["extendNumber"];
         let applyD_extendNumber = [];
-        if(copyD_extendNumber){
+        if(!!copyD_extendNumber){
             for(let i = 0; i < copyD_extendNumber.length; i++){
                 let s = _this.getLenS(copyD_extendNumber[i]["index"], rsd);
                 let len = copyD_extendNumber[i]["index"].length * num + s;
@@ -1203,7 +1203,7 @@ const luckysheetDropCell = {
         //日期类型
         let copyD_date = copyD["date"];
         let applyD_date = [];
-        if(copyD_date){
+        if(!!copyD_date){
             for(let i = 0; i < copyD_date.length; i++){
                 let s = _this.getLenS(copyD_date[i]["index"], rsd);
                 let len = copyD_date[i]["index"].length * num + s;
@@ -1227,7 +1227,7 @@ const luckysheetDropCell = {
         //中文小写数字 或 一~日
         let copyD_chnNumber = copyD["chnNumber"];
         let applyD_chnNumber = [];
-        if(copyD_chnNumber){
+        if(!!copyD_chnNumber){
             for(let i = 0; i < copyD_chnNumber.length; i++){
                 let s = _this.getLenS(copyD_chnNumber[i]["index"], rsd);
                 let len = copyD_chnNumber[i]["index"].length * num + s;
@@ -1251,7 +1251,7 @@ const luckysheetDropCell = {
         //周一~周日
         let copyD_chnWeek2 = copyD["chnWeek2"];
         let applyD_chnWeek2 = [];
-        if(copyD_chnWeek2){
+        if(!!copyD_chnWeek2){
             for(let i = 0; i < copyD_chnWeek2.length; i++){
                 let s = _this.getLenS(copyD_chnWeek2[i]["index"], rsd);
                 let len = copyD_chnWeek2[i]["index"].length * num + s;
@@ -1275,7 +1275,7 @@ const luckysheetDropCell = {
         //星期一~星期日
         let copyD_chnWeek3 = copyD["chnWeek3"];
         let applyD_chnWeek3 = [];
-        if(copyD_chnWeek3){
+        if(!!copyD_chnWeek3){
             for(let i = 0; i < copyD_chnWeek3.length; i++){
                 let s = _this.getLenS(copyD_chnWeek3[i]["index"], rsd);
                 let len = copyD_chnWeek3[i]["index"].length * num + s;
@@ -1299,7 +1299,7 @@ const luckysheetDropCell = {
         //其它
         let copyD_other = copyD["other"];
         let applyD_other = [];
-        if(copyD_other){
+        if(!!copyD_other){
             for(let i = 0; i < copyD_other.length; i++){
                 let s = _this.getLenS(copyD_other[i]["index"], rsd);
                 let len = copyD_other[i]["index"].length * num + s;

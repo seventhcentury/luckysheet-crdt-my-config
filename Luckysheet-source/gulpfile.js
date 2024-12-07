@@ -48,7 +48,7 @@ const uglifyOptions = {
 
 // babel config
 const babelConfig = {
-    compact:false,
+    compact: false,
     babelHelpers: 'bundled',
     exclude: 'node_modules/**', // Only compile our source code
     plugins: [
@@ -74,25 +74,25 @@ const paths = {
     staticImages: ['src/plugins/images/*.png'],
     staticExpendPlugins: ['src/expendPlugins/**', '!src/expendPlugins/**/plugin.js'],
     staticDemoData: ['src/demoData/*.js'],
-    staticCssImages: ['src/css/**','!src/css/*.css'],
+    staticCssImages: ['src/css/**', '!src/css/*.css'],
 
     // static resources dest
-    destStaticHtml: ['dist'],
-    destStaticFonts: ['dist/fonts'],
-    destStaticAssets: ['dist/assets'],
-    destStaticImages: ['dist/plugins/images'],
-    destStaticExpendPlugins: ['dist/expendPlugins'],
-    destStaticDemoData: ['dist/demoData'],
-    destStaticCssImages: ['dist/css'],
+    destStaticHtml: ['../public/libs/luckysheet'],
+    destStaticFonts: ['../public/libs/luckysheet/fonts'],
+    destStaticAssets: ['../public/libs/luckysheet/assets'],
+    destStaticImages: ['../public/libs/luckysheet/plugins/images'],
+    destStaticExpendPlugins: ['../public/libs/luckysheet/expendPlugins'],
+    destStaticDemoData: ['../public/libs/luckysheet/demoData'],
+    destStaticCssImages: ['../public/libs/luckysheet/css'],
 
     //core es module
-    core: ['src/**/*.js','!src/demoData/*.js','src/expendPlugins/**/plugin.js','!src/plugins/js/*.js'],
+    core: ['src/**/*.js', '!src/demoData/*.js', 'src/expendPlugins/**/plugin.js', '!src/plugins/js/*.js'],
 
-     //plugins src
+    //plugins src
     pluginsCss: ['src/plugins/css/*.css'],
     plugins: ['src/plugins/*.css'],
-    css:['src/css/*.css','node_modules/flatpickr/dist/themes/light.css'],
-    pluginsJs:[
+    css: ['src/css/*.css', 'node_modules/flatpickr/dist/themes/light.css'],
+    pluginsJs: [
         'node_modules/jquery/dist/jquery.min.js',
         'node_modules/uuid/dist/umd/uuid.min.js',
         'src/plugins/js/clipboard.min.js',
@@ -115,18 +115,19 @@ const paths = {
     concatPluginsJs: 'plugin.js',
 
     //plugins dest
-    destPluginsCss: ['dist/plugins/css'],
-    destPlugins: ['dist/plugins'],
-    destCss: ['dist/css'],
-    destPluginsJs: ['dist/plugins/js'],
+    destPluginsCss: ['../public/libs/luckysheet/plugins/css'],
+    destPlugins: ['../public/libs/luckysheet/plugins'],
+    destCss: ['../public/libs/luckysheet/css'],
+    destPluginsJs: ['../public/libs/luckysheet/plugins/js'],
 
     // Package directory
-    dist: 'dist',
+    dist: '../public/libs/luckysheet',
 };
 
 // Clear the dist directory
 function clean() {
-    return del([paths.dist]);
+    // 删除工作文件夹外的文件夹，需要配置 options.force = true
+    return del([paths.dist], { force: true });
 }
 
 // proxy middleware
@@ -149,22 +150,22 @@ function serve(done) {
 
 // Monitoring file changes
 function watcher(done) {
-    watch(paths.core,{ delay: 500 }, series(core, reloadBrowser));
+    watch(paths.core, { delay: 500 }, series(core, reloadBrowser));
 
     // watch plugins and css
-    watch(paths.pluginsCss,{ delay: 500 }, series(pluginsCss, reloadBrowser));
-    watch(paths.plugins,{ delay: 500 }, series(plugins, reloadBrowser));
-    watch(paths.css,{ delay: 500 }, series(css, reloadBrowser));
-    watch(paths.pluginsJs,{ delay: 500 }, series(pluginsJs, reloadBrowser));
+    watch(paths.pluginsCss, { delay: 500 }, series(pluginsCss, reloadBrowser));
+    watch(paths.plugins, { delay: 500 }, series(plugins, reloadBrowser));
+    watch(paths.css, { delay: 500 }, series(css, reloadBrowser));
+    watch(paths.pluginsJs, { delay: 500 }, series(pluginsJs, reloadBrowser));
 
     // watch static
-    watch(paths.staticHtml,{ delay: 500 }, series(copyStaticHtml, reloadBrowser));
-    watch(paths.staticFonts,{ delay: 500 }, series(copyStaticFonts, reloadBrowser));
-    watch(paths.staticAssets,{ delay: 500 }, series(copyStaticAssets, reloadBrowser));
-    watch(paths.staticImages,{ delay: 500 }, series(copyStaticImages, reloadBrowser));
-    watch(paths.staticExpendPlugins,{ delay: 500 }, series(copyStaticExpendPlugins, reloadBrowser));
-    watch(paths.staticDemoData,{ delay: 500 }, series(copyStaticDemoData, reloadBrowser));
-    watch(paths.staticCssImages,{ delay: 500 }, series(copyStaticCssImages, reloadBrowser));
+    watch(paths.staticHtml, { delay: 500 }, series(copyStaticHtml, reloadBrowser));
+    watch(paths.staticFonts, { delay: 500 }, series(copyStaticFonts, reloadBrowser));
+    watch(paths.staticAssets, { delay: 500 }, series(copyStaticAssets, reloadBrowser));
+    watch(paths.staticImages, { delay: 500 }, series(copyStaticImages, reloadBrowser));
+    watch(paths.staticExpendPlugins, { delay: 500 }, series(copyStaticExpendPlugins, reloadBrowser));
+    watch(paths.staticDemoData, { delay: 500 }, series(copyStaticDemoData, reloadBrowser));
+    watch(paths.staticCssImages, { delay: 500 }, series(copyStaticCssImages, reloadBrowser));
 
     done();
 }
@@ -194,21 +195,21 @@ async function core_rollup() {
     });
 
     bundle.write({
-        file: '../public/libs/luckysheet.umd.js',
+        file: 'dist/luckysheet.umd.js',
         format: 'umd',
         name: 'luckysheet',
         sourcemap: true,
-        inlineDynamicImports:true,
+        inlineDynamicImports: true,
         banner: banner
     });
 
-    if(production){
+    if (production) {
         bundle.write({
-            file: '../public/libs/luckysheet.esm.js',
+            file: 'dist/luckysheet.esm.js',
             format: 'esm',
             name: 'luckysheet',
             sourcemap: true,
-            inlineDynamicImports:true,
+            inlineDynamicImports: true,
             banner: banner
         });
     }
@@ -219,15 +220,15 @@ async function core() {
 
     await require('esbuild').buildSync({
         format: 'iife',
-        globalName: 'luckysheet',    
+        globalName: 'luckysheet',
         entryPoints: ['src/index.js'],
         bundle: true,
         minify: production,
         banner: { js: banner },
         target: ['es2015'],
         sourcemap: true,
-        outfile: 'dist/luckysheet.umd.js',
-      })
+        outfile: '../public/libs/luckysheet/luckysheet.umd.js',
+    })
 }
 
 // According to the build tag in html, package js and css
@@ -247,45 +248,49 @@ function plugins() {
 }
 
 function css() {
-    return  src(paths.css)
+    return src(paths.css)
         .pipe(concat(paths.concatCss))
         .pipe(gulpif(production, cleanCSS()))
         .pipe(dest(paths.destCss));
 }
 
 function pluginsJs() {
-    return  src(paths.pluginsJs)
+    return src(paths.pluginsJs)
         .pipe(concat(paths.concatPluginsJs))
         .pipe(gulpif(production, uglify(uglifyOptions)))
         .pipe(dest(paths.destPluginsJs));
 }
 
 // Copy static resources
-function copyStaticHtml(){
+function copyStaticHtml() {
     return src(paths.staticHtml)
         .pipe(dest(paths.destStaticHtml));
 }
-function copyStaticFonts(){
+function copyStaticFonts() {
     return src(paths.staticFonts)
         .pipe(dest(paths.destStaticFonts));
 }
-function copyStaticAssets(){
+function copyStaticAssets() {
     return src(paths.staticAssets)
         .pipe(dest(paths.destStaticAssets));
 }
-function copyStaticImages(){
+function copyStaticImages() {
     return src(paths.staticImages)
         .pipe(dest(paths.destStaticImages));
 }
-function copyStaticExpendPlugins(){
+function copyStaticExpendPlugins() {
     return src(paths.staticExpendPlugins)
         .pipe(dest(paths.destStaticExpendPlugins));
 }
-function copyStaticDemoData(){
+function copyStaticDemoData() {
     return src(paths.staticDemoData)
         .pipe(dest(paths.destStaticDemoData));
+    // .pipe(gulpBabel({
+    //     presets: ['@babel/env']
+    // }))
+    // .pipe(gulp.dest('dist'));
 }
-function copyStaticCssImages(){
+function copyStaticCssImages() {
     return src(paths.staticCssImages)
         .pipe(dest(paths.destStaticCssImages));
 }

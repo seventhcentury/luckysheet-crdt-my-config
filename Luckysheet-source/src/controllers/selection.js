@@ -21,7 +21,7 @@ const selection = {
     clearcopy: function (e) {
         let clipboardData = window.clipboardData; //for IE
         if (!clipboardData) { // for chrome
-            if (e) {
+            if (!!e) {
                 clipboardData = e.originalEvent.clipboardData;
             }
         }

@@ -4887,7 +4887,7 @@ export function setSheetAdd(options = {}) {
         })
     }
     let sheetname = sheetmanage.generateRandomSheetName(Store.luckysheetfile, false);
-    if(sheetObject.name){
+    if(!!sheetObject.name){
         let sameName = false;
 
         for(let i = 0; i < Store.luckysheetfile.length; i++){
@@ -6805,7 +6805,7 @@ export function updataSheet (options = {}) {
         sheetData = sheetmanage.buildGridData(file);
     file.data = sheetData
 
-    if (file.isPivotTable) {
+    if (!!file.isPivotTable) {
         Store.luckysheetcurrentisPivotTable = true;
         if (!isPivotInitial) {
             pivotTable.changePivotTable(index);

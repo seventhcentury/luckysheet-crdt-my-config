@@ -906,7 +906,7 @@ function luckysheetDrawMain(scrollWidth, scrollHeight, drawWidth, drawHeight, of
                     luckysheetTableContent.restore();
                 }
             }
-            else if (Store.luckysheetcurrentisPivotTable) {
+            else if (!!Store.luckysheetcurrentisPivotTable) {
                 if (c < pivotTable.pivotTableBoundary[1] && r < pivotTable.pivotTableBoundary[0]) {
                     luckysheetTableContent.beginPath();
                     luckysheetTableContent.moveTo(
@@ -1161,7 +1161,7 @@ let nullCellRender = function(r, c, start_r, start_c, end_r, end_c,luckysheetTab
     let cellsize = [
         (start_c + offsetLeft + borderfix[0] + 1), 
         (start_r + offsetTop  + borderfix[1] + 1), 
-        (end_c - start_c + borderfix[2]-(isMerge?1:0) - 1), 
+        (end_c - start_c + borderfix[2]-(!!isMerge?1:0) - 1), 
         (end_r - start_r + borderfix[3] - 1)
     ];
 
@@ -1319,7 +1319,7 @@ let cellRender = function(r, c, start_r, start_c, end_r, end_c, value, luckyshee
     let cellsize = [
         (start_c + offsetLeft + borderfix[0] + 1), 
         (start_r + offsetTop  + borderfix[1] + 1), 
-        (end_c - start_c + borderfix[2]-(isMerge?1:0) - 1), 
+        (end_c - start_c + borderfix[2]-(!!isMerge?1:0) - 1), 
         (end_r - start_r + borderfix[3] + 1)
     ];
 

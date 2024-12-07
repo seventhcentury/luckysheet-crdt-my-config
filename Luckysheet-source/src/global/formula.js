@@ -1631,7 +1631,7 @@ const luckysheetformula = {
 
         //动态数组
         let dynamicArray = null;
-        if (dynamicArrayItem) {
+        if (!!dynamicArrayItem) {
             // let file = Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
             dynamicArray = $.extend(true, [], this.insertUpdateDynamicArray(dynamicArrayItem));
             // dynamicArray.push(dynamicArrayItem);
@@ -5926,11 +5926,11 @@ const luckysheetformula = {
             }
         }
 
-        if (sparklines) {
+        if (!!sparklines) {
             return [true, result, txt, { type: "sparklines", data: sparklines }];
         }
 
-        if (dynamicArrayItem) {
+        if (!!dynamicArrayItem) {
             return [true, result, txt, { type: "dynamicArrayItem", data: dynamicArrayItem }];
         }
 

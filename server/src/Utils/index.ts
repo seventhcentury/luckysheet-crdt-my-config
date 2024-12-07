@@ -23,15 +23,21 @@ export function unzip(str: string) {
 
 /**
  * 获取 url 的某个 query 值
- * @param { string } url /?type=luckysheet&userid=1&username=userA&t=111&g=
+ * @param { string } url http://localhost:8089/?type=luckysheet&userid=1&username=userA&t=111&g=
  * @param { string } key type
  * @example type => luckysheet
  * @return { string } query 值
  */
 export function getURLQuery(url: string | undefined, key: string) {
   if (!url) return "";
-  url = url.replace(/\\?/g, "");
-  const queryArr = url.split("&");
+  // 通过 ? 分割
+  const params = url.split("?")[1];
+  if (!params || !params.includes("=")) return "";
+
+  /**
+   * 此时，拿到的参数对象为 params ==> type=luckysheet&userid=1&username=userA&t=111&g=
+   */
+  const queryArr = params.split("&");
   for (let i = 0; i < queryArr.length; i++) {
     const item = queryArr[i];
     const itemArr = item.split("=");

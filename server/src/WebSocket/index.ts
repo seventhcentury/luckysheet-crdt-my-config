@@ -27,6 +27,8 @@ export function createWebSocketServer(server: Server) {
     const fileid = getURLQuery(req.url, "fileid");
     const username = getURLQuery(req.url, "username");
 
+    logger.info(`luckysheet 协同用户连接成功 [ID: ${userid}].`);
+
     /** 将 url 参数添加到 client 上，方便后续使用 */
     client.clientInfo = { userid, username, type, fileid };
 
@@ -54,10 +56,8 @@ export function createWebSocketServer(server: Server) {
       // 2. 广播给 wss.clients 所有的客户端
       broadcastOtherClients(wss, client, unzip(<string>(<unknown>data)));
     } catch (error) {
-      // 3. 捕获异常 判断是否为心跳包消息
-      if (data.toString() === "rub") logger.warn("心跳包消息 rub...");
-      // 4. 异常处理
-      else logger.error(error);
+      // 3. 捕获异常 判断是否为心跳包消息,心跳不处理，异常信息则记录日志
+      if (data.toString() !== "rub") logger.error(error);
     }
   }
 

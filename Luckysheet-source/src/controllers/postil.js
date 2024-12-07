@@ -182,7 +182,7 @@ const luckysheetPostil = {
         let col_index = colLocation(x)[2];
 
         let margeset = menuButton.mergeborer(Store.flowdata, row_index, col_index);
-        if(margeset){
+        if(!!margeset){
             row_index = margeset.row[2];
             col_index = margeset.column[2];
         }
@@ -204,7 +204,7 @@ const luckysheetPostil = {
         let col = Store.visibledatacolumn[col_index], 
             col_pre = col_index - 1 == -1 ? 0 : Store.visibledatacolumn[col_index - 1];
 
-        if(margeset){
+        if(!!margeset){
             row = margeset.row[1];
             row_pre = margeset.row[0];
             
@@ -354,7 +354,7 @@ const luckysheetPostil = {
                 col_pre = c - 1 == -1 ? 0 : Store.visibledatacolumn[c - 1];
 
             let margeset = menuButton.mergeborer(Store.flowdata, r, c);
-            if(margeset){
+            if(!!margeset){
                 row = margeset.row[1];
                 row_pre = margeset.row[0];
                 
@@ -435,7 +435,7 @@ const luckysheetPostil = {
             col_pre = c - 1 == -1 ? 0 : Store.visibledatacolumn[c - 1];
 
         let margeset = menuButton.mergeborer(Store.flowdata, r, c);
-        if(margeset){
+        if(!!margeset){
             row = margeset.row[1];
             row_pre = margeset.row[0];
             
@@ -532,7 +532,7 @@ const luckysheetPostil = {
                 col_pre = c - 1 == -1 ? 0 : Store.visibledatacolumn[c - 1];
 
             let margeset = menuButton.mergeborer(Store.flowdata, r, c);
-            if(margeset){
+            if(!!margeset){
                 row = margeset.row[1];
                 row_pre = margeset.row[0];
                 
@@ -650,7 +650,7 @@ const luckysheetPostil = {
                 col_pre = c - 1 == -1 ? 0 : Store.visibledatacolumn[c - 1];
 
             let margeset = menuButton.mergeborer(Store.flowdata, r, c);
-            if(margeset){
+            if(!!margeset){
                 row = margeset.row[1];
                 row_pre = margeset.row[0];
                 
@@ -778,7 +778,7 @@ const luckysheetPostil = {
                             col_pre = colIndex - 1 == -1 ? 0 : Store.visibledatacolumn[colIndex - 1];
 
                         let margeset = menuButton.mergeborer(Store.flowdata, rowIndex, colIndex);
-                        if(margeset){
+                        if(!!margeset){
                             row = margeset.row[1];
                             row_pre = margeset.row[0];
                             

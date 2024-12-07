@@ -94,3 +94,31 @@ const wss = new WebSocketServer({ server });
    return server.listen.apply(server, arguments);
  };
 ```
+
+## 服务端口说明
+1. 前台服务端口：`5000`
+2. 后台服务端口：`9000`
+3. 数据库服务端口：`3306`
+
+```js
+// 得益于 WebSocketServer server 参数，将后台传统 http 服务与 websocket 服务合并，方便端口配置。
+
+// 1. 后台服务端口配置：server/src/Config/index.ts
+export const SERVER_PORT = 9000;
+
+// 2. 数据库服务端口配置：server/src/Config/index.ts
+export const SQL_CONFIG = {
+  port: 3306,
+  host: "127.0.0.1", // localhost or 127.0.0.1
+  database: "luckysheet_crdt",
+  user: "root",
+  password: "root",
+};
+
+// 3. 前台服务端口配置：src/config/index.ts
+// 导出后台服务地址
+export const SERVER_URL = "http://localhost:9000";
+
+// 导出协同服务地址
+export const WS_SERVER_URL = "ws://127.0.0.1:9000";
+```
