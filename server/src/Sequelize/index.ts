@@ -6,6 +6,12 @@
 import { Sequelize } from "sequelize";
 import { SQL_CONFIG } from "../Config/index";
 import { logger } from "../Utils/Logger";
+import { WorkerBookModel } from "./Models/WorkerBook";
+import { CellDataModel } from "./Models/CellData";
+import { ConfigBorderModel } from "./Models/ConfigBorder";
+import { ConfigHiddenModel } from "./Models/ConfigHidden";
+import { ConfigMergeModel } from "./Models/ConfigMerge";
+import { WorkerSheetModel } from "./Models/WorkerSheet";
 
 class DataBase {
   private _connected: boolean = false; // 连接状态
@@ -31,12 +37,29 @@ class DataBase {
     // 测试连接
     try {
       await this._sequelize.authenticate();
-      logger.info("✅️ Connection has been established successfully.");
+      logger.info("✅️ Successfully connected to the database!");
       this._connected = true;
+
+      /** 连接成功后，进行模型注册 */
+      this.registerModule();
     } catch (error) {
       logger.error(error);
       this._connected = false;
     }
+  }
+
+  /**
+   * 同步表结构
+   */
+  private registerModule() {
+    if (!this._sequelize || !this._connected) return;
+    // 初始化数据库表
+    WorkerBookModel.registerModule(this._sequelize);
+    WorkerSheetModel.registerModule(this._sequelize);
+    CellDataModel.registerModule(this._sequelize);
+    ConfigMergeModel.registerModule(this._sequelize);
+    ConfigBorderModel.registerModule(this._sequelize);
+    ConfigHiddenModel.registerModule(this._sequelize);
   }
 
   /**

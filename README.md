@@ -8,7 +8,7 @@
 
 ## 项目说明
 1. 本项目基于 [Luckysheet](https://github.com/mengshukeji/Luckysheet) 实现，感谢原作者开源。
-2. 本项目主要实现协同功能模块，对其他内容无影响，基于源码修改的部分，均体现在`Luckysheet-source` 文件夹下。
+2. 本项目主要**实现协同功能**模块，对其他内容无影响，基于源码修改的部分，均体现在`Luckysheet-source` 文件夹下。
 3. 项目支持 **可选数据库服务**，没有数据库的用户数据无法持久化存储，协同功能并不受影响。
 4. 项目使用 **[Sequelize](https://www.sequelize.cn/)** 作为ORM数据服务技术，支持mysql、sqlite、postgres、mssql等数据库，方便用户快速迁移。
 5. 项目使用 **Typescript** 作为主要开发语言，提供完整的类型提示，规范代码，提高开发效率。
@@ -29,7 +29,7 @@ git clone https://gitee.com/wfeng0/luckysheet-crdt
 npm run install
 ```
 
-3. 配置数据库参数，~~🚫如果无数据库服务，请跳过此步骤🚫~~：
+3. ~~🚫如果无数据库服务，请跳过此步骤🚫~~ 配置数据库参数：
 ```ts
 // server/src/Config/index.ts
 export const SQL_CONFIG = {
@@ -40,7 +40,7 @@ export const SQL_CONFIG = {
   password: "root",
 };
 ```
-4. 同步数据库表，~~🚫如果无数据库服务，请跳过此步骤🚫~~：
+4. ~~🚫如果无数据库服务，请跳过此步骤🚫~~ 同步数据库表：
 ```bash
 npm run db
 ```
@@ -53,10 +53,11 @@ npm run db
 5. 启动服务: 
     - 前台服务：`npm run dev`
     - 后台服务：`npm run server`
-2. 打开网址：`http://localhost:5000`
+2. 打开网址：`http://localhost:5000` 即可体验协同功能。
 
 
 ## 命令说明
+**下列所有命令均在项目根目录执行**
 ```bash
 "scripts": {
     "dev": "vite",
@@ -85,7 +86,8 @@ npm run db
 // 修改了源码打包路径，指向项目根路径 public/libs/luckysheet
 - Luckysheet-source 
 
-- server // 本项目后台服务
+// 本项目后台服务
+- server 
     + public // 静态资源
     + src // 项目源码
         + Config // 项目配置文件：端口、SQL、LOG 等配置
@@ -104,7 +106,8 @@ npm run db
             + index.ts // websocket服务入口文件
         + main.ts // 项目入口文件
 
-- src // 前台服务
+// 前台服务
+- src 
     + axios // axios 网络请求
     + config // 前台项目配置文件
     + style // 前台项目样式文件
@@ -165,6 +168,7 @@ export const WS_SERVER_URL = "ws://127.0.0.1:9000";
 ```
 
 ## 模型修改及同步说明
+**详情请查阅[Sequelize](https://www.sequelize.cn/core-concepts/getting-started)**
 
 1. 数据库模型定义
 ```ts

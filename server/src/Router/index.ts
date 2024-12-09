@@ -1,5 +1,6 @@
 import express from "express";
 import { WorkerBookService } from "../Service/WorkerBooks";
+import { logger } from "../Utils/Logger";
 const routes = express.Router();
 
 routes.post("/loadLuckysheet", (req, res) => {
@@ -23,16 +24,16 @@ routes.post("/loadLuckysheet", (req, res) => {
 });
 
 routes.post("/demo", async (req, res) => {
-  // console.log(req.body);
-  const result = await WorkerBookService.create({
-    gridKey: "demo",
-    title: "demo",
-  });
-  res.json({
-    status: "ok",
-    data: result,
-    msg: "保存成功",
-  });
+  try {
+    const result = await WorkerBookService.create({
+      gridKey: "demo",
+      title: "demo",
+    });
+    res.json({ code: 200, result, message: "success" });
+  } catch (error) {
+    logger.error(error);
+    res.json({ code: 500, message: "error" });
+  }
 });
 // 模块化的路由，直接调用 routes.use() 即可
 

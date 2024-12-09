@@ -1,7 +1,4 @@
 import pako from "pako";
-import { Express } from "express";
-import { SERVER_PORT } from "../Config";
-import { logger } from "./Logger";
 
 /**
  * Pako 数据解析
@@ -46,12 +43,4 @@ export function getURLQuery(url: string | undefined, key: string) {
     }
   }
   return "";
-}
-
-/**
- * 封装 app.listen 事件 https://emoji6.com/emojiall/
- */
-export function listen(app: Express) {
-  const message = `✅️ Server's running at: http://localhost:${SERVER_PORT}`;
-  return app.listen(SERVER_PORT, () => logger.info(message));
 }

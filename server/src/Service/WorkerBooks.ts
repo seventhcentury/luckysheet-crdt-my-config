@@ -11,8 +11,7 @@ import {
 // 提供 增删改查接口
 async function create(info: WorkerBookModelType) {
   try {
-    const result = await WorkerBookModel.create(info);
-    return result;
+    WorkerBookModel.create(info);
   } catch (error) {
     logger.error(error);
     return null;
