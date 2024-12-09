@@ -11,10 +11,10 @@ class WorkSheetsModel extends Model {}
 function register(sequelize: Sequelize) {
   WorkSheetsModel.init(
     {
-      sheet_id: {
+      worker_sheet_id: {
         type: DataTypes.STRING, // 类型
         allowNull: false, // 非空
-        comment: "sheet id", // 描述
+        comment: "worker sheet id", // 描述
         primaryKey: true, // 主键
         defaultValue: DataTypes.UUIDV4, // 默认使用 uuid 作为 gridKey
       },
@@ -41,12 +41,12 @@ function register(sequelize: Sequelize) {
       status: {
         type: DataTypes.STRING(10),
         allowNull: false,
-        comment: "工作表激活状态",
+        comment: "工作表激活状态，仅有一个激活状态的工作表，其他工作表为 0",
       },
       hide: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        comment: "是否隐藏",
+        comment: "是否隐藏，0为不隐藏，1为隐藏",
         defaultValue: false,
       },
       row: {
@@ -60,6 +60,18 @@ function register(sequelize: Sequelize) {
         allowNull: false,
         comment: "列数", // 描述
         defaultValue: 24, // 默认值
+      },
+      defaultRowHeight: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        comment: "默认行高",
+        defaultValue: 20,
+      },
+      defaultColWidth: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        comment: "默认列宽",
+        defaultValue: 80,
       },
 
       // ... 更多字段，根据项目实际情况添加

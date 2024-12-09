@@ -16,7 +16,7 @@ class Logger {
   }
   error(...argus: LogMessage[]) {
     const time = this.getTime();
-    console.log("\x1b[31m %s \x1b[0m %s", `[${time}] [ERROR] -`, argus);
+    console.log("\x1b[31m %s \x1b[0m %s", `[${time}] [ERROR] -`, ...argus);
     this.writeLogFile(time, "ERROR", ...argus);
   }
   warn(...argus: LogMessage[]) {

@@ -15,7 +15,7 @@ function initLuckysheet() {
     showinfobar: false, // 隐藏顶部的信息栏
     allowUpdate: true, // 配置协同功能
     loadUrl: "/api/loadLuckysheet", // 初始化 celldata 数据
-    updateUrl: `${WS_SERVER_URL}?type=luckysheet&userid=${id}&username=${username}&fileid=fileid`, // 协同服务转发服务
+    updateUrl: `${WS_SERVER_URL}?type=luckysheet&userid=${id}&username=${username}&gridkey=gridkey`, // 协同服务转发服务
     container: "luckysheetContainer",
   };
 

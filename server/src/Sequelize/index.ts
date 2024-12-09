@@ -47,7 +47,6 @@ class MySQL {
 
     // 测试连接
     try {
-      logger.info("正在连接数据库...");
       await this._sequelize.authenticate();
       logger.success("Connection has been established successfully.");
       this._connected = true;
@@ -56,7 +55,7 @@ class MySQL {
       // 连接成功后，初始化模型表
       await SequelizeModel.syncModel(this._sequelize);
     } catch (error) {
-      logger.error("Unable to connect to the database:", error);
+      logger.error(error);
       this._connected = false;
       this._connectStatus = 3;
     }

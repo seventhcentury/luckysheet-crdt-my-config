@@ -29,23 +29,6 @@ function register(sequelize: Sequelize) {
         comment: "语言", // 描述
         defaultValue: "zh", // zh en
       },
-      fileid: {
-        type: DataTypes.STRING, // 类型
-        allowNull: false, // 非空
-        comment: "语言", // 描述
-      },
-      column: {
-        type: DataTypes.INTEGER, // 类型
-        allowNull: false, // 非空
-        comment: "列数", // 描述
-        defaultValue: 20, // 默认值
-      },
-      row: {
-        type: DataTypes.INTEGER, // 类型
-        allowNull: false, // 非空
-        comment: "行数", // 描述
-        defaultValue: 15, // 默认值
-      },
       // ... 更多字段，根据项目实际情况添加
     },
     {

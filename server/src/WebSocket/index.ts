@@ -24,7 +24,7 @@ export function createWebSocketServer(server: Server) {
     /**  解析 request url 的参数，识别当前连接用户的 userid username 属性 */
     const type = getURLQuery(req.url, "type");
     const userid = getURLQuery(req.url, "userid");
-    const fileid = getURLQuery(req.url, "fileid");
+    const fileid = getURLQuery(req.url, "gridkey");
     const username = getURLQuery(req.url, "username");
 
     logger.info(`luckysheet 协同用户连接成功 [ID: ${userid}].`);
