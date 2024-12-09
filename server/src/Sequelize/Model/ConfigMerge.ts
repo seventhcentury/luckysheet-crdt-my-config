@@ -3,7 +3,7 @@
  *
  */
 
-import { DataTypes, Model, Sequelize } from "sequelize";
+import { DataTypes, InferAttributes, Model, Sequelize } from "sequelize";
 import { WorkerSheetModel } from "./WorkerSheet";
 
 export class ConfigMergeModel extends Model {
@@ -72,3 +72,6 @@ export class ConfigMergeModel extends Model {
     );
   }
 }
+
+// 导出类型
+export type ConfigMergeModelType = InferAttributes<ConfigMergeModel>;

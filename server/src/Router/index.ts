@@ -24,14 +24,13 @@ routes.post("/loadLuckysheet", (req, res) => {
 
 routes.post("/demo", async (req, res) => {
   // console.log(req.body);
-  // const result = await WorkerBookService.create({
-  //   gridKey: "demo",
-  //   title: "demo",
-  //   lang: "zh",
-  // });
+  const result = await WorkerBookService.create({
+    gridKey: "demo",
+    title: "demo",
+  });
   res.json({
     status: "ok",
-    data: 'result',
+    data: result,
     msg: "保存成功",
   });
 });

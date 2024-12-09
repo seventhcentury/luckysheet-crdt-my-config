@@ -2,7 +2,7 @@
  * 统计图
  */
 
-import { Model, Sequelize, DataTypes } from "sequelize";
+import { Model, Sequelize, DataTypes, InferAttributes } from "sequelize";
 
 export class ChartModel extends Model {
   declare chart_id: string;
@@ -24,3 +24,6 @@ export class ChartModel extends Model {
     );
   }
 }
+
+// 导出类型
+export type ChartModelType = InferAttributes<ChartModel>;

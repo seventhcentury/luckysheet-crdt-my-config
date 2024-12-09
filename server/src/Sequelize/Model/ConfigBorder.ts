@@ -2,7 +2,7 @@
  * config border info model 边框数据模型
  */
 
-import { DataTypes, Model, Sequelize } from "sequelize";
+import { DataTypes, InferAttributes, Model, Sequelize } from "sequelize";
 import { WorkerSheetModel } from "./WorkerSheet";
 
 export class ConfigBorderModel extends Model {
@@ -156,3 +156,6 @@ export class ConfigBorderModel extends Model {
     );
   }
 }
+
+// 导出类型
+export type ConfigBorderModelType = InferAttributes<ConfigBorderModel>;

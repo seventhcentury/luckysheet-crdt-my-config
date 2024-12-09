@@ -2,7 +2,7 @@
  * Worker Books 工作簿模型表
  */
 
-import { DataTypes, Model, Sequelize } from "sequelize";
+import { DataTypes, InferAttributes, Model, Sequelize } from "sequelize";
 import { WorkerBookModel } from "./WorkerBook";
 
 export class WorkerSheetModel extends Model {
@@ -91,3 +91,6 @@ export class WorkerSheetModel extends Model {
     );
   }
 }
+
+// 导出类型
+export type WorkerSheetModelType = InferAttributes<WorkerSheetModel>;

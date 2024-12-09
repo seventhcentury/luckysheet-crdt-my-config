@@ -2,7 +2,7 @@
  * config row/col hiddens model 配置行列隐藏
  */
 
-import { DataTypes, Model, Sequelize } from "sequelize";
+import { DataTypes, InferAttributes, Model, Sequelize } from "sequelize";
 import { WorkerSheetModel } from "./WorkerSheet";
 
 export class ConfigHiddenModel extends Model {
@@ -57,3 +57,6 @@ export class ConfigHiddenModel extends Model {
     );
   }
 }
+
+// 导出类型
+export type ConfigHiddenModelType = InferAttributes<ConfigHiddenModel>;

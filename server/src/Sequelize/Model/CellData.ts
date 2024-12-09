@@ -2,7 +2,7 @@
  * CellData 数据模型
  */
 
-import { DataTypes, Model, Sequelize } from "sequelize";
+import { DataTypes, InferAttributes, Model, Sequelize } from "sequelize";
 import { WorkerSheetModel } from "./WorkerSheet";
 
 /**
@@ -148,3 +148,5 @@ export class CellDataModel extends Model {
     );
   }
 }
+
+export type CellDataModelType = InferAttributes<CellDataModel>;

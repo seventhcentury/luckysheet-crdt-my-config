@@ -2,7 +2,7 @@
  * Worker Books 工作簿模型表
  */
 
-import { DataTypes, Model, Sequelize } from "sequelize";
+import { DataTypes, InferAttributes, Model, Sequelize } from "sequelize";
 
 export class WorkerBookModel extends Model {
   declare gridKey: string;
@@ -40,3 +40,6 @@ export class WorkerBookModel extends Model {
     );
   }
 }
+
+// 导出类型
+export type WorkerBookModelType = InferAttributes<WorkerBookModel>;

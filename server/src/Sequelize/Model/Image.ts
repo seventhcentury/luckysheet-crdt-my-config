@@ -2,7 +2,7 @@
  * Image 图片
  */
 
-import { Model, Sequelize, DataTypes } from "sequelize";
+import { Model, Sequelize, DataTypes, InferAttributes } from "sequelize";
 
 export class ImageModel extends Model {
   registerModule(sequelize: Sequelize) {
@@ -22,3 +22,6 @@ export class ImageModel extends Model {
     );
   }
 }
+
+// 导出类型
+export type ImageModelType = InferAttributes<ImageModel>;
