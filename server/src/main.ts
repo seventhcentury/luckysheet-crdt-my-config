@@ -2,7 +2,7 @@ import express from "express";
 import routes from "./Router";
 import { listen } from "./Utils";
 import { DB } from "./Sequelize/index"; // 导入 DB
-import { logger } from "./Meddlewear/Logger";
+import { logger } from "./Utils/Logger";
 import { createWebSocketServer } from "./WebSocket/index"; // 导入 ws
 
 logger.info("✨ Server is starting, wait a moment please... ");

@@ -2,11 +2,11 @@
  * Worker Books Service
  */
 
-import { logger } from "../Meddlewear/Logger";
+import { logger } from "../Utils/Logger";
 import {
   WorkerBookModel,
   WorkerBookModelType,
-} from "../Sequelize/Model/WorkerBook";
+} from "../Sequelize/Models/WorkerBook";
 
 // 提供 增删改查接口
 async function create(info: WorkerBookModelType) {

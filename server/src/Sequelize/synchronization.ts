@@ -4,13 +4,13 @@
 
 import { Sequelize } from "sequelize";
 import { SQL_CONFIG } from "../Config";
-import { logger } from "../Meddlewear/Logger";
-import { WorkerBookModel } from "./Model/WorkerBook";
-import { WorkerSheetModel } from "./Model/WorkerSheet";
-import { CellDataModel } from "./Model/CellData";
-import { ConfigMergeModel } from "./Model/ConfigMerge";
-import { ConfigBorderModel } from "./Model/ConfigBorder";
-import { ConfigHiddenModel } from "./Model/ConfigHidden";
+import { logger } from "../Utils/Logger";
+import { WorkerBookModel } from "./Models/WorkerBook";
+import { WorkerSheetModel } from "./Models/WorkerSheet";
+import { CellDataModel } from "./Models/CellData";
+import { ConfigMergeModel } from "./Models/ConfigMerge";
+import { ConfigBorderModel } from "./Models/ConfigBorder";
+import { ConfigHiddenModel } from "./Models/ConfigHidden";
 
 (async () => {
   const { host, database, user, password } = SQL_CONFIG;
