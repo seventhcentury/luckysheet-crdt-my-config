@@ -46,7 +46,9 @@ class Logger {
     ...argus: LogMessage[]
   ) => {
     const { filepath, filename } = LOGGER_CONFIG;
-    const message = argus.join(" ");
+    const message = argus
+      .map((i) => (typeof i === "object" ? JSON.stringify(i) : i))
+      .join(" ");
 
     // 保存日志文件的信息，还可以进行拓展，包括执行当前日志的用户信息等
     const data = `[${time}] [${type}] - ${message}\n`;

@@ -32,6 +32,7 @@ class DataBase {
       host,
       dialect: "mysql",
       logging: (sql: string) => logger.debug(sql),
+      logQueryParameters: true,
     });
 
     // 测试连接
@@ -46,6 +47,14 @@ class DataBase {
       logger.error(error);
       this._connected = false;
     }
+  }
+
+  /**
+   * 提供原始查询方法
+   */
+  public async query(sql: string) {
+    if (!this._sequelize || !this._connected) return;
+    return await this._sequelize.query(sql);
   }
 
   /**

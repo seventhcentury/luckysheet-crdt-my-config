@@ -4,9 +4,12 @@ import { DB } from "./Sequelize/index"; // 导入 DB
 import { logger } from "./Utils/Logger";
 import { SERVER_PORT } from "./Config";
 import { createWebSocketServer } from "./WebSocket/index"; // 导入 ws
+import { WorkerBookService } from "./Service/WorkerBooks";
 
 (async () => {
+  logger.info("✨ ");
   logger.info("✨ Server is starting, wait a moment please... ");
+  logger.info("✨ ");
 
   /** 创建http服务 */
   const app = express();
@@ -25,6 +28,6 @@ import { createWebSocketServer } from "./WebSocket/index"; // 导入 ws
   createWebSocketServer(server);
 
   /** 启动测试用例 */
-
+  WorkerBookService.update({ gridKey: "222", title: "测试修改888" });
   /** 启动测试用例 */
 })();
