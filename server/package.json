@@ -6,7 +6,8 @@
   "scripts": {
     "start": "tsc && node build/main.js",
     "dev": "nodemon -w src/* -e ts && tsc && node build/main.js",
-    "build": "tsc"
+    "build": "tsc",
+    "db": "tsc && node build/Sequelize/database.js"
   },
   "author": "weifeng",
   "license": "Apache-2.0",

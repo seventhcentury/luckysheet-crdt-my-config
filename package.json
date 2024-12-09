@@ -10,6 +10,7 @@
     "server": "cd server && npm run start",
     "server:dev": "cd server && npm run dev",
     "lint": "eslint --fix",
+    "db":"cd server && npm run db",
     "source": "cd Luckysheet-source && npm run dev",
     "install": "npm install && cd server && npm install"
   },

@@ -1,4 +1,5 @@
 import express from "express";
+import { WorkerBookService } from "../Service/WorkerBooks";
 const routes = express.Router();
 
 routes.post("/loadLuckysheet", (req, res) => {
@@ -21,6 +22,19 @@ routes.post("/loadLuckysheet", (req, res) => {
   res.json(JSON.stringify(sheetData));
 });
 
+routes.post("/demo", async (req, res) => {
+  // console.log(req.body);
+  // const result = await WorkerBookService.create({
+  //   gridKey: "demo",
+  //   title: "demo",
+  //   lang: "zh",
+  // });
+  res.json({
+    status: "ok",
+    data: 'result',
+    msg: "保存成功",
+  });
+});
 // 模块化的路由，直接调用 routes.use() 即可
 
 export default routes;

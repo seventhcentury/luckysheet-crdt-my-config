@@ -122,3 +122,7 @@ export const SERVER_URL = "http://localhost:9000";
 // 导出协同服务地址
 export const WS_SERVER_URL = "ws://127.0.0.1:9000";
 ```
+
+## 初次连接数据库说明
+1. 确保数据库服务已启动，并配置好数据库连接参数。
+2. 执行 `npm run db` 命令，将数据库初始化脚本执行，完成数据库初始化。
