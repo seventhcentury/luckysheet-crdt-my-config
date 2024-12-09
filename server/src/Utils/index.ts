@@ -1,7 +1,7 @@
 import pako from "pako";
 import { Express } from "express";
 import { SERVER_PORT } from "../Config";
-import { logger } from "../Meddlewear/Logger";
+import { logger } from "./Logger";
 
 /**
  * Pako 数据解析

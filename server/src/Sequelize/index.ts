@@ -5,7 +5,7 @@
 
 import { Sequelize } from "sequelize";
 import { SQL_CONFIG } from "../Config/index";
-import { logger } from "../Meddlewear/Logger";
+import { logger } from "../Utils/Logger";
 
 class DataBase {
   private _connected: boolean = false; // 连接状态
