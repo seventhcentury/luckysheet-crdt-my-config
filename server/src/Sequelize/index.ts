@@ -3,10 +3,10 @@
  *  导出唯一实例，需要提供判断数据库连接是否正常的方法
  */
 
-import SequelizeModel from "./Model";
 import { Sequelize } from "sequelize";
 import { SQL_CONFIG } from "../Config/index";
 import { logger } from "../Meddlewear/Logger";
+import { cellDataModel } from "./Model/CellDatas";
 
 class MySQL {
   private _connected: boolean = false; // 连接状态
@@ -53,12 +53,31 @@ class MySQL {
       this._connectStatus = 2;
 
       // 连接成功后，初始化模型表
-      await SequelizeModel.syncModel(this._sequelize);
+      await this.syncModel();
     } catch (error) {
       logger.error(error);
       this._connected = false;
       this._connectStatus = 3;
     }
+  }
+
+  /**
+   * Sequelize 除了要初始化数据库连接外，还需要创建数据表、执行模型同步等操作
+   */
+  private async syncModel() {
+    if (!this._sequelize || !this._connected) return;
+    // 1. 初始化模型
+    WorkerBooks.register(this._sequelize);
+    WorkSheets.register(this._sequelize);
+    cellDataModel.register(this._sequelize);
+    ConfigMerges.register(this._sequelize);
+    ConfigBorders.register(this._sequelize);
+    ConfigHiddens.register(this._sequelize);
+
+    // 2. 同步模型 (非强制同步)
+    await sequelize.sync({ alter: true });
+
+    logger.success("所有模型均已成功同步至最新状态.");
   }
 
   /**

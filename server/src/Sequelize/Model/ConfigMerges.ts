@@ -4,27 +4,26 @@
  */
 
 import { DataTypes, Model, Sequelize } from "sequelize";
-import WorkerSheets from "./WorkerSheets";
-
-class ConfigMergesModel extends Model {}
+import { workerSheetModel } from "./WorkerSheets";
+class ConfigMergeModel extends Model {}
 
 // 都需要导出一个 register 方法，用于注册模型
-function register(sequelize: Sequelize) {
-  ConfigMergesModel.init(
+function Register(sequelize: Sequelize) {
+  ConfigMergeModel.init(
     {
       config_merge_id: {
         type: DataTypes.STRING, // 类型
         allowNull: false, // 非空
         comment: "config merge id", // 描述
         primaryKey: true,
-        defaultValue: DataTypes.UUIDV4, // 默认使用 uuid 作为 gridKey
+        defaultValue: DataTypes.UUIDV4, // 默认使用 uuid 作为 主键ID
       },
       worker_sheet_id: {
         type: DataTypes.STRING, // 类型
         allowNull: false, // 非空
         comment: "外键：关联 cell_datas 的 worker_sheet_id", // 描述
         references: {
-          model: WorkerSheets.WorkSheetsModel,
+          model: workerSheetModel.getModel(),
           key: "worker_sheet_id",
         },
       },
@@ -66,14 +65,4 @@ function register(sequelize: Sequelize) {
   );
 }
 
-// 都需要导出一个 init 方法，用于初始化模型
-async function init() {
-  await ConfigMergesModel.sync({ force: true });
-}
-
-// 都需要导出一个 delete 方法，用于删除模型
-async function del() {
-  await ConfigMergesModel.drop();
-}
-
-export default { register, init, del, ConfigMergesModel };
+export const configMergeModel = { Register, getModel: () => ConfigMergeModel };

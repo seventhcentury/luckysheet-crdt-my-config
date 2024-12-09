@@ -4,18 +4,18 @@
 
 import { DataTypes, Model, Sequelize } from "sequelize";
 
-class WorkerBooksModel extends Model {}
+class WorkerBookModel extends Model {}
 
 // 都需要导出一个 register 方法，用于注册模型
-function register(sequelize: Sequelize) {
-  WorkerBooksModel.init(
+function Register(sequelize: Sequelize) {
+  WorkerBookModel.init(
     {
       gridKey: {
         type: DataTypes.STRING, // 类型
         allowNull: false, // 非空
         comment: "gridKey", // 描述
         primaryKey: true, // 主键
-        defaultValue: DataTypes.UUIDV4, // 默认使用 uuid 作为 gridKey
+        defaultValue: DataTypes.UUIDV4, // 默认使用 uuid 作为 主键ID
       },
       title: {
         type: DataTypes.STRING, // 类型
@@ -38,14 +38,4 @@ function register(sequelize: Sequelize) {
   );
 }
 
-// 都需要导出一个 init 方法，用于初始化模型
-async function init() {
-  await WorkerBooksModel.sync({ force: true });
-}
-
-// 都需要导出一个 delete 方法，用于删除模型
-async function del() {
-  await WorkerBooksModel.drop();
-}
-
-export default { register, init, del, WorkerBooksModel };
+export const workerBookModel = { Register, getModel: () => WorkerBookModel };

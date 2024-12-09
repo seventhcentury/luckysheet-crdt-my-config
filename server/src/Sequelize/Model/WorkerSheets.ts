@@ -3,20 +3,20 @@
  */
 
 import { DataTypes, Model, Sequelize } from "sequelize";
-import WorkerBooks from "./WorkerBooks";
+import { workerBookModel } from "./WorkerBooks";
 
-class WorkSheetsModel extends Model {}
+class WorkerSheetModel extends Model {}
 
 // 都需要导出一个 register 方法，用于注册模型
-function register(sequelize: Sequelize) {
-  WorkSheetsModel.init(
+function Register(sequelize: Sequelize) {
+  WorkerSheetModel.init(
     {
       worker_sheet_id: {
         type: DataTypes.STRING, // 类型
         allowNull: false, // 非空
         comment: "worker sheet id", // 描述
         primaryKey: true, // 主键
-        defaultValue: DataTypes.UUIDV4, // 默认使用 uuid 作为 gridKey
+        defaultValue: DataTypes.UUIDV4, // 默认使用 uuid 作为 主键ID
       },
       gridKey: {
         type: DataTypes.STRING, // 类型
@@ -24,7 +24,7 @@ function register(sequelize: Sequelize) {
         comment: "外键：关联 workerbooks 的 gridKey", // 描述
         // 外键
         references: {
-          model: WorkerBooks.WorkerBooksModel,
+          model: workerBookModel.getModel(),
           key: "gridKey",
         },
       },
@@ -83,14 +83,4 @@ function register(sequelize: Sequelize) {
   );
 }
 
-// 都需要导出一个 init 方法，用于初始化模型
-async function init() {
-  await WorkSheetsModel.sync({ force: true });
-}
-
-// 都需要导出一个 delete 方法，用于删除模型
-async function del() {
-  await WorkSheetsModel.drop();
-}
-
-export default { register, init, del, WorkSheetsModel };
+export const workerSheetModel = { Register, getModel: () => WorkerSheetModel };
