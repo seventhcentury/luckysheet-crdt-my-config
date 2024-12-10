@@ -7,6 +7,10 @@ import {
   WorkerBookModel,
   WorkerBookModelType,
 } from "../Sequelize/Models/WorkerBook";
+import {
+  WorkerSheetModel,
+  WorkerSheetModelType,
+} from "../Sequelize/Models/WorkerSheet";
 
 /**
  * 新增 workerBooks 记录
@@ -15,7 +19,28 @@ import {
  */
 async function create(info: WorkerBookModelType) {
   try {
-    return await WorkerBookModel.create(info);
+    // 1. 先查询用户传递的 gridKey 是否存在记录
+    const exist = await findOne(info.gridKey);
+    if (exist) return { code: 1, msg: "该 gridKey 已经存在" };
+
+    // 2. 创建一个 worker books
+    const book = await WorkerBookModel.create(info);
+
+    // 3. 为当前 worker book 创建一个 worker sheet 因为一个 Ecxel 文档中至少需要一个 sheet
+    const sheetInfo: WorkerSheetModelType = {
+      gridKey: info.gridKey,
+      name: "Sheet1",
+      order: 0,
+      status: 1,
+    };
+    const sheet = await WorkerSheetModel.create(sheetInfo);
+
+    return {
+      code: 0,
+      msg: "工作簿创建成功，已同步创建 worker sheet 记录.",
+      book,
+      sheet,
+    };
   } catch (error) {
     logger.error(error);
     return null;

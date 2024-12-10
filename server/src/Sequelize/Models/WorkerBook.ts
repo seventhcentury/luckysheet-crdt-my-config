@@ -5,8 +5,8 @@
 import { DataTypes, InferAttributes, Model, Sequelize } from "sequelize";
 
 export class WorkerBookModel extends Model {
-  declare gridKey: string;
-  declare title: string;
+  declare gridKey: string; /** gridKey 是用户系统唯一文件ID 必须由用户传递 */
+  declare title?: string;
   declare lang?: string;
 
   static registerModule(sequelize: Sequelize) {
@@ -17,7 +17,6 @@ export class WorkerBookModel extends Model {
           allowNull: false, // 非空
           comment: "gridKey", // 描述
           primaryKey: true, // 主键
-          defaultValue: DataTypes.UUIDV4, // 默认使用 uuid 作为 主键ID
         },
         title: {
           type: DataTypes.STRING, // 类型

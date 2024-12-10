@@ -14,7 +14,11 @@ function initLuckysheet() {
   const options = {
     showinfobar: false, // 隐藏顶部的信息栏
     allowUpdate: true, // 配置协同功能
-    loadUrl: "/api/loadLuckysheet", // 初始化 celldata 数据
+    /**
+     * 初始化 celldata 数据
+     * 请注意，目前前台仅为展示，并无其他能力，因此加载的是默认协同演示 worker books 数据，gridkey = gridkey_demo
+     */
+    loadUrl: "/api/loadLuckysheet?gridkey=gridkey_demo",
     updateUrl: `${WS_SERVER_URL}?type=luckysheet&userid=${id}&username=${username}&gridkey=gridkey`, // 协同服务转发服务
     container: "luckysheetContainer",
   };

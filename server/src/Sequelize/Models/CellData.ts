@@ -14,6 +14,8 @@ export class CellDataModel extends Model {
   // 模型字段
   declare cell_data_id: string;
   declare worker_sheet_id: string;
+  declare r: number;
+  declare c: number;
   declare ctfa: string;
   declare ctt: string;
   declare bg?: string;
@@ -49,6 +51,16 @@ export class CellDataModel extends Model {
             model: WorkerSheetModel,
             key: "worker_sheet_id",
           },
+        },
+        r: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+          comment: "行号",
+        },
+        c: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+          comment: "列号",
         },
         /** ctfa + ctt ==>  ct:{fa,t} 这两个字段共同构成 celldata.ct 字段的值，决定了如何显示单元格内容 */
         ctfa: {
@@ -95,7 +107,7 @@ export class CellDataModel extends Model {
           type: DataTypes.STRING,
           allowNull: true,
           comment: "字体颜色",
-          defaultValue: "#fff000",
+          defaultValue: "#000000",
         },
         fs: {
           type: DataTypes.INTEGER,

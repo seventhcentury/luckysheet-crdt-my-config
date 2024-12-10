@@ -6,16 +6,16 @@ import { DataTypes, InferAttributes, Model, Sequelize } from "sequelize";
 import { WorkerBookModel } from "./WorkerBook";
 
 export class WorkerSheetModel extends Model {
-  declare worker_sheet_id: string;
+  declare worker_sheet_id?: string; /** 有默认值，非必传 */
   declare gridKey: string;
   declare name: string;
   declare order: number;
-  declare status: string;
-  declare hide: boolean;
-  declare row: number;
-  declare column: number;
-  declare defaultRowHeight: number;
-  declare defaultColWidth: number;
+  declare status: number;
+  declare hide?: boolean;
+  declare row?: number;
+  declare column?: number;
+  declare defaultRowHeight?: number;
+  declare defaultColWidth?: number;
   static registerModule(sequelize: Sequelize) {
     WorkerSheetModel.init(
       {
@@ -47,7 +47,7 @@ export class WorkerSheetModel extends Model {
           comment: "工作表下标序号",
         },
         status: {
-          type: DataTypes.STRING(10),
+          type: DataTypes.INTEGER,
           allowNull: false,
           comment: "工作表激活状态，仅有一个激活状态的工作表，其他工作表为 0",
         },
