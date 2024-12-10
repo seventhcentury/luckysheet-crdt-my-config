@@ -1,9 +1,8 @@
 <p align="center">
-<img src='/public/logo.svg' />
+  <img src='/public/logo.svg' />
 </p>
 <h1 align="center">Luckysheet CRDT</h1>
 
-项目为 Luckysheet 协同增强版（全功能实现），意在提供协同实现思路、数据存储服务、协同演示等。
 项目为 Luckysheet 协同增强版（全功能实现），意在提供协同实现思路、数据存储服务、协同演示等。
 
 
@@ -72,13 +71,7 @@ npm run db
     ## 启动服务端
     "server": "cd server && npm run start",
     ## 启动服务端开发环境(这个的核心是开发时使用 nodemon 监听文件变化)
-    ## 启动服务端开发环境(这个的核心是开发时使用 nodemon 监听文件变化)
     "server:dev": "cd server && npm run dev",
-
-    ## 创建数据库表 - 项目首次执行即可
-    "db": "cd server && npm run db",
-
-    ## 安装依赖：安装主项目及服务端项目依赖
 
     ## 创建数据库表 - 项目首次执行即可
     "db": "cd server && npm run db",
@@ -92,9 +85,6 @@ npm run db
 ## 项目结构说明
 
 ```js
-// 原作者开源项目源码
-// 修改了源码打包路径，指向项目根路径 public/libs/luckysheet
-- Luckysheet-source 
 // 原作者开源项目源码
 // 修改了源码打包路径，指向项目根路径 public/libs/luckysheet
 - Luckysheet-source 
@@ -139,7 +129,6 @@ npm run db
 import { createServer } from 'https';
 import { WebSocketServer } from 'ws';
 
-// 1. 使用 HTTP Server 创建 websocket 服务
 // 1. 使用 HTTP Server 创建 websocket 服务
 const server = createServer(...)
 const wss = new WebSocketServer({ server });
