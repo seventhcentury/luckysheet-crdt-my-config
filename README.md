@@ -4,6 +4,7 @@
 <h1 align="center">Luckysheet CRDT</h1>
 
 项目为 Luckysheet 协同增强版（全功能实现），意在提供协同实现思路、数据存储服务、协同演示等。
+项目为 Luckysheet 协同增强版（全功能实现），意在提供协同实现思路、数据存储服务、协同演示等。
 
 
 ## 项目说明
@@ -66,9 +67,18 @@ npm run db
     "lint": "eslint --fix", 
 
     ## 启动服务端
+    "lint": "eslint --fix", 
+
+    ## 启动服务端
     "server": "cd server && npm run start",
     ## 启动服务端开发环境(这个的核心是开发时使用 nodemon 监听文件变化)
+    ## 启动服务端开发环境(这个的核心是开发时使用 nodemon 监听文件变化)
     "server:dev": "cd server && npm run dev",
+
+    ## 创建数据库表 - 项目首次执行即可
+    "db": "cd server && npm run db",
+
+    ## 安装依赖：安装主项目及服务端项目依赖
 
     ## 创建数据库表 - 项目首次执行即可
     "db": "cd server && npm run db",
@@ -85,11 +95,16 @@ npm run db
 // 原作者开源项目源码
 // 修改了源码打包路径，指向项目根路径 public/libs/luckysheet
 - Luckysheet-source 
+// 原作者开源项目源码
+// 修改了源码打包路径，指向项目根路径 public/libs/luckysheet
+- Luckysheet-source 
 
 // 本项目后台服务
 - server 
     + public // 静态资源
     + src // 项目源码
+        + Config // 项目配置文件：端口、SQL、LOG 等配置
+        + Interface // 接口类型文件
         + Config // 项目配置文件：端口、SQL、LOG 等配置
         + Interface // 接口类型文件
         + Meddleware // 中间件
@@ -98,9 +113,13 @@ npm run db
             + Models // 数据模型
             + index.ts // 数据库连接
             + synchronization.ts // 数据库表同步脚本
+            + synchronization.ts // 数据库表同步脚本
         + Service // 业务逻辑
         + Utils // 工具类
         + WebSocket // websocket服务
+            + broadcast.ts // 处理广播消息
+            + database.ts // 数据库操作
+            + index.ts // websocket服务入口文件
             + broadcast.ts // 处理广播消息
             + database.ts // 数据库操作
             + index.ts // websocket服务入口文件
@@ -120,6 +139,7 @@ npm run db
 import { createServer } from 'https';
 import { WebSocketServer } from 'ws';
 
+// 1. 使用 HTTP Server 创建 websocket 服务
 // 1. 使用 HTTP Server 创建 websocket 服务
 const server = createServer(...)
 const wss = new WebSocketServer({ server });
