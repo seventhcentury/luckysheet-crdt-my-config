@@ -12,7 +12,7 @@ import { logger } from "../../Utils/Logger";
 
 export class CellDataModel extends Model {
   // 模型字段
-  declare cell_data_id: string;
+  declare cell_data_id?: string;
   declare worker_sheet_id: string;
   declare r: number;
   declare c: number;

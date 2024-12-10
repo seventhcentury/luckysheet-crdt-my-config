@@ -12,6 +12,7 @@ function initLuckysheet() {
   const username = `user_${id}`;
 
   const options = {
+    lang: "zh",
     showinfobar: false, // 隐藏顶部的信息栏
     allowUpdate: true, // 配置协同功能
     /**

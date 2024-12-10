@@ -6,15 +6,6 @@ import { CellDataService } from "../Service/CellData";
 import { CellDataModelType } from "../Sequelize/Models/CellData";
 
 /**
- * 测试用例
- * @param req
- * @param res
- */
-async function demo(req: Request, res: Response) {
-  res.json({ code: 200, message: "success" });
-}
-
-/**
  * loadLuckysheet 加载数据 - 协同第一步
  * @param req
  * @param res
@@ -50,7 +41,7 @@ async function loadLuckysheet(req: Request, res: Response) {
         chart: [], //图表配置
       };
 
-      // 3. 拿到当前 worker sheet id 后，通过查询 celldata 数据，生成 luckysheet 初始数据
+      // 3. 查询 celldata 数据
       const worker_sheet_id = item.worker_sheet_id;
       const cellDatas = await CellDataService.getCellData(worker_sheet_id);
       cellDatas?.forEach((item) => {
@@ -63,6 +54,16 @@ async function loadLuckysheet(req: Request, res: Response) {
         });
       });
 
+      // 4. 查询 merge 数据 - 这里不仅要体现在 config 中，还要体现在 celldata.mc 中
+
+      // 5. 查新 border 数据
+
+      // 6. 查询 hidden 数据
+
+      // 7. 查询 chart 数据
+
+      // 8. 查询 image 数据
+
       result.push(temp);
     }
 
@@ -72,4 +73,4 @@ async function loadLuckysheet(req: Request, res: Response) {
   }
 }
 
-export const Controller = { loadLuckysheet, demo };
+export const Controller = { loadLuckysheet };

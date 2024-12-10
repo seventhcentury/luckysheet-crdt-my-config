@@ -5,7 +5,6 @@ const routes = express.Router();
 
 routes.post("/loadLuckysheet", Controller.loadLuckysheet);
 
-routes.post("/demo");
 // 模块化的路由，直接调用 routes.use() 即可
 
 export default routes;

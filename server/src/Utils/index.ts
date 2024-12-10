@@ -44,3 +44,10 @@ export function getURLQuery(url: string | undefined, key: string) {
   }
   return "";
 }
+
+/**
+ * 判断传入的参数是否为空 null undefined ""
+ */
+export function isEmpty(val: unknown) {
+  return val === null || val === undefined || val === "";
+}
