@@ -5,6 +5,9 @@
 
 项目为 Luckysheet 协同增强版（全功能实现），意在提供协同实现思路、数据存储服务、协同演示等。
 
+<p align="center">
+  <img src='/public/result.gif' />
+</p>
 
 ## 项目说明
 1. 本项目基于 [Luckysheet](https://github.com/mengshukeji/Luckysheet) 实现，感谢原作者开源。
