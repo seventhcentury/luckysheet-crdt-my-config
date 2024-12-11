@@ -9,7 +9,7 @@ import { logger } from "../Utils/Logger";
 import { WorkerBookModel } from "./Models/WorkerBook";
 import { CellDataModel } from "./Models/CellData";
 import { ConfigBorderModel } from "./Models/ConfigBorder";
-import { ConfigHiddenModel } from "./Models/ConfigHidden";
+import { ConfigHiddenAndLenModel } from "./Models/ConfigHiddenAndLen";
 import { ConfigMergeModel } from "./Models/ConfigMerge";
 import { WorkerSheetModel } from "./Models/WorkerSheet";
 
@@ -68,7 +68,7 @@ class DataBase {
     CellDataModel.registerModule(this._sequelize);
     ConfigMergeModel.registerModule(this._sequelize);
     ConfigBorderModel.registerModule(this._sequelize);
-    ConfigHiddenModel.registerModule(this._sequelize);
+    ConfigHiddenAndLenModel.registerModule(this._sequelize);
   }
 
   /**

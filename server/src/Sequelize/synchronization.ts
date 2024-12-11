@@ -10,7 +10,7 @@ import { WorkerSheetModel } from "./Models/WorkerSheet";
 import { CellDataModel } from "./Models/CellData";
 import { ConfigMergeModel } from "./Models/ConfigMerge";
 import { ConfigBorderModel } from "./Models/ConfigBorder";
-import { ConfigHiddenModel } from "./Models/ConfigHidden";
+import { ConfigHiddenAndLenModel } from "./Models/ConfigHiddenAndLen";
 
 (async () => {
   const { host, database, user, password } = SQL_CONFIG;
@@ -29,7 +29,7 @@ import { ConfigHiddenModel } from "./Models/ConfigHidden";
     CellDataModel.registerModule(sequelize);
     ConfigMergeModel.registerModule(sequelize);
     ConfigBorderModel.registerModule(sequelize);
-    ConfigHiddenModel.registerModule(sequelize);
+    ConfigHiddenAndLenModel.registerModule(sequelize);
 
     // 2. 同步模型 (非强制同步)
     await sequelize.sync({ alter: true });

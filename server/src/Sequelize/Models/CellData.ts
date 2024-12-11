@@ -16,8 +16,11 @@ export class CellDataModel extends Model {
   declare worker_sheet_id: string;
   declare r: number;
   declare c: number;
-  declare ctfa: string;
-  declare ctt: string;
+  declare v: string;
+  declare m: string;
+
+  declare ctfa?: string;
+  declare ctt?: string;
   declare bg?: string;
   declare ff?: string;
   declare fc?: string;
@@ -28,8 +31,6 @@ export class CellDataModel extends Model {
   declare un?: boolean;
   declare vt?: number;
   declare ht?: number;
-  declare v: string;
-  declare m: string;
   declare f?: string;
 
   // 都需要导出一个 register 方法，用于注册模型
@@ -113,7 +114,7 @@ export class CellDataModel extends Model {
           type: DataTypes.INTEGER,
           allowNull: true,
           comment: "字体大小",
-          defaultValue: 12,
+          defaultValue: 10,
         },
         bl: {
           type: DataTypes.BOOLEAN,

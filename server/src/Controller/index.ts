@@ -4,6 +4,9 @@ import { WORKER_BOOK_INFO } from "../Config";
 import { WorkerSheetService } from "../Service/WorkerSheet";
 import { CellDataService } from "../Service/CellData";
 import { CellDataModelType } from "../Sequelize/Models/CellData";
+import { configHiddenAndLenService } from "../Service/ConfigHiddenAndLen";
+import { logger } from "../Utils/Logger";
+import { ConfigBorderService } from "../Service/ConfigBorder";
 
 /**
  * loadLuckysheet 加载数据 - 协同第一步
@@ -35,7 +38,9 @@ async function loadLuckysheet(req: Request, res: Response) {
           merge: {}, //合并单元格
           rowhidden: {}, //隐藏行
           colhidden: {}, //隐藏列
-          borderInfo: {}, //边框
+          borderInfo: [], //边框
+          rowlen: {},
+          columnlen: {},
         },
         image: [], //图片
         chart: [], //图表配置
@@ -46,6 +51,8 @@ async function loadLuckysheet(req: Request, res: Response) {
       const cellDatas = await CellDataService.getCellData(worker_sheet_id);
       cellDatas?.forEach((item) => {
         const data = <CellDataModelType>item.dataValues;
+        // 移除多余的字段
+        delete data.cell_data_id;
         // 解析 cellData 生成 luckysheet 初始数据
         temp.celldata.push({
           r: data.r,
@@ -57,15 +64,57 @@ async function loadLuckysheet(req: Request, res: Response) {
       // 4. 查询 merge 数据 - 这里不仅要体现在 config 中，还要体现在 celldata.mc 中
 
       // 5. 查新 border 数据
+      const borders = await ConfigBorderService.findAll(worker_sheet_id);
+      borders?.forEach((border) => {
+        const data = border.dataValues;
+        // 根据当前数据，生成 config.borderInfo
+        /* eslint-disable */
+        // @ts-ignore
+        temp.config.borderInfo.push({
+          rangeType: data.rangeType,
+          borderType: data.borderType,
+          style: data.style,
+          color: data.color,
+          range: [
+            {
+              row: [data.row_start, data.row_end],
+              column: [data.col_start, data.col_end],
+            },
+          ],
+        });
+      });
 
-      // 6. 查询 hidden 数据
+      // 6. 查询 hidden/rowlen/collen 数据
+      const hiddens = await configHiddenAndLenService.findConfig(
+        worker_sheet_id
+      );
+
+      /* eslint-disable */
+      hiddens?.forEach((item) => {
+        const data = item.dataValues;
+        // 移除多余的字段
+        // 解析 hidden 数据生成 luckysheet 初始数据
+        if (data.config_type === "rowhidden") {
+          // @ts-ignore
+          temp.config.rowhidden[data.config_index] = 0;
+        } else if (data.config_type === "colhidden") {
+          // @ts-ignore
+          temp.config.colhidden[data.config_index] = 0;
+        } else if (data.config_type === "rowlen") {
+          // @ts-ignore
+          temp.config.rowlen[data.config_index] = Number(data.config_value);
+        } else if (data.config_type === "columnlen") {
+          // @ts-ignore
+          temp.config.columnlen[data.config_index] = Number(data.config_value);
+        }
+      });
 
       // 7. 查询 chart 数据
 
       // 8. 查询 image 数据
-
       result.push(temp);
     }
+    logger.info("[loadLuckysheet]:", result);
 
     res.json(JSON.stringify(result));
   } catch (error) {
