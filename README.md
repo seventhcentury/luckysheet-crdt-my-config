@@ -248,7 +248,7 @@ XxxModel.sync({ alter: true }); // 这将检查数据库中表的当前状态(�
 
 ... 请查阅 [ConfigBorderModel](/server/src/Sequelize/Models/ConfigBorderInfos.ts)
 
-... 请查阅 [ConfigHiddenModel](/server/src/Sequelize/Models/ConfigHidden.ts)
+... 请查阅 [ConfigHiddenAndLenModel](/server/src/Sequelize/Models/ConfigHiddenAndLen.ts)
 
 
 ## 开源贡献
