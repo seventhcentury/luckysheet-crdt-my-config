@@ -12,6 +12,7 @@
 3. 项目支持 **可选数据库服务**，没有数据库的用户数据无法持久化存储，协同功能并不受影响。
 4. 项目使用 **[Sequelize](https://www.sequelize.cn/)** 作为ORM数据服务技术，支持mysql、sqlite、postgres、mssql等数据库，方便用户快速迁移。
 5. 项目使用 **Typescript** 作为主要开发语言，提供完整的类型提示，规范代码，提高开发效率。
+6. **项目有 `master` 分支和 `master-alpha` 分支，最新发布的特性，会在 alpha 上进行测试，稳定后会合并到 master 上。**
 
 
 
