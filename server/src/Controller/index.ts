@@ -131,7 +131,6 @@ async function loadLuckysheet(req: Request, res: Response) {
       // 8. 查询 image 数据
       result.push(temp);
     }
-    logger.info("[loadLuckysheet]:", result);
 
     res.json(JSON.stringify(result));
   } catch (error) {

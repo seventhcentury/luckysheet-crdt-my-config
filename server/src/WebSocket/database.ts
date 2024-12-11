@@ -428,6 +428,8 @@ async function all(data: string) {
         });
       }
     }
+  } else if (k === "images") {
+    console.log("==> 插入图片");
   }
 }
 

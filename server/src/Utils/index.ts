@@ -3,7 +3,7 @@ import pako from "pako";
 /**
  * Pako 数据解析
  */
-export function unzip(str: string) {
+export function unzip(str: string): string {
   const chartData = str
     .toString()
     .split("")
