@@ -32,6 +32,7 @@ import { ConfigHiddenAndLenModelType } from "../Sequelize/Models/ConfigHiddenAnd
 import { CellDataService } from "../Service/CellData";
 import { ConfigBorderService } from "../Service/ConfigBorder";
 import { configHiddenAndLenService } from "../Service/ConfigHiddenAndLen";
+import { ConfigMergeService } from "../Service/ConfigMerge";
 import { isEmpty } from "../Utils";
 import { logger } from "../Utils/Logger";
 
@@ -379,9 +380,55 @@ async function cg(data: string) {
   }
 }
 
-// 通用保存
+/**
+ * 通用保存 冻结行列、修改工作表名、修改工作表颜色、合并单元格、筛选等操作，
+ *  此方法仅处理 修改工作表名 合并单元格
+ * @param data
+ * @returns
+ */
 async function all(data: string) {
-  console.log("==> all", data);
+  logger.info("[CRDT DATA]:", data);
+
+  type OperateAllData = {
+    t: string;
+    i: string;
+    k: string; // frozen | name | color | config | filter_select | filter | luckysheet_alternateformat_save | luckysheet_conditionformat_save | pivotTable | dynamicArray
+    v: {
+      merge: {
+        [key: string]: { r: number; c: number; rs: number; cs: number };
+      };
+    };
+  };
+
+  const { t, i, v, k } = <OperateAllData>JSON.parse(data);
+
+  if (t !== "all") return logger.error("t is not all.");
+  if (isEmpty(i)) return logger.error("i is undefined.");
+
+  // 修改工作表名
+  if (k === "name") {
+    // await WorkerBookService.update(i, v);
+  } else if (k === "config") {
+    // 合并单元格 - 又是一个先删除后新增的操作，由luckysheet 前台设计决定的
+    // {"t":"all","i":"e73f971....","v":{"merge":{"1_0":{"r":1,"c":0,"rs":3,"cs":3}},},"k":"config"}
+    // {"t":"all","i":"e73f971....","v":{"merge":{"1_0":{"r":1,"c":0,"rs":3,"cs":3},"9_1":{"r":9,"c":1,"rs":5,"cs":3}},},"k":"config"}
+    // {"t":"all","i":"e73f971....","v":{"merge":{"9_1":{"r":9,"c":1,"rs":5,"cs":3}},},"k":"config"}
+    // 先删除
+    await ConfigMergeService.deleteMerge(i);
+    // 再新增
+    for (const key in v.merge) {
+      if (Object.prototype.hasOwnProperty.call(v.merge, key)) {
+        const { r, c, rs, cs } = v.merge[key];
+        await ConfigMergeService.createMerge({
+          worker_sheet_id: i,
+          r,
+          c,
+          rs,
+          cs,
+        });
+      }
+    }
+  }
 }
 
 // 函数链操作

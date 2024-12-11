@@ -7,7 +7,7 @@ import { DataTypes, InferAttributes, Model, Sequelize } from "sequelize";
 import { WorkerSheetModel } from "./WorkerSheet";
 
 export class ConfigMergeModel extends Model {
-  declare config_merge_id: string;
+  declare config_merge_id?: string;
   declare worker_sheet_id: string;
   declare r: number;
   declare c: number;

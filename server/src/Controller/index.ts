@@ -7,6 +7,7 @@ import { CellDataModelType } from "../Sequelize/Models/CellData";
 import { configHiddenAndLenService } from "../Service/ConfigHiddenAndLen";
 import { logger } from "../Utils/Logger";
 import { ConfigBorderService } from "../Service/ConfigBorder";
+import { ConfigMergeService } from "../Service/ConfigMerge";
 
 /**
  * loadLuckysheet 加载数据 - 协同第一步
@@ -61,14 +62,31 @@ async function loadLuckysheet(req: Request, res: Response) {
         });
       });
 
+      /* eslint-disable */
       // 4. 查询 merge 数据 - 这里不仅要体现在 config 中，还要体现在 celldata.mc 中
+      const merges = await ConfigMergeService.findAll(worker_sheet_id);
+      merges?.forEach((merge) => {
+        // 拼接 r_c 格式
+        const { r, c } = merge.dataValues;
+        // @ts-ignore
+        temp.config.merge[`${r}_${c}`] = merge.dataValues;
 
+        // 配置 celldata mc 属性
+        const currentMergeCell = temp.celldata.find(
+          // @ts-ignore
+          (i) => i.r == r && i.c == c
+        );
+        // @ts-ignore
+        if (currentMergeCell) currentMergeCell.v.mc = merge.dataValues;
+      });
+
+      /* eslint-disable */
       // 5. 查新 border 数据
       const borders = await ConfigBorderService.findAll(worker_sheet_id);
       borders?.forEach((border) => {
         const data = border.dataValues;
         // 根据当前数据，生成 config.borderInfo
-        /* eslint-disable */
+
         // @ts-ignore
         temp.config.borderInfo.push({
           rangeType: data.rangeType,
@@ -84,12 +102,11 @@ async function loadLuckysheet(req: Request, res: Response) {
         });
       });
 
+      /* eslint-disable */
       // 6. 查询 hidden/rowlen/collen 数据
       const hiddens = await configHiddenAndLenService.findConfig(
         worker_sheet_id
       );
-
-      /* eslint-disable */
       hiddens?.forEach((item) => {
         const data = item.dataValues;
         // 移除多余的字段
@@ -118,7 +135,8 @@ async function loadLuckysheet(req: Request, res: Response) {
 
     res.json(JSON.stringify(result));
   } catch (error) {
-    console.error(error);
+    logger.error(error);
+    res.json({ code: 500, msg: "服务异常" });
   }
 }
 
