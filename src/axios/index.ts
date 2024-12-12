@@ -22,7 +22,6 @@ axios.interceptors.request.use(
 // 添加响应拦截器
 axios.interceptors.response.use(
   function (res) {
-    console.log("==> ",res);
     // 解构返回
     return res;
   },
