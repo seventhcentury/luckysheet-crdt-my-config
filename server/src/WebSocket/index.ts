@@ -3,9 +3,9 @@ import { logger } from "../Utils/Logger";
 import { databaseHandler } from "./database";
 import { getURLQuery, unzip } from "../Utils";
 import { RawData, WebSocketServer } from "ws";
-import { CustomWebSocket } from "../Interface";
 import { IncomingMessage, Server } from "http";
 import { broadcastOtherClients } from "./broadcast";
+import { CustomWebSocket } from "../Interface/WebSocket";
 
 /**
  * 创建 Web Socket 服务

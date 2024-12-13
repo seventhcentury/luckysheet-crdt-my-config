@@ -15,7 +15,7 @@
  */
 
 import WebSocket from "ws";
-import { CustomWebSocket } from "../Interface";
+import { CustomWebSocket } from "../Interface/WebSocket";
 
 /**
  * 广播给其他客户端

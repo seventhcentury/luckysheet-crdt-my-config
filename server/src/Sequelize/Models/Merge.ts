@@ -6,7 +6,7 @@
 import { DataTypes, InferAttributes, Model, Sequelize } from "sequelize";
 import { WorkerSheetModel } from "./WorkerSheet";
 
-export class ConfigMergeModel extends Model {
+export class MergeModel extends Model {
   declare config_merge_id?: string;
   declare worker_sheet_id: string;
   declare r: number;
@@ -16,7 +16,7 @@ export class ConfigMergeModel extends Model {
 
   // 注册模型
   static registerModule(sequelize: Sequelize) {
-    ConfigMergeModel.init(
+    MergeModel.init(
       {
         config_merge_id: {
           type: DataTypes.STRING, // 类型
@@ -67,11 +67,11 @@ export class ConfigMergeModel extends Model {
       },
       {
         sequelize, // 将模型与 Sequelize 实例关联
-        tableName: "configmerges", // 直接式提供数据库表名
+        tableName: "merges", // 直接式提供数据库表名
       }
     );
   }
 }
 
 // 导出类型
-export type ConfigMergeModelType = InferAttributes<ConfigMergeModel>;
+export type MergeModelType = InferAttributes<MergeModel>;

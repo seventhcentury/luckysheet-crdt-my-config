@@ -99,21 +99,15 @@ npm run db
     + src // 项目源码
         + Config // 项目配置文件：端口、SQL、LOG 等配置
         + Interface // 接口类型文件
-        + Config // 项目配置文件：端口、SQL、LOG 等配置
-        + Interface // 接口类型文件
         + Meddleware // 中间件
         + Router // 路由文件
         + Sequelize // 数据库服务
             + Models // 数据模型
             + index.ts // 数据库连接
             + synchronization.ts // 数据库表同步脚本
-            + synchronization.ts // 数据库表同步脚本
         + Service // 业务逻辑
         + Utils // 工具类
         + WebSocket // websocket服务
-            + broadcast.ts // 处理广播消息
-            + database.ts // 数据库操作
-            + index.ts // websocket服务入口文件
             + broadcast.ts // 处理广播消息
             + database.ts // 数据库操作
             + index.ts // websocket服务入口文件
@@ -250,14 +244,15 @@ XxxModel.sync({ alter: true }); // 这将检查数据库中表的当前状态(�
 
 ... 请查阅 [WorkerSheetModel](/server/src/Sequelize/Models/WorkerSheet.ts)
 
-
 ... 请查阅 [CellDataModel](/server/src/Sequelize/Models/CellData.ts)
 
-... 请查阅 [ConfigMergeModel](/server/src/Sequelize/Models/ConfigMerge.ts)
+... 请查阅 [MergeModel](/server/src/Sequelize/Models/Merge.ts)
 
-... 请查阅 [ConfigBorderModel](/server/src/Sequelize/Models/ConfigBorderInfos.ts)
+... 请查阅 [BorderInfoModel](/server/src/Sequelize/Models/BorderInfo.ts)
 
-... 请查阅 [ConfigHiddenAndLenModel](/server/src/Sequelize/Models/ConfigHiddenAndLen.ts)
+... 请查阅 [HiddenAndLenModel](/server/src/Sequelize/Models/HiddenAndLen.ts)
+
+... 请查阅 [imageModel](/server/src/Sequelize/Models/Image.ts)
 
 
 

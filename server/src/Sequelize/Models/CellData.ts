@@ -2,13 +2,12 @@
  * CellData 数据模型
  */
 
-import { DataTypes, InferAttributes, Model, Sequelize } from "sequelize";
 import { WorkerSheetModel } from "./WorkerSheet";
+import { DataTypes, InferAttributes, Model, Sequelize } from "sequelize";
 
 /**
  * Sequelize 模型是 ES6 类. 你可以非常轻松地添加自定义实例或类级别的方法.
  */
-
 export class CellDataModel extends Model {
   // 模型字段
   declare cell_data_id?: string;
@@ -136,7 +135,7 @@ export class CellDataModel extends Model {
           comment: "水平居中 0 居中、1 左、2右",
           defaultValue: 0,
         },
-        // tr rt tb 不想实现了
+        // tr rt tb 不想实现了~ 大家自己拓展其他的数据类型吧
         // v m 的取值逻辑由 ct：{fa t} 决定
         v: {
           type: DataTypes.STRING,

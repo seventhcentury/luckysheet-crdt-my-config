@@ -5,7 +5,7 @@
 import { DataTypes, InferAttributes, Model, Sequelize } from "sequelize";
 import { WorkerSheetModel } from "./WorkerSheet";
 
-export class ConfigHiddenAndLenModel extends Model {
+export class HiddenAndLenModel extends Model {
   // 类型定义
   declare config_hidden_id?: string;
   declare worker_sheet_id: string;
@@ -15,7 +15,7 @@ export class ConfigHiddenAndLenModel extends Model {
 
   // 注册模型
   static registerModule(sequelize: Sequelize) {
-    ConfigHiddenAndLenModel.init(
+    HiddenAndLenModel.init(
       {
         config_hidden_id: {
           type: DataTypes.STRING, // 类型
@@ -59,12 +59,11 @@ export class ConfigHiddenAndLenModel extends Model {
       },
       {
         sequelize, // 将模型与 Sequelize 实例关联
-        tableName: "confighiddenandlens", // 直接式提供数据库表名
+        tableName: "hiddenandlens", // 直接式提供数据库表名
       }
     );
   }
 }
 
 // 导出类型
-export type ConfigHiddenAndLenModelType =
-  InferAttributes<ConfigHiddenAndLenModel>;
+export type HiddenAndLenModelType = InferAttributes<HiddenAndLenModel>;

@@ -1,29 +1,29 @@
-import { getURLQuery } from "../Utils";
-import { logger } from "../Utils/Logger";
-import { Request, Response } from "express";
-import { WORKER_BOOK_INFO } from "../Config";
-import { ImageService } from "../Service/Image";
-import { CellDataService } from "../Service/CellData";
-import { WorkerSheetService } from "../Service/WorkerSheet";
-import { ConfigMergeService } from "../Service/ConfigMerge";
-import { ConfigBorderService } from "../Service/ConfigBorder";
-import { CellDataModelType } from "../Sequelize/Models/CellData";
-import { configHiddenAndLenService } from "../Service/ConfigHiddenAndLen";
 import {
   type MergeType,
   type ImagesType,
   type BorderInfoType,
   type CellDataItemType,
   type WorkerSheetItemType,
-} from "../Interface/luckysheet";
-import { WorkerSheetModelType } from "../Sequelize/Models/WorkerSheet";
+} from "../../Interface/luckysheet";
+import { getURLQuery } from "../../Utils";
+import { logger } from "../../Utils/Logger";
+import { Request, Response } from "express";
+import { WORKER_BOOK_INFO } from "../../Config";
+import { ImageService } from "../../Service/Image";
+import { MergeService } from "../../Service/Merge";
+import { CellDataService } from "../../Service/CellData";
+import { BorderInfoService } from "../../Service/Border";
+import { WorkerSheetService } from "../../Service/WorkerSheet";
+import { HiddenAndLenService } from "../../Service/HiddenAndLen";
+import { CellDataModelType } from "../../Sequelize/Models/CellData";
+import { WorkerSheetModelType } from "../../Sequelize/Models/WorkerSheet";
 
 /**
- * loadLuckysheet loadUrl 加载数据
+ * loadSheetData loadUrl 加载数据
  * 协同第一步 ： 解析数据库数据，生成 workerbook data 数据
  * @returns string
  */
-export async function loadLuckysheet(req: Request, res: Response) {
+export async function loadSheetData(req: Request, res: Response) {
   try {
     const result: WorkerSheetItemType[] = [];
 
@@ -158,7 +158,7 @@ async function parseMerge(
   try {
     const result: MergeType = {};
 
-    const merges = await ConfigMergeService.findAll(worker_sheet_id);
+    const merges = await MergeService.findAll(worker_sheet_id);
 
     merges?.forEach((merge) => {
       // 拼接 r_c 格式
@@ -193,7 +193,7 @@ async function parseConfigBorder(
   try {
     const result = <BorderInfoType[]>[];
 
-    const borders = await ConfigBorderService.findAll(worker_sheet_id);
+    const borders = await BorderInfoService.findAll(worker_sheet_id);
 
     borders?.forEach((border) => {
       const data = border.dataValues;
@@ -220,7 +220,7 @@ async function parseHiddenAndLen(
   currentSheetData: WorkerSheetItemType
 ) {
   try {
-    const hiddens = await configHiddenAndLenService.findConfig(worker_sheet_id);
+    const hiddens = await HiddenAndLenService.findConfig(worker_sheet_id);
     hiddens?.forEach((item) => {
       const data = item.dataValues;
       const { config_type, config_index } = data;

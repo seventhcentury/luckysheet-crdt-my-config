@@ -2,10 +2,10 @@
  * config border info model 边框数据模型
  */
 
-import { DataTypes, InferAttributes, Model, Sequelize } from "sequelize";
 import { WorkerSheetModel } from "./WorkerSheet";
+import { DataTypes, InferAttributes, Model, Sequelize } from "sequelize";
 
-export class ConfigBorderModel extends Model {
+export class BorderInfoModel extends Model {
   // 类型定义
   declare config_border_id?: string;
   declare worker_sheet_id: string;
@@ -23,7 +23,7 @@ export class ConfigBorderModel extends Model {
 
   // 注册模型
   static registerModule(sequelize: Sequelize) {
-    ConfigBorderModel.init(
+    BorderInfoModel.init(
       {
         config_border_id: {
           type: DataTypes.STRING, // 类型
@@ -93,11 +93,11 @@ export class ConfigBorderModel extends Model {
       },
       {
         sequelize, // 将模型与 Sequelize 实例关联
-        tableName: "configborders", // 直接式提供数据库表名
+        tableName: "borders", // 直接式提供数据库表名
       }
     );
   }
 }
 
 // 导出类型
-export type ConfigBorderModelType = InferAttributes<ConfigBorderModel>;
+export type BorderInfoModelType = InferAttributes<BorderInfoModel>;

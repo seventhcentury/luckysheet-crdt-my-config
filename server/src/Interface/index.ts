@@ -1,9 +1,3 @@
-import { WebSocket } from "ws";
-export interface CustomWebSocket extends WebSocket {
-  clientInfo: {
-    type: string; // 协同服务类型
-    userid: string;
-    username: string;
-    gridkey: string;
-  };
-}
+export type IKeyMap<T extends string | number | symbol, V> = {
+  [key in T]: V;
+};

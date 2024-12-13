@@ -6,13 +6,13 @@
 import { Sequelize } from "sequelize";
 import { logger } from "../Utils/Logger";
 import { ImageModel } from "./Models/Image";
+import { MergeModel } from "./Models/Merge";
 import { SQL_CONFIG } from "../Config/index";
 import { CellDataModel } from "./Models/CellData";
+import { BorderInfoModel } from "./Models/BorderInfo";
 import { WorkerBookModel } from "./Models/WorkerBook";
 import { WorkerSheetModel } from "./Models/WorkerSheet";
-import { ConfigMergeModel } from "./Models/ConfigMerge";
-import { ConfigBorderModel } from "./Models/ConfigBorder";
-import { ConfigHiddenAndLenModel } from "./Models/ConfigHiddenAndLen";
+import { HiddenAndLenModel } from "./Models/HiddenAndLen";
 
 class DataBase {
   private _connected: boolean = false; // 连接状态
@@ -83,9 +83,9 @@ class DataBase {
     WorkerBookModel.registerModule(this._sequelize);
     WorkerSheetModel.registerModule(this._sequelize);
     CellDataModel.registerModule(this._sequelize);
-    ConfigMergeModel.registerModule(this._sequelize);
-    ConfigBorderModel.registerModule(this._sequelize);
-    ConfigHiddenAndLenModel.registerModule(this._sequelize);
+    MergeModel.registerModule(this._sequelize);
+    BorderInfoModel.registerModule(this._sequelize);
+    HiddenAndLenModel.registerModule(this._sequelize);
     ImageModel.registerModule(this._sequelize);
   }
 }

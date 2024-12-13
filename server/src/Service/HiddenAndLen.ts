@@ -1,13 +1,13 @@
 import {
-  ConfigHiddenAndLenModel,
-  ConfigHiddenAndLenModelType,
-} from "../Sequelize/Models/ConfigHiddenAndLen";
+  HiddenAndLenModelType,
+  HiddenAndLenModel,
+} from "../Sequelize/Models/HiddenAndLen";
 import { logger } from "../Utils/Logger";
 
 // 创建隐藏记录
-async function create(data: ConfigHiddenAndLenModelType) {
+async function create(data: HiddenAndLenModelType) {
   try {
-    return await ConfigHiddenAndLenModel.create(data);
+    return await HiddenAndLenModel.create(data);
   } catch (error) {
     logger.error(error);
   }
@@ -16,7 +16,7 @@ async function create(data: ConfigHiddenAndLenModelType) {
 // 查询 worker_sheet_id 下所有隐藏记录 - 用于初始化时查询
 async function findConfig(worker_sheet_id: string) {
   try {
-    return await ConfigHiddenAndLenModel.findAll({
+    return await HiddenAndLenModel.findAll({
       where: { worker_sheet_id },
     });
   } catch (error) {
@@ -31,7 +31,7 @@ async function deleteHidden(
   config_index: string
 ) {
   try {
-    return await ConfigHiddenAndLenModel.destroy({
+    return await HiddenAndLenModel.destroy({
       where: { worker_sheet_id, config_type, config_index },
     });
   } catch (error) {
@@ -39,4 +39,4 @@ async function deleteHidden(
   }
 }
 
-export const configHiddenAndLenService = { create, findConfig, deleteHidden };
+export const HiddenAndLenService = { create, findConfig, deleteHidden };
