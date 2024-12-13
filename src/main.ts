@@ -23,6 +23,8 @@ function initLuckysheet() {
     loadUrl: "/api/loadSheetData?gridkey=gridkey_demo",
     updateUrl: `${WS_SERVER_URL}?type=luckysheet&userid=${id}&username=${username}&gridkey=gridkey`, // 协同服务转发服务
 
+    plugins: ["chart"],
+
     // 处理协同图片上传
     uploadImage: async (file: File) => {
       // 此处拿到的是上传的 file 对象，进行文件上传 ，配合 node 接口实现
@@ -49,9 +51,4 @@ function initLuckysheet() {
   };
 
   luckysheet.create(options);
-
-  console.group("协同客户端用户信息");
-  console.log("==> userid", id);
-  console.log("==> username", username);
-  console.groupEnd();
 }
