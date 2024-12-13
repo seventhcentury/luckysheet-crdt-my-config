@@ -21,10 +21,14 @@ let _colLocation = colLocation
 
 // Dynamically load dependent scripts and styles
 const dependScripts = [
-    'https://cdn.jsdelivr.net/npm/vue@2.6.11',
-    'https://unpkg.com/vuex@3.4.0',
-    'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/index.js',
-    'https://cdn.bootcdn.net/ajax/libs/echarts/4.8.0/echarts.min.js',
+    // 'https://cdn.jsdelivr.net/npm/vue@2.6.11',
+    'expendPlugins/chart/vue@2.6.11.min.js',
+    'expendPlugins/chart/vuex.min.js',
+    'expendPlugins/chart/elementui.min.js',
+    'expendPlugins/chart/echarts.min.js',
+    // 'https://unpkg.com/vuex@3.4.0',
+    // 'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/index.js',
+    // 'https://cdn.bootcdn.net/ajax/libs/echarts/4.8.0/echarts.min.js',
     'expendPlugins/chart/chartmix.umd.min.js',
     // 'http://26.26.26.1:8000/chartmix.umd.js'
 ]
