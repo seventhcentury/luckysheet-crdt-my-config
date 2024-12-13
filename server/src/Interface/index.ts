@@ -4,7 +4,6 @@ export interface CustomWebSocket extends WebSocket {
     type: string; // 协同服务类型
     userid: string;
     username: string;
-    fileid: string;
+    gridkey: string;
   };
 }
-

@@ -4,15 +4,15 @@
  */
 
 import { Sequelize } from "sequelize";
-import { SQL_CONFIG } from "../Config/index";
 import { logger } from "../Utils/Logger";
-import { WorkerBookModel } from "./Models/WorkerBook";
+import { ImageModel } from "./Models/Image";
+import { SQL_CONFIG } from "../Config/index";
 import { CellDataModel } from "./Models/CellData";
+import { WorkerBookModel } from "./Models/WorkerBook";
+import { WorkerSheetModel } from "./Models/WorkerSheet";
+import { ConfigMergeModel } from "./Models/ConfigMerge";
 import { ConfigBorderModel } from "./Models/ConfigBorder";
 import { ConfigHiddenAndLenModel } from "./Models/ConfigHiddenAndLen";
-import { ConfigMergeModel } from "./Models/ConfigMerge";
-import { WorkerSheetModel } from "./Models/WorkerSheet";
-import { ImageModel } from "./Models/Image";
 
 class DataBase {
   private _connected: boolean = false; // 连接状态
@@ -20,6 +20,7 @@ class DataBase {
 
   constructor() {
     this._connected = false;
+    this._sequelize = null;
   }
 
   /**
@@ -47,6 +48,7 @@ class DataBase {
     } catch (error) {
       logger.error(error);
       this._connected = false;
+      this._sequelize = null;
     }
   }
 
@@ -59,7 +61,21 @@ class DataBase {
   }
 
   /**
+   * 关闭数据库连接
+   */
+  public close() {
+    if (this._sequelize) this._sequelize.close();
+  }
+  /**
+   * 获取连接状态
+   */
+  public getConnectState(): boolean {
+    return this._connected;
+  }
+
+  /**
    * 同步表结构
+   *  1. 请注意表的主键/外键关联关系，如果依赖外键，需要先注册主键表，不然会报错
    */
   private registerModule() {
     if (!this._sequelize || !this._connected) return;
@@ -72,22 +88,13 @@ class DataBase {
     ConfigHiddenAndLenModel.registerModule(this._sequelize);
     ImageModel.registerModule(this._sequelize);
   }
-
-  /**
-   * 关闭数据库连接
-   */
-  public close() {
-    if (this._sequelize) {
-      this._sequelize.close();
-    }
-  }
-
-  /**
-   * 获取连接状态
-   */
-  public getConnected(): boolean {
-    return this._connected;
-  }
 }
 
+/**
+ * DataBase 数据库类 - 单例模式(简单实现)
+ *  1. connect 连接数据库方法
+ *  2. close 关闭数据库方法
+ *  3. query(sql:string) 执行原生 SQL 查询
+ *  4. getConnectState():boolean 获取连接状态
+ */
 export const DB = new DataBase();

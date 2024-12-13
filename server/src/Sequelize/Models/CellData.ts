@@ -4,7 +4,6 @@
 
 import { DataTypes, InferAttributes, Model, Sequelize } from "sequelize";
 import { WorkerSheetModel } from "./WorkerSheet";
-import { logger } from "../../Utils/Logger";
 
 /**
  * Sequelize 模型是 ES6 类. 你可以非常轻松地添加自定义实例或类级别的方法.
@@ -75,21 +74,6 @@ export class CellDataModel extends Model {
           allowNull: false,
           comment: "ct:{t} Type类型,'g'|'s'|'n'....",
           defaultValue: "g",
-        },
-        /**
-         * 使用虚拟字段特性，解决 ct 字段的值
-         */
-        ct: {
-          type: DataTypes.VIRTUAL,
-          get() {
-            return {
-              fa: this.getDataValue("ctfa"),
-              t: this.getDataValue("ctt"),
-            };
-          },
-          set() {
-            logger.error("字段为虚拟字段，不允许赋值");
-          },
         },
         bg: {
           type: DataTypes.STRING,

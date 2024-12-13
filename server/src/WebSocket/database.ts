@@ -87,7 +87,7 @@ type OperateData = {
 };
 
 /**
- * 数据库操作
+ * 协同消息映射的操作
  * @param data
  */
 export function databaseHandler(data: string) {
@@ -474,12 +474,12 @@ async function fc(data: string) {
   console.log("==> fc", data);
 }
 
-// 删除行或列
+// 删除行或列 - 会影响 celldata r c 的值，需要更新比新增行列大/小的 r c 值
 async function drc(data: string) {
   console.log("==> drc", data);
 }
 
-// 增加行或列
+// 增加行或列 - 会影响 celldata r c 的值，需要更新比新增行列大/小的 r c 值
 async function arc(data: string) {
   console.log("==> arc", data);
 }

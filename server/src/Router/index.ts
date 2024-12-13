@@ -9,5 +9,4 @@ routes.post("/loadLuckysheet", Controller.loadLuckysheet);
 routes.post("/uploadImage", Controller.uploadImage);
 
 // 模块化的路由，直接调用 routes.use() 即可
-
 export default routes;
