@@ -110,7 +110,6 @@ function chart(data, isDemo) {
 
 // rendercharts
 function renderCharts(chartLists, isDemo) {
-
     // no chart
     if (chartLists == undefined) {
         return;
@@ -1366,7 +1365,7 @@ function setChartMoveableEffect($container) {
 }
 
 // delete chart
-function delChart(chart_id) {
+function delChart(chart_id, flag) {
     // delete container
     $(`.luckysheet-cell-main #${chart_id}_c`).remove()
 
@@ -1383,6 +1382,8 @@ function delChart(chart_id) {
     console.group("发送协同消息");
     console.log("删除图表 ID", chart_id);
     console.groupEnd();
+    if (!flag) server.saveParam('c', sheetFile.index, { "cid": chart_id }, { "op": "del", "cid": chart_id })
+
 }
 
 //设置某个图表的高亮区域状态为显示,处理当前页的所有图表，只取一个图表设置为显示，其他隐藏，其他页不管
@@ -1423,7 +1424,6 @@ function hideAllNeedRangeShow() {
 
 //选择区域高亮
 function selectRangeBorderShow(chart_id) {
-
     let $t = $('#' + chart_id + '_c')
 
     // Highlight of data range
@@ -1554,4 +1554,4 @@ function renderChartShow(index) {
 
 }
 
-export { chart, createLuckyChart, showNeedRangeShow, hideAllNeedRangeShow, renderChartShow, delChart, setChartMoveableEffect }
+export { chart, createLuckyChart, showNeedRangeShow, hideAllNeedRangeShow, renderChartShow, delChart, setChartMoveableEffect, selectRangeBorderShow, showChartSettingComponent }

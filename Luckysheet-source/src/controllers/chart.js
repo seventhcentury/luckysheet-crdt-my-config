@@ -4,18 +4,19 @@
  */
 import chartInfo from '../store'
 import { replaceHtml } from "../utils/chartUtil";
-import { setChartMoveableEffect, showNeedRangeShow } from '../expendPlugins/chart/plugin'
+import { setChartMoveableEffect, showNeedRangeShow, selectRangeBorderShow, showChartSettingComponent, delChart } from '../expendPlugins/chart/plugin'
 import { setluckysheet_scroll_status } from '../methods/set'
 
+
 export function insertChartTosheet(data) {
+
     console.table("==> 调用了 insertChartTosheet", data);
-    // luckysheet.insertChartTosheet(value.sheetIndex, value.dataSheetIndex, value.option, value.chartType, value.selfOption, value.defaultOption, value.row, value.column, value.chart_selection_color, value.chart_id, value.chart_selection_id, value.chartStyle, value.rangeConfigCheck, value.rangeRowCheck, value.rangeColCheck, value.chartMarkConfig, value.chartTitleConfig, value.winWidth, value.winHeight, value.scrollLeft1, value.scrollTop1, value.chartTheme, value.myWidth, value.myHeight, value.myLeft, value.myTop, value.myindexrank1, true);
 
-    const { chart_id, chartOptions, left, top, width, height, needRangeShow, chartData } = data
+    const { chart_id, chartOptions, chartData, left, top, width, height, } = data
 
-
-    // 在这里需要根据协同的数据，先进行全局的设置，因为 createLuckysheetChart 是根据全局参数进行统计图插入
+    // 协同创建图表
     let chart_id_c = chart_id + '_c'
+
     let modelChartShowHTML =
         '<div id="${id}"class="luckysheet-modal-dialog luckysheet-modal-dialog-chart ${addclass}"tabindex="0"role="dialog"aria-labelledby=":41e"dir="ltr"><div class="luckysheet-modal-dialog-resize"><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lt"data-type="lt"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-mt"data-type="mt"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lm"data-type="lm"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-rm"data-type="rm"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-rt"data-type="rt"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-lb"data-type="lb"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-mb"data-type="mb"></div><div class="luckysheet-modal-dialog-resize-item luckysheet-modal-dialog-resize-item-rb"data-type="rb"></div></div><div class="luckysheet-modal-dialog-controll"><span class="luckysheet-modal-controll-btn luckysheet-modal-controll-update"role="button"tabindex="0"aria-label="修改图表"title="修改图表"><i class="fa fa-pencil"aria-hidden="true"></i></span><span class="luckysheet-modal-controll-btn luckysheet-modal-controll-max"role="butluckysheet_chartIns_indexton"tabindex="0"aria-label="最大化"title="最大化"><i class="fa fa-window-maximize"aria-hidden="true"></i></span><span class="luckysheet-modal-controll-btn luckysheet-modal-controll-del"role="button"tabindex="0"aria-label="删除"title="删除"><i class="fa fa-trash"aria-hidden="true"></i></span></div><div class="luckysheet-modal-dialog-content">${content}</div></div>'
 
@@ -33,40 +34,59 @@ export function insertChartTosheet(data) {
     $(`#${chart_id_c}`).children('.luckysheet-modal-dialog-content')[0].id = chart_id
 
     let container = document.getElementById(chart_id_c)
-    let { render, } = chartmix.default.createChart($(`#${chart_id_c}`).children('.luckysheet-modal-dialog-content')[0], chartData, chart_id, chartOptions.rangeArray, chartOptions.rangeTxt)
 
-    container.style.width = width + 'px'
-    container.style.height = height + 'px'
+    const currentChartOptions = JSON.parse(JSON.stringify(chartOptions))
+
+
+    chartmix.default.renderChart({ chart_id, chartOptions: currentChartOptions })
+    chartInfo.currentChart = currentChartOptions
+    chartmix.default.insertToStore({ chart_id, chartOptions: currentChartOptions })
+
+
+
+    // setChartMoveableEffect($t);
+
+
+    container.style.width = (width || 400) + 'px'
+    container.style.height = (height || 250) + 'px'
     container.style.position = 'absolute'
     container.style.background = '#fff'
-    container.style.left = left + 'px'
-    container.style.top = top + 'px'
-    render.style.width = '100%'
-    render.style.height = '100%'
+    container.style.left = (left || 0) + 'px'
+    container.style.top = (top || 0) + 'px'
+    // render.style.width = '100%'
+    // render.style.height = '100%'
     container.style.zIndex = chartInfo.zIndex ? chartInfo.zIndex : 15
     chartInfo.zIndex++
 
 
-    //处理区域高亮框参数，当前页中，只有当前的图表的needRangShow为true,其他为false
-    showNeedRangeShow(chart_id);
+    // delete current chart
+    $(`#${chart_id}_c .luckysheet-modal-controll-del`).click(function (e) {
+        delChart(chart_id)
+    })
 
-    setChartMoveableEffect($t);
     // edit current chart
     $(`#${chart_id}_c .luckysheet-modal-controll-update`).click(function (e) {
         showChartSettingComponent()
     })
 
+
+    // 点击图表高亮
     $t.children('.luckysheet-modal-dialog-content').mousedown(function (e) {
         if (!chartInfo.chartparam.luckysheetCurrentChartMaxState) {
             //当前图表显示区域高亮
-            showNeedRangeShow(chart_id);
+            chartInfo.currentChart = currentChartOptions
+            selectRangeBorderShow(chart_id);
         }
         e.stopPropagation()
     })
-    $t.mousedown(function (e) {  //move chart
 
+
+    //move chart
+    $t.mousedown(function (e) {
         if (!chartInfo.chartparam.luckysheetCurrentChartMaxState) {
             //当前图表显示区域高亮
+            chartInfo.currentChart = currentChartOptions
+
             showNeedRangeShow(chart_id);
             setluckysheet_scroll_status(true);
 
@@ -161,15 +181,21 @@ export function insertChartTosheet(data) {
 
             }
         })
-    console.log("==> ", chart_id);
-    // 重构 render
-    chartmix.default.renderChart({ chart_id, chartOptions:chartOptions.defaultOption })
+
 }
 
-export function restoreChart(json) {
-    // renderChartShow()
+export function restoreChart(data) {
+    console.log("==> update 协同", data);
+    const { chart_id, left, top } = data
+    // 更新 dom 的位置即可
+    let chart_id_c = chart_id + '_c'
+    let container = document.getElementById(chart_id_c)
+    container.style.left = left
+    container.style.top = top
+
+    // chartmix.default.renderChart({ chart_id: data.chart_id, chartOptions: JSON.parse(JSON.stringify(data.chartOptions)) })
 }
 
 export function deleteChart(chart_id) {
-    // delChart(chart_id)
+    delChart(chart_id,true)
 }

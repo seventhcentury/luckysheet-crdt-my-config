@@ -21,7 +21,7 @@ const SQL_CONFIG = {
   user: "root",
   password: "root",
   logger: true, // 开启日志
-  enable: false, // 是否启用数据库服务
+  enable: true, // 是否启用数据库服务
 };
 
 /**

@@ -958,13 +958,16 @@ const server = {
 						}
 
 						sheetmanage.saveChart(chartjson);
-						luckysheet.restoreChart(chartjson);
+						luckysheet.restoreChart(value);
 
 						return;
 					}
 				}
 			}
 			else if (op == "del") { //删除
+				// 协同删除
+				luckysheet.deleteChart(item.cid)
+
 				for (let i = 0; i < file.chart.length; i++) {
 					let chartjson = file.chart[i];
 
@@ -973,7 +976,6 @@ const server = {
 
 						$("#" + cid).remove();
 						sheetmanage.delChart($("#" + cid).attr("chart_id"), $("#" + cid).attr("sheetIndex"));
-
 						return;
 					}
 				}
