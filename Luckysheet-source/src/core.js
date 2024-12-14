@@ -39,14 +39,13 @@ import * as api from './global/api';
 import flatpickr from 'flatpickr'
 import Mandarin from 'flatpickr/dist/l10n/zh.js'
 import { initListener } from './controllers/listener';
-import { hideloading, showloading,setloadingcolor } from './global/loading.js';
+import { hideloading, showloading, setloadingcolor } from './global/loading.js';
 import { luckysheetextendData } from './global/extend.js';
+import { insertChartTosheet,restoreChart } from './controllers/chart.js'
 
 let luckysheet = {};
 
-// mount api
-// luckysheet.api = api;
-// Object.assign(luckysheet, api);
+
 
 luckysheet = common_extend(api, luckysheet);
 
@@ -265,6 +264,10 @@ luckysheet.hideLoadingProgress = hideloading;
 luckysheet.luckysheetextendData = luckysheetextendData;
 
 luckysheet.locales = locales;
+
+// 统计图
+luckysheet.insertChartTosheet = insertChartTosheet
+luckysheet.restoreChart = restoreChart
 
 export {
     luckysheet

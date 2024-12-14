@@ -6,7 +6,7 @@ import path from "path";
 import dayjs from "dayjs";
 
 /**
- * server port、ws server port 
+ * server port、ws server port
  * 共用一个端口，通过 ws 创建传入 server 实现
  */
 const SERVER_PORT = 9000;
@@ -15,11 +15,13 @@ const SERVER_PORT = 9000;
  * 数据库配置对象 - sequelize
  */
 const SQL_CONFIG = {
-  port: 3306,
+  port: 3306, // 端口号 3306 3309
   host: "127.0.0.1", // localhost or 127.0.0.1
   database: "luckysheet_crdt",
   user: "root",
   password: "root",
+  logger: true, // 开启日志
+  enable: false, // 是否启用数据库服务
 };
 
 /**

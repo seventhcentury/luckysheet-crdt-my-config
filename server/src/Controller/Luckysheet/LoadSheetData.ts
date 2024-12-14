@@ -5,6 +5,7 @@ import {
   type CellDataItemType,
   type WorkerSheetItemType,
 } from "../../Interface/luckysheet";
+import { DB } from "../../Sequelize";
 import { getURLQuery } from "../../Utils";
 import { logger } from "../../Utils/Logger";
 import { Request, Response } from "express";
@@ -25,6 +26,12 @@ import { WorkerSheetModelType } from "../../Sequelize/Models/WorkerSheet";
  */
 export async function loadSheetData(req: Request, res: Response) {
   try {
+    // 如果数据库没有连接，则直接返回空数组
+    if (!DB.getConnectState()) {
+      res.json(getEmptyData());
+      return;
+    }
+
     const result: WorkerSheetItemType[] = [];
 
     // 1. 解析用户 URL gridkey 参数 || WORKER_BOOK_INFO gridkey
@@ -93,6 +100,43 @@ function getSheetDataTemp(item: WorkerSheetModelType) {
   };
 
   return currentSheetData;
+}
+
+/**
+ * 数据库服务不可用，直接返回空模板数据
+ */
+function getEmptyData() {
+  return JSON.stringify([
+    {
+      name: "Sheet1",
+      index: "Sheet_Index_Demo",
+      status: 1,
+      order: 0,
+      celldata: [
+        {
+          r: 0,
+          c: 0,
+          v: {
+            v: "数据库服务不可用，但不影响协同功能",
+            m: "数据库服务不可用，但不影响协同功能",
+            bg: "#ff0000",
+            fc: "#ffffff",
+            fs: 12,
+            ht: 0,
+            vt: 0,
+          },
+        },
+      ],
+      config: {
+        rowlen: {
+          0: 60,
+        },
+        columnlen: {
+          0: 320,
+        },
+      },
+    },
+  ]);
 }
 
 /**

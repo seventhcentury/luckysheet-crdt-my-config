@@ -941,8 +941,8 @@ const server = {
 
 			if (op == "add") { //插入
 				file.chart.push(value);
-
-				luckysheet.insertChartTosheet(value.sheetIndex, value.dataSheetIndex, value.option, value.chartType, value.selfOption, value.defaultOption, value.row, value.column, value.chart_selection_color, value.chart_id, value.chart_selection_id, value.chartStyle, value.rangeConfigCheck, value.rangeRowCheck, value.rangeColCheck, value.chartMarkConfig, value.chartTitleConfig, value.winWidth, value.winHeight, value.scrollLeft1, value.scrollTop1, value.chartTheme, value.myWidth, value.myHeight, value.myLeft, value.myTop, value.myindexrank1, true);
+				// luckysheet.insertChartTosheet(value.sheetIndex, value.dataSheetIndex, value.option, value.chartType, value.selfOption, value.defaultOption, value.row, value.column, value.chart_selection_color, value.chart_id, value.chart_selection_id, value.chartStyle, value.rangeConfigCheck, value.rangeRowCheck, value.rangeColCheck, value.chartMarkConfig, value.chartTitleConfig, value.winWidth, value.winHeight, value.scrollLeft1, value.scrollTop1, value.chartTheme, value.myWidth, value.myHeight, value.myLeft, value.myTop, value.myindexrank1, true);
+				luckysheet.insertChartTosheet(value)
 			}
 			else if (op == "xy" || op == "wh" || op == "update") { //移动 缩放 更新
 				for (let i = 0; i < file.chart.length; i++) {
@@ -958,6 +958,7 @@ const server = {
 						}
 
 						sheetmanage.saveChart(chartjson);
+						luckysheet.restoreChart(chartjson);
 
 						return;
 					}

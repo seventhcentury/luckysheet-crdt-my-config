@@ -58,6 +58,7 @@ export function databaseHandler(data: string) {
   if (t === "shd") shd(data);
   if (t === "shre") shre(data);
   if (t === "shr") shr(data);
+  if (t === "c") c(data);
   //   if (t === "shs") shs(data); // 切换到指定 sheet 是前台操作，可不存储数据库
   if (t === "sh") sh(data);
   if (t === "na") na(data);
@@ -450,6 +451,11 @@ async function shre(data: string) {
 // 调整sheet位置
 async function shr(data: string) {
   console.log("==> shr", data);
+}
+
+// 图表操作
+async function c(data: string) {
+  console.log("==> c", data);
 }
 
 // sheet属性(隐藏或显示)

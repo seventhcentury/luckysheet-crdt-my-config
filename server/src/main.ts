@@ -2,7 +2,7 @@ import express from "express";
 import routes from "./Router";
 import { DB } from "./Sequelize/index"; // 导入 DB
 import { logger } from "./Utils/Logger";
-import { initStaticSource } from "./Meddlewear";
+import { initCors, initStaticSource } from "./Meddlewear";
 import { WorkerBookService } from "./Service/WorkerBook";
 import { SERVER_PORT, WORKER_BOOK_INFO } from "./Config";
 import { createWebSocketServer } from "./WebSocket/index"; // 导入 ws
@@ -17,9 +17,14 @@ import { createWebSocketServer } from "./WebSocket/index"; // 导入 ws
 
   /** 托管静态资源 */
   initStaticSource(app);
+  initCors(app);
 
   /** 连接数据库 DB 请注意需要 await 不然后续的操作可能会收到影响 */
-  await DB.connect();
+  try {
+    await DB.connect();
+  } catch (error) {
+    logger.error(error);
+  }
 
   /** 初始化路由 */
   app.use(routes);
@@ -39,7 +44,11 @@ import { createWebSocketServer } from "./WebSocket/index"; // 导入 ws
    *  service 中已经做了兼容处理，不会重复添加 workerbook
    *  **下列代码仅作演示使用**
    */
-  await WorkerBookService.create(WORKER_BOOK_INFO);
+  // try {
+  //   await WorkerBookService.create(WORKER_BOOK_INFO);
+  // } catch (error) {
+  //   logger.error(error);
+  // }
 
   /** 启动测试用例 */
   // WorkerBookService.create({ gridKey: "11111", title: "测试修改888" });

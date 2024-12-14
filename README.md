@@ -178,7 +178,7 @@ export const WS_SERVER_URL = "ws://127.0.0.1:9000";
 1. 源码UI重构，请查阅 [Luckysheet-source-recover-style](/Luckysheet-source/src/css/recover.css)
 2. UI效果：
 <p align="center">
-  <img src='/public/UI/example.gif' />
+  <img src='/public/example.gif' />
 </p>
 
 

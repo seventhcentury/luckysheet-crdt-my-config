@@ -27,13 +27,16 @@ class DataBase {
    * 初始化数据库
    */
   public async connect() {
-    const { host, database, user, password } = SQL_CONFIG;
+    const { host, database, user, password, enable } = SQL_CONFIG;
+
+    // 禁用数据库
+    if (!enable) return;
 
     // 创建连接
     this._sequelize = new Sequelize(database, user, password, {
       host,
       dialect: "mysql",
-      logging: (sql: string) => logger.debug(sql),
+      logging: SQL_CONFIG.logger ? (sql: string) => logger.debug(sql) : false,
       logQueryParameters: true,
     });
 

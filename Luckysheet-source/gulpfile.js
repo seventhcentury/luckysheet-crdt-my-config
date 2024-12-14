@@ -77,13 +77,13 @@ const paths = {
     staticCssImages: ['src/css/**', '!src/css/*.css'],
 
     // static resources dest
-    destStaticHtml: ['../public'],
-    destStaticFonts: ['../public/fonts'],
-    destStaticAssets: ['../public/assets'],
-    destStaticImages: ['../public/plugins/images'],
-    destStaticExpendPlugins: ['../public/expendPlugins'],
-    destStaticDemoData: ['../public/demoData'],
-    destStaticCssImages: ['../public/css'],
+    destStaticHtml: ['../public/lib'],
+    destStaticFonts: ['../public/lib/fonts'],
+    destStaticAssets: ['../public/lib/assets'],
+    destStaticImages: ['../public/lib/plugins/images'],
+    destStaticExpendPlugins: ['../public/lib/expendPlugins'],
+    destStaticDemoData: ['../public/lib/demoData'],
+    destStaticCssImages: ['../public/lib/css'],
 
     //core es module
     core: ['src/**/*.js', '!src/demoData/*.js', 'src/expendPlugins/**/plugin.js', '!src/plugins/js/*.js'],
@@ -115,13 +115,13 @@ const paths = {
     concatPluginsJs: 'plugin.js',
 
     //plugins dest
-    destPluginsCss: ['../public/plugins/css'],
-    destPlugins: ['../public/plugins'],
-    destCss: ['../public/css'],
-    destPluginsJs: ['../public/plugins/js'],
+    destPluginsCss: ['../public/lib/plugins/css'],
+    destPlugins: ['../public/lib/plugins'],
+    destCss: ['../public/lib/css'],
+    destPluginsJs: ['../public/lib/plugins/js'],
 
     // Package directory
-    dist: '../public',
+    dist: '../public/lib',
 };
 
 // Clear the dist directory
@@ -195,7 +195,7 @@ async function core_rollup() {
     });
 
     bundle.write({
-        file: '../public//luckysheet.umd.js',
+        file: '../public/lib/luckysheet.umd.js',
         format: 'umd',
         name: 'luckysheet',
         sourcemap: true,
@@ -205,7 +205,7 @@ async function core_rollup() {
 
     if (production) {
         bundle.write({
-            file: '../public//luckysheet.esm.js',
+            file: '../public/lib/luckysheet.esm.js',
             format: 'esm',
             name: 'luckysheet',
             sourcemap: true,
@@ -227,7 +227,7 @@ async function core() {
         banner: { js: banner },
         target: ['es2015'],
         sourcemap: true,
-        outfile: '../public/luckysheet.umd.js',
+        outfile: '../public/lib/luckysheet.umd.js',
     })
 }
 
