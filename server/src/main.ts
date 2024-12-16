@@ -44,11 +44,11 @@ import { createWebSocketServer } from "./WebSocket/index"; // 导入 ws
    *  service 中已经做了兼容处理，不会重复添加 workerbook
    *  **下列代码仅作演示使用**
    */
-  // try {
-  //   await WorkerBookService.create(WORKER_BOOK_INFO);
-  // } catch (error) {
-  //   logger.error(error);
-  // }
+  try {
+    if (DB.getConnectState()) await WorkerBookService.create(WORKER_BOOK_INFO);
+  } catch (error) {
+    logger.error(error);
+  }
 
   /** 启动测试用例 */
   // WorkerBookService.create({ gridKey: "11111", title: "测试修改888" });
