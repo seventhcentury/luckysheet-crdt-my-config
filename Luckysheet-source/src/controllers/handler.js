@@ -3508,7 +3508,7 @@ export default function luckysheetHandler() {
 
                 // luckysheet.sheetmanage.saveChart({ "chart_id": chart_id, "sheetIndex": sheetIndex, "top": myTop, "left": myLeft });
                 //存储滚动条位置//协同编辑时可能影响用户操作，可以考虑不存储滚动条位置,或者滚动条信息仅仅保存到后台，但是不分发到其他设备（google sheet没有存储滚动条位置）
-                server.saveParam("c", Store.currentSheetIndex, {"chart_id":chart_id, "left": myLeft, "top": myTop, "scrollTop": scrollTop, "scrollLeft": scrollLeft }, { "op": "xy", "cid": chart_id });
+                server.saveParam("c", Store.currentSheetIndex, { "chart_id": chart_id, "left": myLeft, "top": myTop, "scrollTop": scrollTop, "scrollLeft": scrollLeft }, { "op": "xy", "cid": chart_id });
                 console.log("==> 图表协同:图表拖动",);
             }
         }
@@ -3536,7 +3536,7 @@ export default function luckysheetHandler() {
                 //加上滚动条的位置
                 // luckysheet.sheetmanage.saveChart({ "chart_id": chart_id, "sheetIndex": sheetIndex, "height": myHeight, "width": myWidth, "top": myTop, "left": myLeft, "scrollTop": scrollTop, "scrollLeft": scrollLeft });
 
-                server.saveParam("c", sheetIndex, { "width": myWidth, "height": myHeight, "top": myTop, "left": myLeft, "scrollTop": scrollTop, "scrollLeft": scrollLeft }, { "op": "wh", "cid": chart_id });
+                server.saveParam("c", Store.currentSheetIndex, { "chart_id": chart_id, "width": myWidth, "height": myHeight, "top": myTop, "left": myLeft, "scrollTop": scrollTop, "scrollLeft": scrollLeft }, { "op": "wh", "cid": chart_id });
                 console.log("==> 图表协同: 图表改变大小",);
             }
         }

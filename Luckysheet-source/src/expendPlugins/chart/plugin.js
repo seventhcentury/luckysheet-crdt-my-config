@@ -22,15 +22,17 @@ let _colLocation = colLocation
 
 // Dynamically load dependent scripts and styles
 const dependScripts = [
+    // 'https://cdn.jsdelivr.net/npm/vue@2.6.11',
     'expendPlugins/libs/vue@2.6.11.min.js',
     'expendPlugins/libs/vuex.min.js',
     'expendPlugins/libs/elementui.min.js',
     'expendPlugins/libs/echarts.min.js',
     'expendPlugins/chart/chartmix.umd.min.js',
-    // 'https://cdn.jsdelivr.net/npm/vue@2.6.11',
     // 'https://unpkg.com/vuex@3.4.0',
     // 'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/index.js',
     // 'https://cdn.bootcdn.net/ajax/libs/echarts/4.8.0/echarts.min.js',
+    // 'expendPlugins/chart/chartmix.umd.min.js',
+
     // 'http://26.26.26.1:8000/chartmix.umd.js'
 ]
 
@@ -141,7 +143,6 @@ function renderCharts(chartLists, isDemo) {
         $(`#${chart_id_c}`).children('.luckysheet-modal-dialog-content')[0].id = chart_id
 
         let container = document.getElementById(chart_id_c)
-
 
         let chart_json
         chart_json = chartInfo.chartparam.getChartJson(chart.chart_id)
@@ -1065,7 +1066,7 @@ function chart_selection() {
 }
 
 // create chart
-function createLuckyChart(width, height, left, top, flag) {
+function createLuckyChart(width, height, left, top,) {
     //如果只选中一个单元格，则自动填充选取
     var jfgird_select_save = luckysheet.getluckysheet_select_save();
     if (
@@ -1160,7 +1161,7 @@ function createLuckyChart(width, height, left, top, flag) {
 
     var rangeTxt = getRangetxt(chartInfo.currentSheetIndex, rangeArray[0], chartInfo.currentSheetIndex)
 
-
+    console.log("==>rangeArray ", rangeArray);
     let chartData = getdatabyselection()
     console.dir(chartData)
 
@@ -1215,14 +1216,6 @@ function createLuckyChart(width, height, left, top, flag) {
         top,
         sheetIndex: sheetFile.index
     })
-
-    // 发送协同数据
-
-    const v = { chart_id, width, height, left, top, sheetIndex: sheetFile.index, needRangeShow: false, chartOptions: chart_json.chartOptions, chartData }
-    console.log("==> 图表协同 :新建图表", v);
-    server.saveParam('c', sheetFile.index, v, { "op": "add", "cid": chart_id })
-
-
 
     //处理区域高亮框参数，当前页中，只有当前的图表的needRangShow为true,其他为false
     showNeedRangeShow(chart_id);
@@ -1344,6 +1337,11 @@ function createLuckyChart(width, height, left, top, flag) {
 
             }
         })
+
+    // 创建统计图之后，发送协同数据
+    const v = { chart_id, width, height, left, top, sheetIndex: sheetFile.index, needRangeShow: false, chartOptions: chart_json.chartOptions, chartData }
+    console.log("==> 图表协同 :新建图表", v);
+    server.saveParam('c', sheetFile.index, v, { "op": "add", "cid": chart_id })
 }
 
 /**
@@ -1365,7 +1363,7 @@ function setChartMoveableEffect($container) {
 }
 
 // delete chart
-function delChart(chart_id, flag) {
+function delChart(chart_id,) {
     // delete container
     $(`.luckysheet-cell-main #${chart_id}_c`).remove()
 
@@ -1379,10 +1377,8 @@ function delChart(chart_id, flag) {
     // api call
     chartInfo.deleteChart(chart_id)
 
-    console.group("发送协同消息");
-    console.log("删除图表 ID", chart_id);
-    console.groupEnd();
-    if (!flag) server.saveParam('c', sheetFile.index, { "cid": chart_id }, { "op": "del", "cid": chart_id })
+    console.log("==> 图表协同 :删除图表", chart_id);
+    server.saveParam('c', sheetFile.index, { "cid": chart_id }, { "op": "del", "cid": chart_id })
 
 }
 
@@ -1510,6 +1506,8 @@ function hideChartSettingComponent(refresh) {
         }
 
     }
+
+    console.log("==> hideChartSettingComponent",);
 }
 
 // 隐藏其他sheet的图表，显示当前sheet的图表 chartMix 切换sheet页显示隐藏图表

@@ -21,6 +21,7 @@ import json from '../global/json';
 import luckysheetConfigsetting from './luckysheetConfigsetting';
 import { customImageUpdate } from './imageUpdateCtrl';
 import method from '../global/method';
+import { chartController } from './chart';
 
 const server = {
 	gridKey: null,
@@ -941,10 +942,14 @@ const server = {
 
 			if (op == "add") { //插入
 				file.chart.push(value);
+				// 注释下行代码，luckysheet 上不存在 insertChartTosheet 方法
 				// luckysheet.insertChartTosheet(value.sheetIndex, value.dataSheetIndex, value.option, value.chartType, value.selfOption, value.defaultOption, value.row, value.column, value.chart_selection_color, value.chart_id, value.chart_selection_id, value.chartStyle, value.rangeConfigCheck, value.rangeRowCheck, value.rangeColCheck, value.chartMarkConfig, value.chartTitleConfig, value.winWidth, value.winHeight, value.scrollLeft1, value.scrollTop1, value.chartTheme, value.myWidth, value.myHeight, value.myLeft, value.myTop, value.myindexrank1, true);
-				luckysheet.insertChartTosheet(value)
+				// 协同创建图表
+				chartController.renderChart(value)
 			}
 			else if (op == "xy" || op == "wh" || op == "update") { //移动 缩放 更新
+				// 协同更新图表
+				chartController.updateChart(value)
 				for (let i = 0; i < file.chart.length; i++) {
 					let chartjson = file.chart[i];
 
@@ -958,16 +963,13 @@ const server = {
 						}
 
 						sheetmanage.saveChart(chartjson);
-						luckysheet.restoreChart(value);
-
 						return;
 					}
 				}
 			}
 			else if (op == "del") { //删除
-				// 协同删除
-				luckysheet.deleteChart(item.cid)
-
+				// 协同删除图表
+				chartController.deleteChart(cid)
 				for (let i = 0; i < file.chart.length; i++) {
 					let chartjson = file.chart[i];
 

@@ -1266,8 +1266,8 @@ window.sheetChart = {
 		"chart_id": "chart_p145W6i73otw_1596209943446",
 		"width": 400,
 		"height": 250,
-		"left": 20,
-		"top": 120,
+		"left": 0,
+		"top": 0,
 		"sheetIndex": "Sheet_6az6nei65t1i_1596209937084",
 		"needRangeShow": true,
 		"chartOptions": {
