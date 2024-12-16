@@ -13,6 +13,7 @@ import { BorderInfoModel } from "./Models/BorderInfo";
 import { WorkerBookModel } from "./Models/WorkerBook";
 import { WorkerSheetModel } from "./Models/WorkerSheet";
 import { HiddenAndLenModel } from "./Models/HiddenAndLen";
+import { ChartModel } from "./Models/Chart";
 
 class DataBase {
   private _connected: boolean = false; // 连接状态
@@ -90,6 +91,7 @@ class DataBase {
     BorderInfoModel.registerModule(this._sequelize);
     HiddenAndLenModel.registerModule(this._sequelize);
     ImageModel.registerModule(this._sequelize);
+    ChartModel.registerModule(this._sequelize);
   }
 }
 

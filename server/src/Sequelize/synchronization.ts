@@ -12,6 +12,7 @@ import { WorkerBookModel } from "./Models/WorkerBook";
 import { BorderInfoModel } from "./Models/BorderInfo";
 import { WorkerSheetModel } from "./Models/WorkerSheet";
 import { HiddenAndLenModel } from "./Models/HiddenAndLen";
+import { ChartModel } from "./Models/Chart";
 
 (async () => {
   const { host, database, user, password } = SQL_CONFIG;
@@ -32,6 +33,7 @@ import { HiddenAndLenModel } from "./Models/HiddenAndLen";
     BorderInfoModel.registerModule(sequelize);
     HiddenAndLenModel.registerModule(sequelize);
     ImageModel.registerModule(sequelize);
+    ChartModel.registerModule(sequelize);
 
     // 2. 同步模型 (非强制同步)
     await sequelize.sync({ alter: true });

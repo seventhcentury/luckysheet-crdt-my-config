@@ -30,7 +30,7 @@ type WorkerSheetItemType = {
     borderInfo: BorderInfoType[]; //边框
     // authority: AuthorityType; //工作表保护
   };
-  chart: []; //图表配置
+  chart: ChartType[]; //图表配置
   images: ImagesType[]; //图片
 
   /**
@@ -194,6 +194,18 @@ type ImagesType = {
   };
 };
 
+// 统计图表类型
+type ChartType = {
+  chart_id: string;
+  width: string | number;
+  height: string | number;
+  left: string | number;
+  top: string | number;
+  sheetIndex: string;
+  needRangeShow: boolean;
+  chartOptions: object;
+};
+
 export {
   type WorkerBookType,
   type WorkerSheetItemType,
@@ -206,4 +218,5 @@ export {
   type BorderInfoType,
   type ImagesType,
   type BASE_CELL_DATA_TYPE,
+  type ChartType,
 };

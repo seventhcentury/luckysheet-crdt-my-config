@@ -4,6 +4,7 @@ import {
   type BorderInfoType,
   type CellDataItemType,
   type WorkerSheetItemType,
+  ChartType,
 } from "../../Interface/luckysheet";
 import { DB } from "../../Sequelize";
 import { getURLQuery } from "../../Utils";
@@ -18,6 +19,7 @@ import { WorkerSheetService } from "../../Service/WorkerSheet";
 import { HiddenAndLenService } from "../../Service/HiddenAndLen";
 import { CellDataModelType } from "../../Sequelize/Models/CellData";
 import { WorkerSheetModelType } from "../../Sequelize/Models/WorkerSheet";
+import { ChartService } from "../../Service/Chart";
 
 /**
  * loadSheetData loadUrl 加载数据
@@ -62,6 +64,7 @@ export async function loadSheetData(req: Request, res: Response) {
       await parseHiddenAndLen(worker_sheet_id, currentSheetData);
 
       // 7. 查询 chart 数据
+      await parseCharts(worker_sheet_id, currentSheetData);
 
       // 8. 查询 image 数据
       await parseImages(worker_sheet_id, currentSheetData);
@@ -335,6 +338,41 @@ async function parseImages(
     });
     currentSheetData.images = result;
 
+    return Promise.resolve();
+  } catch (error) {
+    logger.error(error);
+  }
+}
+
+/**
+ * parseCharts 解析图表数据
+ * @param worker_sheet_id
+ * @param data
+ */
+
+async function parseCharts(
+  worker_sheet_id: string,
+  currentSheetData: WorkerSheetItemType
+) {
+  try {
+    const result: ChartType[] = [];
+    const charts = await ChartService.findAllChart(worker_sheet_id);
+    charts?.forEach((chart) => {
+      const data = chart.dataValues;
+      result.push({
+        chart_id: data.chart_id,
+        width: data.width,
+        height: data.height,
+        left: data.left,
+        top: data.top,
+        sheetIndex: data.worker_sheet_id,
+        needRangeShow: Boolean(data.needRangeShow),
+        chartOptions: JSON.parse(data.chartOptions),
+      });
+    });
+
+    currentSheetData.chart = result;
+    console.log("==> ", result);
     return Promise.resolve();
   } catch (error) {
     logger.error(error);

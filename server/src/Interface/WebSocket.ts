@@ -25,7 +25,18 @@ type CRDTDataType<T> = {
   };
 
   // cg
-  k?: string;
+  k?:
+    | "config"
+    | "images"
+    | "name"
+    | "rowhidden"
+    | "colhidden"
+    | "rowlen"
+    | "columnlen"
+    | "borderInfo";
+
+  // Chart
+  op?: "add" | "xy" | "wh" | "update" | "del";
 };
 
 // 1. v
@@ -51,4 +62,28 @@ type CG = {
   ];
 }[];
 
-export { CustomWebSocket, type CRDTDataType, type V, type RV, type CG };
+type MERGE = {
+  merge: {
+    [key: string]: { r: number; c: number; rs: number; cs: number };
+  };
+};
+
+type CHART = {
+  chart_id: string;
+  width: number | string;
+  height: number | string;
+  left: number | string;
+  top: number | string;
+  needRangeShow: boolean;
+  chartOptions: string;
+};
+
+export {
+  CustomWebSocket,
+  type CRDTDataType,
+  type V,
+  type RV,
+  type CG,
+  type MERGE,
+  type CHART,
+};

@@ -48,7 +48,9 @@ function chart(data, isDemo) {
 
     seriesLoadScripts(dependScripts, null, function () {
         const store = new Vuex.Store()
-        console.info('chartmix::', chartmix.default)
+        console.group("chartmix 加载完成");
+        console.info(chartmix.default);
+        console.groupEnd();
 
         Vue.use(chartmix.default, { store })
         let outDom = document.getElementsByTagName('body')[0]
@@ -1378,7 +1380,7 @@ function delChart(chart_id,) {
     chartInfo.deleteChart(chart_id)
 
     console.log("==> 图表协同 :删除图表", chart_id);
-    server.saveParam('c', sheetFile.index, { "cid": chart_id }, { "op": "del", "cid": chart_id })
+    server.saveParam('c', sheetFile.index, { "chart_id": chart_id }, { "op": "del", "cid": chart_id })
 
 }
 
