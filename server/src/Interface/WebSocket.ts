@@ -78,6 +78,15 @@ type CHART = {
   chartOptions: string;
 };
 
+type SHA = {
+  name: string;
+  status: string;
+  order: number;
+  index: string;
+  row: number;
+  column: number;
+};
+
 export {
   CustomWebSocket,
   type CRDTDataType,
@@ -86,4 +95,5 @@ export {
   type CG,
   type MERGE,
   type CHART,
+  type SHA,
 };

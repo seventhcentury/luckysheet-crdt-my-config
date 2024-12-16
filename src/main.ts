@@ -11,6 +11,9 @@ function initLuckysheet() {
   const luckysheet = Reflect.get(window, "luckysheet");
   const id = Math.random().toString(16).slice(2, 8);
   const username = `user_${id}`;
+
+  const gridkey = "gridkey_demo";
+
   /**
    * 请注意，目前前台仅为展示，并无其他能力，因此加载的是默认协同演示 worker books 数据，gridkey = gridkey_demo
    * 常理来说，当前工作簿的数据，都应该通过 fileid （gridkey） 请求得来
@@ -20,8 +23,8 @@ function initLuckysheet() {
     container: "luckysheetContainer",
     showinfobar: false, // 隐藏顶部的信息栏
     allowUpdate: true, // 配置协同功能
-    loadUrl: "/api/loadSheetData?gridkey=gridkey_demo",
-    updateUrl: `${WS_SERVER_URL}?type=luckysheet&userid=${id}&username=${username}&gridkey=gridkey`, // 协同服务转发服务
+    loadUrl: `/api/loadSheetData?gridkey=${gridkey}`,
+    updateUrl: `${WS_SERVER_URL}?type=luckysheet&userid=${id}&username=${username}&gridkey=${gridkey}`, // 协同服务转发服务
 
     plugins: ["chart"],
 
