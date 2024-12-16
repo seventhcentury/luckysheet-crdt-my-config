@@ -36,15 +36,24 @@ import { HiddenAndLenService } from "../Service/HiddenAndLen";
 import { CellDataModelType } from "../Sequelize/Models/CellData";
 import { BorderInfoModelType } from "../Sequelize/Models/BorderInfo";
 import { HiddenAndLenModelType } from "../Sequelize/Models/HiddenAndLen";
-import { CG, CHART, CRDTDataType, MERGE, RV, V } from "../Interface/WebSocket";
+import {
+  CG,
+  CHART,
+  CRDTDataType,
+  MERGE,
+  RV,
+  SHA,
+  V,
+} from "../Interface/WebSocket";
 import { ChartService } from "../Service/Chart";
 import { WorkerSheetService } from "../Service/WorkerSheet";
+import { WorkerSheetModelType } from "../Sequelize/Models/WorkerSheet";
 
 /**
  * 协同消息映射的操作
  * @param data
  */
-export function databaseHandler(data: string) {
+export function databaseHandler(data: string, gridKey: string) {
   const { t } = JSON.parse(data);
   if (t === "v") v(data);
   if (t === "rv") rv(data);
@@ -55,7 +64,7 @@ export function databaseHandler(data: string) {
   if (t === "arc") arc(data);
   if (t === "fsc") fsc(data);
   if (t === "fsr") fsr(data);
-  if (t === "sha") sha(data);
+  if (t === "sha") sha(data, gridKey);
   if (t === "shc") shc(data);
   if (t === "shd") shd(data);
   if (t === "shre") shre(data);
@@ -421,8 +430,24 @@ async function fsr(data: string) {
 }
 
 // 新建sheet
-async function sha(data: string) {
-  console.log("==> sha", data);
+// {"t":"sha","i":null,"v":{"name":"Sheet2","color":"","status":"0","order":1,"index":"Sheet_Liiwhe570zW3_1734350438656","celldata":[],"row":84,"column":60,"config":{},"pivotTable":null,"isPivotTable":false}}
+async function sha(data: string, gridKey: string) {
+  logger.info("[CRDT DATA]:", data);
+  const { t, v } = <CRDTDataType<SHA>>JSON.parse(data);
+  if (t !== "sha") return logger.error("t is not sha.");
+  // 新建sheet 是没有i 的哈，别的操作关联 sheet 才有i
+  // 此时！这个sheet应该关联的 workerBookID 从当前协同的用户身上获取哦~因为 clientInfo 始终保留着 gridkey userid username 属性
+  // 新建 sheet
+  const new_sheet: WorkerSheetModelType = {
+    worker_sheet_id: v.index,
+    name: v.name,
+    gridKey,
+    order: v.order,
+    status: Number(v.status),
+    row: v.row,
+    column: v.column,
+  };
+  await WorkerSheetService.createSheet(new_sheet);
 }
 
 // 复制sheet

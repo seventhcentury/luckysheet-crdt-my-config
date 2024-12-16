@@ -10,7 +10,6 @@ import { DB } from "../../Sequelize";
 import { getURLQuery } from "../../Utils";
 import { logger } from "../../Utils/Logger";
 import { Request, Response } from "express";
-import { WORKER_BOOK_INFO } from "../../Config";
 import { ImageService } from "../../Service/Image";
 import { MergeService } from "../../Service/Merge";
 import { CellDataService } from "../../Service/CellData";
@@ -37,7 +36,12 @@ export async function loadSheetData(req: Request, res: Response) {
     const result: WorkerSheetItemType[] = [];
 
     // 1. 解析用户 URL gridkey 参数 || WORKER_BOOK_INFO gridkey
-    const gridKey = getURLQuery(req.url, "gridkey") || WORKER_BOOK_INFO.gridKey;
+    const gridKey = getURLQuery(req.url, "gridkey");
+
+    if (!gridKey) {
+      res.json({ code: 400, msg: "gridKey 参数缺失" });
+      return;
+    }
 
     // 2. 根据 gridKey 查询相关数据，拼接生成 luckysheet 初始数据，进行 luckysheet 初始化
     const sheets = await WorkerSheetService.findAllByGridKey(gridKey);

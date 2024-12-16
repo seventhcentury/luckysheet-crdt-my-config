@@ -1,5 +1,8 @@
 import { logger } from "../Utils/Logger";
-import { WorkerSheetModel } from "../Sequelize/Models/WorkerSheet";
+import {
+  WorkerSheetModel,
+  WorkerSheetModelType,
+} from "../Sequelize/Models/WorkerSheet";
 
 /**
  * @description: 工作表服务
@@ -39,4 +42,20 @@ async function findAllByGridKey(gridKey: string) {
   }
 }
 
-export const WorkerSheetService = { findAll, findAllByGridKey, updateName };
+/**
+ * 新建 sheet
+ */
+async function createSheet(data: WorkerSheetModelType) {
+  try {
+    return await WorkerSheetModel.create(data);
+  } catch (error) {
+    logger.error(error);
+  }
+}
+
+export const WorkerSheetService = {
+  findAll,
+  findAllByGridKey,
+  updateName,
+  createSheet,
+};
