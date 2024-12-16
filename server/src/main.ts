@@ -38,7 +38,6 @@ import { createWebSocketServer } from "./WebSocket/index"; // 导入 ws
 
   /**
    * ⛔️ 注意：
-   *  emoji： https://emoji6.com/emojiall/
    *  目前前台没有按钮创建工作簿，因此，需要提供一个默认的文件初始化， 也就是需要初始化一个 workerbooks 记录
    *  如果前台能通过 router 调用 WorkerBooksService.create 时，会直接返回一个默认文件，则应该注释下列代码
    *  service 中已经做了兼容处理，不会重复添加 workerbook

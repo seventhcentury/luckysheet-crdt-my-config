@@ -356,6 +356,7 @@ const server = {
 
 			//通信发生错误时触发
 			_this.websocket.onerror = function () {
+				this.websocket = null
 				_this.wxErrorCount++;
 
 				if (_this.wxErrorCount > 3) {
@@ -363,6 +364,8 @@ const server = {
 				}
 				else {
 					showloading(locale().websocket.wait);
+					// 判断当前的链接状态
+					if (this.websocket) return
 					_this.openWebSocket();
 				}
 			}

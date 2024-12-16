@@ -151,6 +151,64 @@ const wss = new WebSocketServer({ server });
  };
 ``` -->
 
+
+## 协同功能计划表
+**已实现功能 ✅️，未实现功能 ❌️**
+- 单元格操作
+  - ✅️ 单个单元格操作
+  - ✅️ 范围单元格操作
+
+- config操作
+  - ✅️ 行隐藏
+  - ✅️ 列隐藏
+  - ✅️ 修改行高
+  - ✅️ 修改列宽
+
+- 通用保存
+  - ❌️ 冻结行列
+  - ❌️ 修改工作表名称
+  - ❌️ 修改工作表颜色
+  - ✅️ 合并单元格
+  - ❌️ 筛选范围
+  - ❌️ 筛选的具体设置
+  - ❌️ 交替颜色
+  - ❌️ 条件格式
+  - ❌️ 数据透视表
+  - ❌️ 动态数组
+
+- 函数链操作
+  - ❌️ 函数链操作
+
+- 行列操作
+  - ❌️ 删除行或列
+  - ❌️ 增加行或列
+
+- 筛选操作
+  - ❌️ 清除筛选
+  - ❌️ 恢复筛选
+
+- sheet操作
+  - ❌️ 新建sheet
+  - ❌️ 复制sheet
+  - ❌️ 删除sheet
+  - ❌️ 删除sheet后恢复操作
+  - ❌️ 调整sheet位置
+  - ❌️ 切换到指定sheet
+
+
+- sheet属性(隐藏或显示)
+  - ❌️ 隐藏或显示
+
+- 表格信息更改
+  - ❌️ 修改工作簿名称
+
+- 图表
+  - ✅️ 新增图表
+  - ✅️ 移动图表位置
+  - ✅️ 缩放图表
+  - ❌️ 修改图表配置
+
+
 ## 服务端口说明
 1. 前台服务端口：`5000`
 2. 后台服务端口：`9000`
@@ -257,6 +315,8 @@ XxxModel.sync({ alter: true }); // 这将检查数据库中表的当前状态(�
 [HiddenAndLenModel](/server/src/Sequelize/Models/HiddenAndLen.ts)
 
 [imageModel](/server/src/Sequelize/Models/Image.ts)
+
+[chartModel](/server/src/Sequelize/Models/Chart.ts)
 
 
 
