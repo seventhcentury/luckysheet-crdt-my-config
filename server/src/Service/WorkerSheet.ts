@@ -1,25 +1,42 @@
+import { logger } from "../Utils/Logger";
 import { WorkerSheetModel } from "../Sequelize/Models/WorkerSheet";
 
 /**
  * @description: 工作表服务
  */
-function findAll() {
+async function findAll() {
   try {
-    return WorkerSheetModel.findAll();
+    return await WorkerSheetModel.findAll();
   } catch (error) {
-    console.error(error);
+    logger.error(error);
+  }
+}
+
+/**
+ * 更新相关配置
+ */
+async function updateName(worker_sheet_id: string, name: string) {
+  try {
+    return await WorkerSheetModel.update(
+      { name },
+      {
+        where: { worker_sheet_id },
+      }
+    );
+  } catch (error) {
+    logger.error(error);
   }
 }
 
 /**
  * 通过 gridkey 查找记录
  */
-function findAllByGridKey(gridKey: string) {
+async function findAllByGridKey(gridKey: string) {
   try {
-    return WorkerSheetModel.findAll({ where: { gridKey } });
+    return await WorkerSheetModel.findAll({ where: { gridKey } });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }
 
-export const WorkerSheetService = { findAll, findAllByGridKey };
+export const WorkerSheetService = { findAll, findAllByGridKey, updateName };

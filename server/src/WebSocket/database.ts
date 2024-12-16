@@ -38,6 +38,7 @@ import { BorderInfoModelType } from "../Sequelize/Models/BorderInfo";
 import { HiddenAndLenModelType } from "../Sequelize/Models/HiddenAndLen";
 import { CG, CHART, CRDTDataType, MERGE, RV, V } from "../Interface/WebSocket";
 import { ChartService } from "../Service/Chart";
+import { WorkerSheetService } from "../Service/WorkerSheet";
 
 /**
  * 协同消息映射的操作
@@ -331,8 +332,9 @@ async function all(data: string) {
   if (isEmpty(i)) return logger.error("i is undefined.");
 
   // 修改工作表名
+  //  {"t":"all","i":"12f8254d-3914-4f79-9886-9f9aec173048","v":"123","k":"name"}
   if (k === "name") {
-    // await WorkerBookService.update(i, v);
+    await WorkerSheetService.updateName(i, <string>(<unknown>v));
   } else if (k === "config") {
     // 合并单元格 - 又是一个先删除后新增的操作，由luckysheet 前台设计决定的
     // {"t":"all","i":"e73f971....","v":{"merge":{"1_0":{"r":1,"c":0,"rs":3,"cs":3}},},"k":"config"}
