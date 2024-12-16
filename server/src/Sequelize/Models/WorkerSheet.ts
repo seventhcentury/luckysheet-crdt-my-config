@@ -9,8 +9,8 @@ export class WorkerSheetModel extends Model {
   declare worker_sheet_id?: string; /** 有默认值，非必传 */
   declare gridKey: string;
   declare name: string;
-  declare order: number;
-  declare status: number;
+  declare order?: number;
+  declare status?: number;
   declare hide?: boolean;
   declare row?: number;
   declare column?: number;
@@ -45,11 +45,13 @@ export class WorkerSheetModel extends Model {
           type: DataTypes.INTEGER,
           allowNull: false,
           comment: "工作表下标序号",
+          defaultValue: 0,
         },
         status: {
           type: DataTypes.INTEGER,
           allowNull: false,
           comment: "工作表激活状态，仅有一个激活状态的工作表，其他工作表为 0",
+          defaultValue: 0,
         },
         hide: {
           type: DataTypes.BOOLEAN,

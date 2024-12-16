@@ -18,14 +18,11 @@ async function findAll() {
 /**
  * 更新相关配置
  */
-async function updateName(worker_sheet_id: string, name: string) {
+async function update(data: WorkerSheetModelType) {
   try {
-    return await WorkerSheetModel.update(
-      { name },
-      {
-        where: { worker_sheet_id },
-      }
-    );
+    return await WorkerSheetModel.update(data, {
+      where: { worker_sheet_id: data.worker_sheet_id },
+    });
   } catch (error) {
     logger.error(error);
   }
@@ -56,6 +53,6 @@ async function createSheet(data: WorkerSheetModelType) {
 export const WorkerSheetService = {
   findAll,
   findAllByGridKey,
-  updateName,
+  update,
   createSheet,
 };
