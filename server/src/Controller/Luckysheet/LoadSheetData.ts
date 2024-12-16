@@ -91,8 +91,8 @@ function getSheetDataTemp(item: WorkerSheetModelType) {
   const currentSheetData: WorkerSheetItemType = {
     name: item.name,
     index: <string>item.worker_sheet_id, // 注意此字段
-    status: item.status,
-    order: item.order,
+    status: <number>item.status,
+    order: <number>item.order,
     celldata: [],
     config: {
       merge: {}, //合并单元格
