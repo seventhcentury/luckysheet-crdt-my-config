@@ -93,6 +93,7 @@ function getSheetDataTemp(item: WorkerSheetModelType) {
     index: <string>item.worker_sheet_id, // 注意此字段
     status: <number>item.status,
     order: <number>item.order,
+    hide: Number(item.hide),
     celldata: [],
     config: {
       merge: {}, //合并单元格

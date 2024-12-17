@@ -16,6 +16,8 @@ export class WorkerSheetModel extends Model {
   declare column?: number;
   declare defaultRowHeight?: number;
   declare defaultColWidth?: number;
+  declare deleteFlag?: boolean; // 是否被删除
+
   static registerModule(sequelize: Sequelize) {
     WorkerSheetModel.init(
       {
@@ -82,6 +84,12 @@ export class WorkerSheetModel extends Model {
           allowNull: false,
           comment: "默认列宽",
           defaultValue: 80,
+        },
+        deleteFlag: {
+          type: DataTypes.BOOLEAN,
+          allowNull: false,
+          comment: "是否被删除",
+          defaultValue: false,
         },
 
         // ... 更多字段，根据项目实际情况添加

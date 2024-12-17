@@ -35,7 +35,7 @@ git clone https://gitee.com/wfeng0/luckysheet-crdt
 npm run install
 ```
 
-3. ~~🚫如果无数据库服务，请跳过此步骤🚫~~ 配置数据库参数：
+3. 🚫<span style="color:red;font-weight:900">~~如果无数据库服务，请跳过此步骤~~</span>🚫 配置数据库参数：
 ```ts
 // server/src/Config/index.ts
 export const SQL_CONFIG = {
@@ -46,7 +46,7 @@ export const SQL_CONFIG = {
   password: "root",
 };
 ```
-4. ~~🚫如果无数据库服务，请跳过此步骤🚫~~ 同步数据库表：
+4. 🚫<span style="color:red;font-weight:900">~~如果无数据库服务，请跳过此步骤~~</span>🚫 同步数据库表：
 ```bash
 npm run db
 ```
@@ -190,14 +190,14 @@ const wss = new WebSocketServer({ server });
 - sheet操作
   - ✅️ 新建sheet
   - ✅️ 复制sheet
-  - ❌️ 删除sheet
-  - ❌️ 删除sheet后恢复操作
+  - ✅️ 删除sheet
+  - ✅️ 删除sheet后恢复操作
   - ✅️ 调整sheet位置
-  - ❌️ 切换到指定sheet - 可不实现
+  - 切换到指定sheet - 可不实现(开启演示功能时，可以实现该功能，但是仅存在于协同层面即可)
 
 
 - sheet属性(隐藏或显示)
-  - ❌️ 隐藏或显示
+  - ✅️ 隐藏或显示
 
 - 表格信息更改
   - ❌️ 修改工作簿名称
@@ -206,7 +206,7 @@ const wss = new WebSocketServer({ server });
   - ✅️ 新增图表
   - ✅️ 移动图表位置
   - ✅️ 缩放图表
-  - ❌️ 修改图表配置
+  - ❌️ 修改图表配置 - 目前无法劫持配置更新操作
 
 
 ## 服务端口说明

@@ -471,15 +471,32 @@ async function shc(data: string, gridKey: string) {
   await WorkerSheetService.createSheet(copy_sheet_info);
 }
 
-// 删除sheet
+// 删除sheet - 不可以直接删除记录，因为还需要恢复，应该标记 deleteFlag 属性即可（celldata可能存在外键关联，因此，不可以直接删除）
 async function shd(data: string) {
-  // {"t":"shd","i":null,"v":{"deleIndex":"Sheet_ieo3iK3lo0m3_1734353939113"}}
-  console.log("==> shd", data);
+  logger.info("[CRDT DATA]:", data);
+  const { t, v } = <CRDTDataType<{ deleIndex: string }>>JSON.parse(data);
+  if (t !== "shd") return logger.error("t is not shd.");
+  // {"t":"shd","i":null,"v":{"deleIndex":"Sheet_06ok13WM3kS3_1734398401711"}}
+  // 更新 deleteFlag = true
+  const info = <WorkerSheetModelType>{
+    worker_sheet_id: v.deleIndex,
+    deleteFlag: true,
+  };
+  await WorkerSheetService.update(info);
 }
 
 // 删除sheet后恢复操作
 async function shre(data: string) {
-  console.log("==> shre", data);
+  // {"t":"shre","i":null,"v":{"reIndex":"Sheet_06ok13WM3kS3_1734398401711"}}
+  logger.info("[CRDT DATA]:", data);
+  const { t, v } = <CRDTDataType<{ reIndex: string }>>JSON.parse(data);
+  if (t !== "shre") return logger.error("t is not shre.");
+  // 更新 deleteFlag = false
+  const info = <WorkerSheetModelType>{
+    worker_sheet_id: v.reIndex,
+    deleteFlag: false,
+  };
+  await WorkerSheetService.update(info);
 }
 
 // 调整sheet位置
@@ -498,6 +515,22 @@ async function shr(data: string) {
       await WorkerSheetService.update(info);
     }
   }
+}
+
+// sheet属性(隐藏或显示)
+async function sh(data: string) {
+  // {"t":"sh","i":"Sheet_06ok13WM3kS3_1734398401711","v":1,"op":"hide","cur":"Sheet_ieo3iK3lo0m3_1734353939113"}
+  logger.info("[CRDT DATA]:", data);
+  const { t, v, i } = <CRDTDataType<number>>JSON.parse(data);
+  if (t !== "sh") return logger.error("t is not sh.");
+  if (isEmpty(i)) return logger.error("i is empty.");
+
+  // 更新 deleteFlag = false
+  const info = <WorkerSheetModelType>{
+    worker_sheet_id: i,
+    hide: Boolean(v),
+  };
+  await WorkerSheetService.update(info);
 }
 
 // 图表操作
@@ -541,11 +574,6 @@ async function c(data: string) {
   if (op === "del") {
     await ChartService.deleteChart(v.chart_id);
   }
-}
-
-// sheet属性(隐藏或显示)
-async function sh(data: string) {
-  console.log("==> sh", data);
 }
 
 // 修改工作簿名称

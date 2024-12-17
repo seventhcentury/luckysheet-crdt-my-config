@@ -5,17 +5,6 @@ import {
 } from "../Sequelize/Models/WorkerSheet";
 
 /**
- * @description: 工作表服务
- */
-async function findAll() {
-  try {
-    return await WorkerSheetModel.findAll();
-  } catch (error) {
-    logger.error(error);
-  }
-}
-
-/**
  * 更新相关配置
  */
 async function update(data: WorkerSheetModelType) {
@@ -33,7 +22,10 @@ async function update(data: WorkerSheetModelType) {
  */
 async function findAllByGridKey(gridKey: string) {
   try {
-    return await WorkerSheetModel.findAll({ where: { gridKey } });
+    return await WorkerSheetModel.findAll({
+      // 要查找当前没有被删除的表
+      where: { gridKey, deleteFlag: false },
+    });
   } catch (error) {
     logger.error(error);
   }
@@ -51,7 +43,6 @@ async function createSheet(data: WorkerSheetModelType) {
 }
 
 export const WorkerSheetService = {
-  findAll,
   findAllByGridKey,
   update,
   createSheet,
