@@ -48,6 +48,7 @@ import {
 import { ChartService } from "../Service/Chart";
 import { WorkerSheetService } from "../Service/WorkerSheet";
 import { WorkerSheetModelType } from "../Sequelize/Models/WorkerSheet";
+import { WorkerBookService } from "../Service/WorkerBook";
 
 /**
  * 协同消息映射的操作
@@ -72,7 +73,7 @@ export function databaseHandler(data: string, gridKey: string) {
   if (t === "c") c(data);
   //   if (t === "shs") shs(data); // 切换到指定 sheet 是前台操作，可不存储数据库
   if (t === "sh") sh(data);
-  if (t === "na") na(data);
+  if (t === "na") na(data, gridKey);
 }
 
 // 单个单元格刷新
@@ -577,6 +578,12 @@ async function c(data: string) {
 }
 
 // 修改工作簿名称
-async function na(data: string) {
-  console.log("==> na", data);
+async function na(data: string, gridKey: string) {
+  // {"t":"na","i":null,"v":"Luckysheet Demo222"}
+  logger.info("[CRDT DATA]:", data);
+  const { t, v } = <CRDTDataType<string>>JSON.parse(data);
+  if (t !== "na") return logger.error("t is not na.");
+
+  // 更新 workerBook name 属性即可 gridkey 在用户身上
+  await WorkerBookService.update({ title: v, gridKey });
 }

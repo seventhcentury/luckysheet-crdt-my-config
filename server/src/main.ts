@@ -2,7 +2,7 @@ import express from "express";
 import routes from "./Router";
 import { DB } from "./Sequelize/index"; // 导入 DB
 import { logger } from "./Utils/Logger";
-import { initCors, initStaticSource } from "./Meddlewear";
+import { initMeddlewear } from "./Meddlewear";
 import { WorkerBookService } from "./Service/WorkerBook";
 import { SERVER_PORT, WORKER_BOOK_INFO } from "./Config";
 import { createWebSocketServer } from "./WebSocket/index"; // 导入 ws
@@ -15,9 +15,8 @@ import { createWebSocketServer } from "./WebSocket/index"; // 导入 ws
   /** 创建 express 实例对象 */
   const app = express();
 
-  /** 托管静态资源 */
-  initStaticSource(app);
-  initCors(app);
+  /** 注册中间件 */
+  initMeddlewear(app);
 
   /** 连接数据库 DB 请注意需要 await 不然后续的操作可能会收到影响 */
   try {
