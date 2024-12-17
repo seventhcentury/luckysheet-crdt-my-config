@@ -33,7 +33,8 @@ type CRDTDataType<T> = {
     | "colhidden"
     | "rowlen"
     | "columnlen"
-    | "borderInfo";
+    | "borderInfo"
+    | "color";
 
   // Chart
   op?: "add" | "xy" | "wh" | "update" | "del";

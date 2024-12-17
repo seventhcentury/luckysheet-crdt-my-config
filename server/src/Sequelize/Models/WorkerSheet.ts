@@ -14,6 +14,7 @@ export class WorkerSheetModel extends Model {
   declare hide?: boolean;
   declare row?: number;
   declare column?: number;
+  declare color?: string;
   declare defaultRowHeight?: number;
   declare defaultColWidth?: number;
   declare deleteFlag?: boolean; // 是否被删除
@@ -72,6 +73,12 @@ export class WorkerSheetModel extends Model {
           allowNull: false,
           comment: "列数", // 描述
           defaultValue: 24, // 默认值
+        },
+        color: {
+          type: DataTypes.STRING,
+          allowNull: false,
+          comment: "表格颜色", // 描述
+          defaultValue: "", // 默认值
         },
         defaultRowHeight: {
           type: DataTypes.INTEGER,

@@ -406,6 +406,14 @@ async function all(data: string) {
         });
       }
     }
+  } else if (k === "color") {
+    // {"t":"all","i":"62e09f1d-b294-46b5-8924-a0f1a8e011a2","v":"#ffff00","k":"color"}
+    // 更新 worker sheet color 字段即可
+    const color_info = <WorkerSheetModelType>{
+      worker_sheet_id: i,
+      color: <string>(<unknown>v),
+    };
+    await WorkerSheetService.update(color_info);
   }
 }
 

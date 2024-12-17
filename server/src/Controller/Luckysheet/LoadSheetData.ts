@@ -12,13 +12,13 @@ import { logger } from "../../Utils/Logger";
 import { Request, Response } from "express";
 import { ImageService } from "../../Service/Image";
 import { MergeService } from "../../Service/Merge";
+import { ChartService } from "../../Service/Chart";
 import { CellDataService } from "../../Service/CellData";
 import { BorderInfoService } from "../../Service/Border";
 import { WorkerSheetService } from "../../Service/WorkerSheet";
 import { HiddenAndLenService } from "../../Service/HiddenAndLen";
 import { CellDataModelType } from "../../Sequelize/Models/CellData";
 import { WorkerSheetModelType } from "../../Sequelize/Models/WorkerSheet";
-import { ChartService } from "../../Service/Chart";
 
 /**
  * loadSheetData loadUrl 加载数据
@@ -93,6 +93,7 @@ function getSheetDataTemp(item: WorkerSheetModelType) {
     index: <string>item.worker_sheet_id, // 注意此字段
     status: <number>item.status,
     order: <number>item.order,
+    color: item.color,
     hide: Number(item.hide),
     celldata: [],
     config: {
