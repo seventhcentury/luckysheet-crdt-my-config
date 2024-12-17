@@ -188,12 +188,12 @@ const wss = new WebSocketServer({ server });
   - ❌️ 恢复筛选
 
 - sheet操作
-  - ❌️ 新建sheet
-  - ❌️ 复制sheet
+  - ✅️ 新建sheet
+  - ✅️ 复制sheet
   - ❌️ 删除sheet
   - ❌️ 删除sheet后恢复操作
-  - ❌️ 调整sheet位置
-  - ❌️ 切换到指定sheet
+  - ✅️ 调整sheet位置
+  - ❌️ 切换到指定sheet - 可不实现
 
 
 - sheet属性(隐藏或显示)

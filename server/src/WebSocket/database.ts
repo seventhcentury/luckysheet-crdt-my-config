@@ -473,6 +473,7 @@ async function shc(data: string, gridKey: string) {
 
 // 删除sheet
 async function shd(data: string) {
+  // {"t":"shd","i":null,"v":{"deleIndex":"Sheet_ieo3iK3lo0m3_1734353939113"}}
   console.log("==> shd", data);
 }
 
