@@ -378,7 +378,6 @@ async function parseCharts(
     });
 
     currentSheetData.chart = result;
-    console.log("==> ", result);
     return Promise.resolve();
   } catch (error) {
     logger.error(error);

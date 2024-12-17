@@ -578,6 +578,15 @@ async function c(data: string) {
     });
   }
 
+  // 更新图表配置
+  if (op === "update") {
+    await ChartService.updateChart({
+      worker_sheet_id: i,
+      chart_id: v.chart_id,
+      chartOptions: JSON.stringify(v.chartOptions),
+    });
+  }
+
   // 删除图表
   // {"t":"c","i":"89357e56-c6bc-4de0-bfd1-0e00b3086da4","v":{"cid":"chart_WW0t3io1towN_1734335743092"},"cid":"chart_WW0t3io1towN_1734335743092","op":"del"}
   if (op === "del") {

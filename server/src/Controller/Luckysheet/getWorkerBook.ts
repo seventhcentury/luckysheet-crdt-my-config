@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { WorkerBookService } from "../../Service/WorkerBook";
 export async function getWorkerBook(req: Request, res: Response) {
   const gridKey = req.body.gridKey;
-  console.log("==> ", req.body);
   if (!gridKey) {
     res.json({ code: 400, msg: "gridKey 参数缺失" });
     return;
