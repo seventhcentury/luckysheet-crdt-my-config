@@ -2,7 +2,7 @@ import express from "express";
 import routes from "./Router";
 import { DB } from "./Sequelize/index"; // 导入 DB
 import { logger } from "./Utils/Logger";
-import { initMeddlewear } from "./Meddlewear";
+import { initMeddlewear } from "./Middleware";
 import { WorkerBookService } from "./Service/WorkerBook";
 import { SERVER_PORT, WORKER_BOOK_INFO } from "./Config";
 import { createWebSocketServer } from "./WebSocket/index"; // 导入 ws
