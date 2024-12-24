@@ -100,10 +100,28 @@ function hasChinaword(s) {
     }
 }
 
+/**
+ * 解析数据单位
+ * @param { number | string } data 
+ */
+function parseDataToPX(data) {
+    // 1. 如果是数字
+    if (typeof data === 'number') {
+        return data + 'px'
+    }
+    // 2. 如果是字符串，但是没有 px 单位
+    if (typeof data === 'string' && !data.endsWith('px')) {
+        return data + 'px'
+    }
+    // 3. 否则，直接返回
+    return data
+}
+
 export {
     isMap,
     isObject,
     deepCopy,
     generateRandomKey,
-    replaceHtml
+    replaceHtml,
+    parseDataToPX
 }

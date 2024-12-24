@@ -85,7 +85,7 @@ export const toolbarIdMap = {
     textRotateMode: ['#luckysheet-icon-rotation', '#luckysheet-icon-rotation-menu'], //'Text Rotation Mode'
     image: '#luckysheet-insertImg-btn-title', //'Insert link'
     link: '#luckysheet-insertLink-btn-title', //'Insert picture'
-    chart: '#luckysheet-chart-btn-title', //'chart' (the icon is hidden, but if the chart plugin is configured, you can still create a new chart by right click)
+    chart: '#luckysheet-icon-chart-btn', //'chart' (the icon is hidden, but if the chart plugin is configured, you can still create a new chart by right click)
     postil: '#luckysheet-icon-postil', //'comment'
     pivotTable: ['#luckysheet-pivot-btn-title'], //'PivotTable'
     function: ['#luckysheet-icon-function', '#luckysheet-icon-function-menu'], //'formula'
@@ -581,19 +581,17 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, // 'Insert link'(TODO)
-        chart: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
-        data-tips="${toolbar.chart}" id="luckysheet-chart-btn-title" role="button" style="user-select: none;">
-            <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
+        chart: `<div class="luckysheet-toolbar-select luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="${toolbar.chart}"
+        id="luckysheet-icon-chart-btn" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
                 <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
                 style="user-select: none;">
-                    <div class="luckysheet-toolbar-menu-button-caption luckysheet-inline-block"
+                    <div class="luckysheet-icon-img-container luckysheet-toolbar-menu-button-caption luckysheet-inline-block iconfont luckysheet-iconfont-tubiao"
                     style="user-select: none;">
-                        <div class="luckysheet-icon luckysheet-inline-block " style="user-select: none;">
-                            <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-rotation-none iconfont luckysheet-iconfont-tubiao"
-                            style="user-select: none;">
-                            </div>
-                        </div>
+                    </div>
+                    <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block iconfont luckysheet-iconfont-xiayige"
+                    style="user-select: none;">
                     </div>
                 </div>
             </div>
@@ -844,13 +842,13 @@ export function createToolbarHtml() {
             return '';
         }
         let i = 0;
-        showtoolbarConfig.forEach(function(key, i) {
+        showtoolbarConfig.forEach(function (key, i) {
             if (key === '|') {
                 const nameKeys = showtoolbarConfig[i - 1]
-                if(nameKeys !== '|') {
+                if (nameKeys !== '|') {
                     buttonHTML.push(
                         `<div id="toolbar-separator-${camel2split(nameKeys)}" class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"></div>`
-                        );
+                    );
                 }
             } else {
                 buttonHTML.push(htmlMap[key]);
@@ -859,7 +857,7 @@ export function createToolbarHtml() {
         return buttonHTML.join('');
     }
 
-    const config = defaultToolbar.reduce(function(total, curr) {
+    const config = defaultToolbar.reduce(function (total, curr) {
         if (curr !== '|') {
             total[curr] = true;
         }
@@ -874,7 +872,7 @@ export function createToolbarHtml() {
 
     // 对象模式 则从里面挑选 true 保留 false 删掉
     if (JSON.stringify(showtoolbarConfig) !== '{}') {
-        if(showtoolbarConfig.hasOwnProperty('undoRedo')){
+        if (showtoolbarConfig.hasOwnProperty('undoRedo')) {
             config.undo = config.redo = showtoolbarConfig.undoRedo;
         }
         Object.assign(config, showtoolbarConfig);
@@ -890,7 +888,7 @@ export function createToolbarHtml() {
         }
         if (key === '|') {
             const nameKeys = defaultToolbar[i - 1]
-            if(nameKeys !== '|') {
+            if (nameKeys !== '|') {
                 buttonHTML.push(
                     `<div id="toolbar-separator-${camel2split(nameKeys)}" class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"></div>`
                 );

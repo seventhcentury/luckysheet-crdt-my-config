@@ -188,11 +188,36 @@ export const SERVER_URL = "http://localhost:9000";
 export const WS_SERVER_URL = "ws://127.0.0.1:9000";
 ```
 
-## Page UI Refactoring
-1. Source Code UI Refactoring，see [Luckysheet-source-recover-style](/Luckysheet-source/src/css/recover.css)
-2. UI effect：
+## Source project optimization
+#### 1️⃣ Page UI Refactoring
+1. Source code UI refactoring, please refer to [Luckysheet-source-recover-style](/Luckysheet-source/src/css/recover.css)
 <p align="center">
   <img src='/public/example.gif' />
+</p>
+
+#### 2️⃣ Expand the vchart
+1. Implemented vchart, please refer to [Luckysheet-source-vchart](/Luckysheet-source/src/expendPlugins/vchart/plugin.js)
+<p align="center">
+  <img src='/public/chart-menu.png' />
+</p>
+<span style="font-weight:900">On the left is' vchart 'rendering, and on the right is' chartmix' rendering</span>
+<p align="center">
+  <img src='/public/chartmix-vchart.png' />
+</p>
+<span style="font-weight:900">The vchart chart animation is smoother, and the page is concise and beautiful</span>
+<p align="center">
+  <img src='/public/vchart.gif' />
+</p>
+
+### 3️⃣ Optimization of image mobility performance
+<span style="font-weight:900">Original effect:</span>
+<p align="center">
+  <img src='/public/picture-old.gif' />
+</p>
+
+<span style="font-weight:900">After optimization:</span>
+<p align="center">
+  <img src='/public/picture-new.gif' />
 </p>
 
 

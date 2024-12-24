@@ -1,5 +1,5 @@
 import { seriesLoadScripts, loadLinks, $$, arrayRemoveItem } from '../../utils/util'
-import { generateRandomKey, replaceHtml } from '../../utils/chartUtil'
+import { generateRandomKey, replaceHtml, parseDataToPX } from '../../utils/chartUtil'
 import { getdatabyselection, getcellvalue } from '../../global/getdata';
 import chartInfo from '../../store'
 import formula from '../../global/formula';
@@ -172,6 +172,8 @@ function renderCharts(chartLists, isDemo) {
             }
             e.stopPropagation()
         })
+
+
         $t.mousedown(function (e) {  // move chart
             if (!chartInfo.chartparam.luckysheetCurrentChartMaxState) {
                 //当前图表显示区域高亮
@@ -270,16 +272,13 @@ function renderCharts(chartLists, isDemo) {
                 }
             })
 
-        let width = chart.width
-        let height = chart.height
-        let left = chart.left
-        let top = chart.top
-
         // 这里要兼容带单位的宽度和高度，不然会出现位置异常BUG
-        width = width.includes('px') ? width : width + 'px'
-        height = height.includes('px') ? height : height + 'px'
-        left = left.includes('px') ? left : left + 'px'
-        top = top.includes('px') ? top : top + 'px'
+        let width = parseDataToPX(chart.width)
+        let height = parseDataToPX(chart.height)
+        let left = parseDataToPX(chart.left)
+        let top = parseDataToPX(chart.top)
+
+
 
         container.style.width = width
         container.style.height = height
@@ -1075,7 +1074,7 @@ function chart_selection() {
 
 // create chart
 function createLuckyChart(width, height, left, top,) {
-    //如果只选中一个单元格，则自动填充选取
+    // 如果只选中一个单元格，则自动填充选取
     var jfgird_select_save = luckysheet.getluckysheet_select_save();
     if (
         jfgird_select_save.length == 1 &&
@@ -1194,17 +1193,18 @@ function createLuckyChart(width, height, left, top,) {
     let { render, chart_json } = chartInfo.createChart($(`#${chart_id_c}`).children('.luckysheet-modal-dialog-content')[0], chartData, chart_id, rangeArray, rangeTxt)
     // chartInfo.currentChart = chart_json.chartOptions
 
+    // 需要兼容不同的单位
+    width = parseDataToPX(width || 400)
+    height = parseDataToPX(height || 250)
+    left = parseDataToPX(left || 0)
+    top = parseDataToPX(top || 0)
 
-    width = width ? width : 400
-    height = height ? height : 250
-    left = left ? left : 0
-    top = top ? top : 0
-    container.style.width = width + 'px'
-    container.style.height = height + 'px'
+    container.style.width = width
+    container.style.height = height
     container.style.position = 'absolute'
     container.style.background = '#fff'
-    container.style.left = left + 'px'
-    container.style.top = top + 'px'
+    container.style.left = left
+    container.style.top = top
     render.style.width = '100%'
     render.style.height = '100%'
     container.style.zIndex = chartInfo.zIndex ? chartInfo.zIndex : 15
@@ -1566,4 +1566,4 @@ function renderChartShow(index) {
 
 }
 
-export { chart, createLuckyChart, showNeedRangeShow, hideAllNeedRangeShow, renderChartShow, delChart, setChartMoveableEffect, selectRangeBorderShow, showChartSettingComponent }
+export { chart, createLuckyChart, chart_selection, showNeedRangeShow, hideAllNeedRangeShow, renderChartShow, delChart, setChartMoveableEffect, selectRangeBorderShow, showChartSettingComponent }

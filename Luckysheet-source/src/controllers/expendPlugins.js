@@ -3,9 +3,12 @@ import { print } from '../expendPlugins/print/plugin'
 import { vchart } from '../expendPlugins/vchart/plugin'
 
 const pluginsObj = {
-    'chart': chart,
+    'chart': (data, isDemo) => {
+        chart(data, isDemo)
+        // vchart 的一些原始数据需要依赖 chartmix 的数据，所以 chartmix 先加载
+        vchart(data, isDemo)
+    },
     'print': print,
-    "vchart": vchart
 }
 
 const isDemo = true
