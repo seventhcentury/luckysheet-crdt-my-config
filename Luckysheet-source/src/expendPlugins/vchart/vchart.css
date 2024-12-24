@@ -77,6 +77,7 @@
 .luckysheet-vchart-setting-dialog-body {
   height: calc(100% - 32px - 32px - 10px);
   padding: 10px 0;
+  overflow: hidden;
 }
 .luckysheet-vchart-setting-dialog-body-tabs {
   height: 30px;
@@ -101,18 +102,33 @@
   overflow: hidden;
   overflow-y: auto;
 }
+/* 滚动条样式 */
+.luckysheet-vchart-setting-dialog-body-content::-webkit-scrollbar {
+  width: 4px;
+}
+/* 滑块样式 */
+.luckysheet-vchart-setting-dialog-body-content::-webkit-scrollbar-thumb {
+  background-color: var(--luckysheet-main-color);
+  border-radius: 2px;
+}
+/* 滚动条轨道样式 */
+.luckysheet-vchart-setting-dialog-body-content::-webkit-scrollbar-track {
+  background-color: #f2f2f2;
+  border-radius: 2px;
+}
 .luckysheet-vchart-setting-dialog-body-content .vchart-type-item {
   width: 48%;
   user-select: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: inline-block;
   box-shadow: 0 6px 20px var(--luckysheet-main-color-a1);
   border-radius: 8px;
   overflow: hidden;
   border: solid 1px transparent;
   transition: all 0.3s;
   cursor: pointer;
+}
+.luckysheet-vchart-setting-dialog-body-content .tips {
+  font-size: 16px;
 }
 .luckysheet-vchart-setting-dialog-body-content .vchart-type-item:hover {
   border-color: var(--luckysheet-main-color);
