@@ -5455,7 +5455,7 @@ export function setSheetOrder(orderList, options = {}) {
     }
 
     if (options.broadcast && options.broadcast === false) return
-    console.log("==> ",options.broadcast && options.broadcast === false);
+    console.log("==> ", options.broadcast && options.broadcast === false);
     server.saveParam("shr", null, orders);
 }
 
@@ -6891,6 +6891,7 @@ export function checkTheStatusOfTheSelectedCells(type, status) {
 
 /**
  * 创建统计图 - 需要传入生成统计图的行列数据
+ * ?? 这里的参数可能还需要优化哈，不能笼统的传入 行列 应该区分 rowArr colArr contentArr
  * @param {String}  sheetIndex            sheet index
  * @param {Array}   row                   数据行
  * @param {Array}   column                数据列
@@ -6944,4 +6945,30 @@ export function renderChart(data) {
  */
 export function deleteChart(chart_id) {
     return chartController.deleteChart(chart_id)
+}
+
+/** 增强 Lucky sheet 图表能力 - 拓展 VChart 插件实现 */
+
+/**
+ * 增强 Lucky sheet 图表能力 - 拓展 VChart 插件实现
+ * 创建统计图 - 需要传入生成统计图的行列数据
+ * @param {String}  sheetIndex            sheet index
+ * @param {Array}   row                   数据行
+ * @param {Array}   column                数据列
+ * @param {number}  width                 图表宽度
+ * @param {number}  height                图表高度
+ * @param {number}  top                   图表距离顶部距离
+ * @param {number}  left                  图表距离左侧距离
+ */
+export function createVChart(sheetIndex, row, column, width, height, top, left) {
+    // 生成chartID
+    let chart_id = generateRandomKey('chart')
+
+    // 获取统计图数据
+    let chartData = getdatabyselection({ row, column }, sheetIndex)
+
+    var rangeTxt = getRangetxt(sheetIndex, { row, column }, chartInfo.currentSheetIndex)
+
+    // 调用 controll
+    // return chartController.createChart(sheetIndex, chart_id, chartData, [{ row, column }], rangeTxt, width, height, top, left)
 }

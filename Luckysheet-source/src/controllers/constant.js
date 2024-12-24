@@ -866,20 +866,6 @@ const luckysheetlodingHTML = function (target, coverConfig) {
     };
 }
 
-// var menusetting = {
-//     menu_selectall: '<div id="luckysheet-selectall-btn-title"><i class="fa fa-i-cursor"></i> 全选</div>',
-//     menu_copy: '<div id="luckysheet-copy-btn-title"><i class="fa fa-copy"></i> 复制</div>',
-//     menu_undo: '<div id="luckysheet-redo-btn-title"><i class="fa fa-reply"></i> 撤销</div>',
-//     menu_redo: '<div id="luckysheet-undo-btn-title"><i class="fa fa-share"></i> 恢复</div>',
-//     menu_paste: '<div id="luckysheet-paste-btn-title"><i class="fa fa-clipboard"></i> 粘贴</div>',
-//     menu_download: '<div id="luckysheet-download-btn-title"><i class="fa fa-cloud-download"></i> 下载</div>',
-//     menu_share: '<div id="luckysheet-share-btn-title"><i class="fa fa-share-alt"></i> 分享</div>',
-//     menu_chart: '<div id="luckysheet-chart-btn-title"> <i class="fa fa-pie-chart"></i> 图表生成</div>',
-//     menu_pivot: '<div id="luckysheet-pivot-btn-title"> <i class="fa fa-cube" aria-hidden="true"></i> 数据透视表</div>',
-//     menu_freezenrow: '<div id="luckysheet-freezen-btn-horizontal"><i class="fa fa-list-alt"></i> 冻结首行</div>',
-//     menu_freezencolumn: '<div id="luckysheet-freezen-btn-vertical"><i class="fa fa-indent"></i> 冻结首列</div>',
-// };
-
 const luckyColor = [
     "#c1232b",
     "#27727b",

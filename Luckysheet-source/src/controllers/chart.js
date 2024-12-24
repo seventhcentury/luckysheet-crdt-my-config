@@ -199,7 +199,6 @@ function createChart(sheetIndex, chart_id, chartData, rangeArray, rangeTxt, widt
  * @param {*} data 
  */
 function renderChart(data) {
-    console.log("==> renderChart", data);
     const { chart_id, chartData, width, height, left, top } = data
     const chartOptions = JSON.parse(JSON.stringify(data.chartOptions))
 
@@ -365,7 +364,6 @@ function renderChart(data) {
  * 协同更新统计图
  */
 function updateChart(data) {
-    console.log("==> updateChart", data);
     const { chart_id, left, top, width, height, chartOptions } = data
 
     // 更新 dom 的位置即可
