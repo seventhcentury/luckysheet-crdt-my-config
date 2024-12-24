@@ -3,7 +3,7 @@ import { print } from '../expendPlugins/print/plugin'
 import { vchart } from '../expendPlugins/vchart/plugin'
 
 const pluginsObj = {
-    'chart': chart,
+    "chart": chart,
     'print': print,
     "vchart": vchart
 }

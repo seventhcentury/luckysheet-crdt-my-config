@@ -38,13 +38,18 @@ import { openProtectionModal, checkProtectionFormatCells, checkProtectionNotEnab
 import Store from '../store';
 import locale from '../locale/locale';
 import { checkTheStatusOfTheSelectedCells, frozenFirstRow, frozenFirstColumn } from '../global/api';
+import { createLuckyChart, } from '../expendPlugins/chart/plugin'
+import { createVChart } from '../expendPlugins/vchart/plugin'
+
 
 const menuButton = {
     "menu": '<div class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-menuButton ${subclass} luckysheet-mousedown-cancel" id="luckysheet-icon-${id}-menuButton">${item}</div>',
     // "item": '<div itemvalue="${value}" itemname="${name}" class="luckysheet-cols-menuitem ${sub} luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel" style="padding: 3px 0px 3px 1px;"><span style="margin-right:3px;width:13px;display:inline-block;" class="icon luckysheet-mousedown-cancel"></span> ${name} <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;">${example}</span></div></div>',
     "item": '<div itemvalue="${value}" itemname="${name}" class="luckysheet-cols-menuitem ${sub} luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel" style="padding: 3px 0px 3px 1px;"><span style="margin-right:3px;width:13px;display:inline-block;" class="icon luckysheet-mousedown-cancel"></span> ${name} <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel ${iconClass}" style="user-select: none;">${example}</span></div></div>',
+    // 分割线
     "split": '<div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div>',
     "color": '<div class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-mousedown-cancel luckysheet-menuButton ${sub}" id="${id}"><div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel luckysheet-color-reset"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${resetColor}</div></div> <div class="luckysheet-mousedown-cancel"> <div class="luckysheet-mousedown-cancel"> <input type="text" class="luckysheet-color-selected" /> </div> </div> <div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div> ${coloritem}</div>',
+    // 交替颜色
     "coloritem": '<div class="luckysheet-cols-menuitem luckysheet-mousedown-cancel ${class}"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${name}</div></div>',
     "subcolor": '<div id="luckysheet-icon-${id}-menuButton" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-menuButton-sub luckysheet-mousedown-cancel"> <div class="luckysheet-mousedown-cancel"> <div class="luckysheet-mousedown-cancel"> <input type="text" class="luckysheet-color-selected" /> </div> </div></div>',
     "rightclickmenu": null,
@@ -625,14 +630,13 @@ const menuButton = {
                     color: luckysheetConfigsetting.defaultTextColor,
                     noColorSelectedText: locale_toolbar.noColorSelectedText,
                     localStorageKey: "spectrum.textcolor" + server.gridKey,
-                    palette: [["#000", "#444", "#666", "#999", "#ccc", "#eee", "#f3f3f3", "#fff"],
-                    ["#f00", "#f90", "#ff0", "#0f0", "#0ff", "#00f", "#90f", "#f0f"],
-                    ["#f4cccc", "#fce5cd", "#fff2cc", "#d9ead3", "#d0e0e3", "#cfe2f3", "#d9d2e9", "#ead1dc"],
-                    ["#ea9999", "#f9cb9c", "#ffe599", "#b6d7a8", "#a2c4c9", "#9fc5e8", "#b4a7d6", "#d5a6bd"],
-                    ["#e06666", "#f6b26b", "#ffd966", "#93c47d", "#76a5af", "#6fa8dc", "#8e7cc3", "#c27ba0"],
-                    ["#c00", "#e69138", "#f1c232", "#6aa84f", "#45818e", "#3d85c6", "#674ea7", "#a64d79"],
-                    ["#900", "#b45f06", "#bf9000", "#38761d", "#134f5c", "#0b5394", "#351c75", "#741b47"],
-                    ["#600", "#783f04", "#7f6000", "#274e13", "#0c343d", "#073763", "#20124d", "#4c1130"]],
+                    palette: [
+                        ["#efeceb", "#f2f2f2", "#e7ebed", "#fadcdb", "#fbeada", "#fcf9ea", "#e5f6da", "#dbf5f5", "#d2d6f9", "#fadded",],
+                        ["#ded9d7", "#d9d9d9", "#e0e0e0", "#f5b9b7", "#f8d5b5", "#f6edc1", "#caedb4", "#b7eaeb", "#a6aef3", "#f6bbdb",],
+                        ["#beb3af", "#bfbfbf", "#9e9e9e", "#f19594", "#f4c18f", "#f1e4a2", "#b0e38f", "#94e0e1", "#7985ec", "#f199c8",],
+                        ['#9d8c88', '#a6a6a6', '#616161', '#ec7270', '#f1ac6a', '#e9d66f', '#95da69', '#70d5d7', '#5b79e8', '#ed77b6',],
+                        ["#5c4038", "#7f7f7f", "#262626", "#a23735", "#a66a30", "#a7932c", "#569230", "#358e90", "#314aa4", "#a23c73",],
+                    ],
                     change: function (color) {
                         let $input = $(this);
                         if (color != null) {
@@ -764,14 +768,11 @@ const menuButton = {
                     noColorSelectedText: locale_toolbar.noColorSelectedText,
                     localStorageKey: "spectrum.bgcolor" + server.gridKey,
                     palette: [
-                        ["#000", "#444", "#666", "#999", "#ccc", "#eee", "#f3f3f3", "#fff"],
-                        ["#f00", "#f90", "#ff0", "#0f0", "#0ff", "#00f", "#90f", "#f0f"],
-                        ["#f4cccc", "#fce5cd", "#fff2cc", "#d9ead3", "#d0e0e3", "#cfe2f3", "#d9d2e9", "#ead1dc"],
-                        ["#ea9999", "#f9cb9c", "#ffe599", "#b6d7a8", "#a2c4c9", "#9fc5e8", "#b4a7d6", "#d5a6bd"],
-                        ["#e06666", "#f6b26b", "#ffd966", "#93c47d", "#76a5af", "#6fa8dc", "#8e7cc3", "#c27ba0"],
-                        ["#c00", "#e69138", "#f1c232", "#6aa84f", "#45818e", "#3d85c6", "#674ea7", "#a64d79"],
-                        ["#900", "#b45f06", "#bf9000", "#38761d", "#134f5c", "#0b5394", "#351c75", "#741b47"],
-                        ["#600", "#783f04", "#7f6000", "#274e13", "#0c343d", "#073763", "#20124d", "#4c1130"]
+                        ["#efeceb", "#f2f2f2", "#e7ebed", "#fadcdb", "#fbeada", "#fcf9ea", "#e5f6da", "#dbf5f5", "#d2d6f9", "#fadded",],
+                        ["#ded9d7", "#d9d9d9", "#e0e0e0", "#f5b9b7", "#f8d5b5", "#f6edc1", "#caedb4", "#b7eaeb", "#a6aef3", "#f6bbdb",],
+                        ["#beb3af", "#bfbfbf", "#9e9e9e", "#f19594", "#f4c18f", "#f1e4a2", "#b0e38f", "#94e0e1", "#7985ec", "#f199c8",],
+                        ['#9d8c88', '#a6a6a6', '#616161', '#ec7270', '#f1ac6a', '#e9d66f', '#95da69', '#70d5d7', '#5b79e8', '#ed77b6',],
+                        ["#5c4038", "#7f7f7f", "#262626", "#a23735", "#a66a30", "#a7932c", "#569230", "#358e90", "#314aa4", "#a23c73",],
                     ],
                     change: function (color) {
                         let $input = $(this);
@@ -796,6 +797,7 @@ const menuButton = {
                     }
                 });
 
+                // 重置颜色 
                 $menuButton.find(".luckysheet-color-reset").click(function () {
                     $menuButton.hide();
                     luckysheetContainerFocus();
@@ -1444,7 +1446,7 @@ const menuButton = {
                 let menu = replaceHtml(_this.menu, { "id": "align-menu", "item": itemset, "subclass": "", "sub": "" });
 
                 $("body").append(menu);
-                $menuButton = $("#" + menuButtonId).width(120);
+                $menuButton = $("#" + menuButtonId).width(150);
                 _this.focus($menuButton);
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function () {
@@ -1557,7 +1559,7 @@ const menuButton = {
                 let menu = replaceHtml(_this.menu, { "id": "textwrap-menu", "item": itemset, "subclass": "", "sub": "" });
 
                 $("body").append(menu);
-                $menuButton = $("#" + menuButtonId).width(120);
+                $menuButton = $("#" + menuButtonId).width(150);
                 _this.focus($menuButton, "clip");
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function () {
@@ -2802,8 +2804,56 @@ const menuButton = {
             mouseclickposition($menuButton, menuleft, $(this).offset().top + 25, "lefttop");
         });
 
+        // 统计图
+        $("#luckysheet-icon-chart-btn").click(function () {
+            let menuButtonId = $(this).attr("id") + "-menuButton";
+            let $menuButton = $("#" + menuButtonId);
+            const locale_chart = locale().chart;
+            $menuButton.remove();
+            luckysheetPostil.removeActivePs();
+
+            let itemdata = [
+                { "text": locale_chart.vchart, "value": "vchart", "example": "" },
+                { "text": "", "value": "split", "example": "" },
+                { "text": locale_chart.chartmix, "value": "chartmix", "example": "" },
+
+            ]
+
+            let itemset = _this.createButtonMenu(itemdata);
+
+            let menu = replaceHtml(_this.menu, { "id": "chart-btn", "item": itemset, "subclass": "", "sub": "" });
+            $("body").append(menu);
+
+            $menuButton = $("#" + menuButtonId).width(110);
+
+            // 给子项注册事件
+            $menuButton.find(".luckysheet-cols-menuitem").click(function () {
+                $menuButton.hide();
+                luckysheetContainerFocus();
+
+                let $t = $(this), itemvalue = $t.attr("itemvalue");
+
+                if (itemvalue == "chartmix") {
+                    createLuckyChart();
+                }
+                else if (itemvalue == "vchart") {
+                    createVChart()
+                }
+            });
+
+            let userlen = $(this).outerWidth();
+            let tlen = $menuButton.outerWidth();
+
+            let menuleft = $(this).offset().left;
+            if (tlen > userlen && (tlen + menuleft) > $("#" + Store.container).width()) {
+                menuleft = menuleft - tlen + userlen;
+            }
+            mouseclickposition($menuButton, menuleft, $(this).offset().top + 25, "lefttop");
+        });
+
         //批注
         $("#luckysheet-icon-postil").click(function () {
+            console.log("==> 批注二级菜单",);
             let menuButtonId = $(this).attr("id") + "-menuButton";
             let $menuButton = $("#" + menuButtonId);
 
@@ -2872,7 +2922,6 @@ const menuButton = {
                     luckysheetPostil.showHideAllPs();
                 }
             });
-            // }
 
             let userlen = $(this).outerWidth();
             let tlen = $menuButton.outerWidth();

@@ -17,7 +17,8 @@
 
     <!-- rollup luckysheet.js -->
     <script src="./luckysheet.umd.js"></script>
-
+    <script src="./demoData/sheetVchart.js"></script>
+    <script src="./demoData/sheetChart.js"></script>
     <script src="./demoData/sheetCell.js"></script>
     <script src="./demoData/sheetPicture.js"></script>
   </head>
@@ -40,13 +41,13 @@
       $(function () {
         const id = Math.random().toString(16).slice(2, 8);
         const username = `user_${id}`;
-        
+
         const options = {
           container: "luckysheet",
           lang: "zh",
           // showinfobar: false,
-          plugins: [],
-          data:[sheetPicture],
+          plugins: ["vchart",],
+          data: [sheetVChart],
           // allowUpdate: true, // 配置协同功能
           // loadUrl: "http://localhost:9000/loadSheetData?gridkey=gridkey_demo",
           // updateUrl: `http://localhost:9000?type=luckysheet&userid=${id}&username=${username}&gridkey=gridkey`, // 协同服务转发服务

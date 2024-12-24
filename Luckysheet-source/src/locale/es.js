@@ -1,4 +1,9 @@
 export default {
+    vChart: {
+        settingTitle: "VCharti diagrammi seadistused",
+        cancel: "sulge",
+        confirm: "kinnita",
+    },
     functionlist: {
         "SUMIF": {
             "d": "Returns a conditional sum across a range.",
@@ -6357,6 +6362,10 @@ export default {
         byCol: 'Por columna',
         generateNewMatrix: 'Generar nueva matriz',
         
+    },
+    chart: {
+        'chartmix': 'chartmix',
+        'vchart': 'vchart'
     },
     comment:{
         "insert":"Insertar",

@@ -188,13 +188,37 @@ export const SERVER_URL = "http://localhost:9000";
 export const WS_SERVER_URL = "ws://127.0.0.1:9000";
 ```
 
-## 页面UI重构
+## 源项目优化
+#### 1️⃣ 页面UI重构
 1. 源码UI重构，请查阅 [Luckysheet-source-recover-style](/Luckysheet-source/src/css/recover.css)
-2. UI效果：
 <p align="center">
   <img src='/public/example.gif' />
 </p>
 
+#### 2️⃣ 拓展vchart图表
+1. 已实现vchart图表，请查阅 [Luckysheet-source-vchart](/Luckysheet-source/src/expendPlugins/vchart/plugin.js)
+<p align="center">
+  <img src='/public/chart-menu.png' />
+</p>
+<span style="font-weight:900">左侧为 `vchart` 渲染，右侧为 `chartmix` 渲染</span>
+<p align="center">
+  <img src='/public/chartmix-vchart.png' />
+</p>
+<span style="font-weight:900">vchart 图表动画更加流畅，页面简洁美观</span>
+<p align="center">
+  <img src='/public/vchart.gif' />
+</p>
+
+### 3️⃣ 图片移动性能优化
+<span style="font-weight:900">原效果：</span>
+<p align="center">
+  <img src='/public/picture-old.gif' />
+</p>
+
+<span style="font-weight:900">优化后：(调整图片设置打开方式)</span>
+<p align="center">
+  <img src='/public/picture-new.gif' />
+</p>
 
 ## 开源贡献
 1. 提交 [issue](https://gitee.com/wfeng0/luckysheet-crdt/issues/new)
