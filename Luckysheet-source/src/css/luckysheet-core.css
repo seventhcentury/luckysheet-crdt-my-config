@@ -5190,12 +5190,17 @@ fieldset[disabled] .btn-danger.focus {
 }
 
 #formulaTypeList .listBox {
+  cursor: pointer;
   padding: 5px;
   border-bottom: 1px solid #d4d4d4;
 }
+#formulaTypeList .listBox:hover{
+  background-color: var(--luckysheet-main-color-a2);
+  color: var(--luckysheet-main-color);
+}
 
 #formulaTypeList .listBox.on {
-  background-color: #8c89fe;
+  background-color: var(--luckysheet-main-color);
   color: #fff;
 }
 

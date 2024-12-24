@@ -1507,7 +1507,7 @@ const menuButton = {
                 let menu = replaceHtml(_this.menu, { "id": "valign-menu", "item": itemset, "subclass": "", "sub": "" });
 
                 $("body").append(menu);
-                $menuButton = $("#" + menuButtonId).width(120);
+                $menuButton = $("#" + menuButtonId).width(150);
                 _this.focus($menuButton, "bottom");
 
                 $menuButton.find(".luckysheet-cols-menuitem").click(function () {
