@@ -17,10 +17,17 @@ import { setluckysheet_scroll_status } from "../../methods/set";
 import { getdatabyselection, getcellvalue } from "../../global/getdata";
 import { luckysheetMoveEndCell } from "../../controllers/sheetMove";
 import { mouseposition } from "../../global/location";
-import locale from "../../locale/locale";
 import { getRangeSplitArray, getRowColCheck } from "../../utils/vchart";
-import { initVChartType } from "../../controllers/vchart-setting";
+import {
+  vchartStyleContent,
+  vchartTypeContent,
+} from "../../controllers/constant";
+import { deepCopy } from "../../utils/chartUtil";
+import locale from "../../locale/locale";
 
+/**
+ * VChart 相关依赖及样式文件
+ */
 const dependScripts = ["expendPlugins/libs/vchart.min.js"];
 const dependLinks = ["expendPlugins/vchart/vchart.css"];
 
@@ -30,12 +37,16 @@ const dependLinks = ["expendPlugins/vchart/vchart.css"];
  * @param {*} isDemo
  */
 function vchart(data, isDemo) {
+  // setTimeout(() => {
+  //   openVChartSetting();
+  // }, 100);
+
   // 加载 css
   loadLinks(dependLinks);
 
   // 加载 js 依赖
   seriesLoadScripts(dependScripts, null, () => {
-    console.log("## vchart 插件加载完成");
+    console.log("## vchart 插件相关依赖加载完成！");
 
     chartInfo.chart_selection = chart_selection();
 
@@ -53,7 +64,7 @@ function vchart(data, isDemo) {
 }
 
 /**
- * 渲染图表
+ * 渲染图表 - 是初始化页面时，如果 sheet file vchart 有数据的话，应该调用 render 创建图表
  */
 function renderVCharts(vchartList, isDemo) {
   // no chart
@@ -84,11 +95,17 @@ function renderVCharts(vchartList, isDemo) {
     const dom = $(`#${chart_id_c}`).children(
       ".luckysheet-modal-dialog-content"
     )[0];
+
     dom.id = chart_id;
 
     let container = document.getElementById(chart_id_c);
 
-    // 创建 vchart 图表
+    /**
+     * 核心方法 ： 创建 vchart 图表
+     * 定义 item ={ width:xxx; chart_id:xxx; chartOptions:{ spec:{...}; rangeArray:[] } }
+     * 后续的图表操作，需要基于创建对象 IVChart 及 ISpec 两个对象
+     * 包括修改图表配置等
+     */
     const vchart = new VChart.default(vchartItem.chartOptions.spec, { dom });
     vchart.renderSync();
 
@@ -97,12 +114,12 @@ function renderVCharts(vchartList, isDemo) {
 
     // delete current chart
     $(`#${chart_id}_c .luckysheet-modal-controll-del`).click(function (e) {
-      delChart(chart_id);
+      delVChart(chart_id);
     });
 
     // edit current chart
     $(`#${chart_id}_c .luckysheet-modal-controll-update`).click(function (e) {
-      openVChartSetting(vchart, vchartItem.chartOptions.spec);
+      openVChartSetting(vchart);
     });
 
     // 实现点击图标高亮
@@ -236,8 +253,6 @@ function renderVCharts(vchartList, isDemo) {
  * 创建图表
  */
 function createVChart(width, height, left, top) {
-  // 需要解析生成 vchart 特有的配置对象
-
   // 获取用户选区
   var jfgird_select_save = luckysheet.getluckysheet_select_save();
 
@@ -329,7 +344,7 @@ function createVChart(width, height, left, top) {
   luckysheetMoveEndCell("right", "range", false, column_ed);
   jfgird_select_save = luckysheet.getluckysheet_select_save();
 
-  //   获取 rangeArray
+  //   获取 rangeArray、chartData
   var rangeArray = $.extend(true, [], jfgird_select_save);
   var rangeTxt = getRangetxt(
     chartInfo.currentSheetIndex,
@@ -338,7 +353,9 @@ function createVChart(width, height, left, top) {
   );
   let chartData = getdatabyselection();
 
-  // 数据处理完成，准备创建统计图
+  /**
+   * 数据处理完成，准备创建统计图
+   */
   let chart_id = generateRandomKey("chart");
   let chart_id_c = chart_id + "_c";
   let modelChartShowHTML =
@@ -357,6 +374,7 @@ function createVChart(width, height, left, top) {
   const dom = $(`#${chart_id_c}`).children(
     ".luckysheet-modal-dialog-content"
   )[0];
+
   dom.id = chart_id;
 
   let container = document.getElementById(chart_id_c);
@@ -383,9 +401,10 @@ function createVChart(width, height, left, top) {
 
   // 获取 vchart 的配置项
   const spec = getVChartOption(rangeSplitArray);
-  console.log("==> spec", spec);
+
   /**
-   * 合并配置项
+   * 合并配置项，生成 sheet file vchart 配置
+   * item ={ width:xxx; chart_id:xxx; chartOptions:{ spec:{...}; rangeArray:[] } }
    */
   const chartOptions = {
     spec,
@@ -435,12 +454,12 @@ function createVChart(width, height, left, top) {
 
   // delete current chart
   $(`#${chart_id}_c .luckysheet-modal-controll-del`).click(function (e) {
-    delChart(chart_id);
+    delVChart(chart_id);
   });
 
   // edit current chart
   $(`#${chart_id}_c .luckysheet-modal-controll-update`).click(function (e) {
-    openVChartSetting(vchart, spec);
+    openVChartSetting(vchart);
   });
 
   // 实现点击图标高亮
@@ -551,14 +570,12 @@ function createVChart(width, height, left, top) {
         e.stopPropagation();
       }
     });
-
-  console.groupEnd();
 }
 
 /**
  * 删除图表
  */
-function delChart(chart_id) {
+function delVChart(chart_id) {
   // delete container
   $(`.luckysheet-cell-main #${chart_id}_c`).remove();
 
@@ -568,6 +585,7 @@ function delChart(chart_id) {
   // delete storage
   let sheetFile =
     chartInfo.luckysheetfile[getSheetIndex(chartInfo.currentSheetIndex)];
+
   let index = sheetFile.vchart.findIndex((item) => item.chart_id == chart_id);
   sheetFile.vchart.splice(index, 1);
 }
@@ -608,18 +626,16 @@ function renderChartShow(index) {
 }
 
 /**
- * 根据传入的 rangeArray 创建 VChart 配置项
+ * ** 核心方法 **
+ * 根据传入的 rangeArray 创建 VChart data 配置项
  */
 function getVChartOption(rangeArray) {
-  const { coltitle, rowtitle, title, content, range } = rangeArray;
+  const { coltitle, rowtitle, content, range } = rangeArray;
 
   // 根据真实用户选取数据生成 data
   // 多个系列是通过 x 轴进行循环
   const options = {
-    title: {
-      // text: title
-    },
-    data: [{ values: [] }],
+    data: [{ id: "data", values: [] }],
     type: ["line", "bar"][Math.floor(Math.random() * 2)],
     xField: "key",
     yField: "value",
@@ -837,62 +853,65 @@ function selectRangeBorderHide() {
 }
 
 /**
- * 打开图表属性面板
+ * 打开VChart属性面板
+ * @param { IVChart } vchart
  */
 function openVChartSetting(vchart) {
-  const $dialogMask = $("#luckysheet-modal-dialog-mask");
+  const baseOption = vchart ? deepCopy(vchart.getChart()._spec) : {};
+
+  // 删除影响渲染的其他属性
+  delete baseOption.series;
+  delete baseOption.region;
+  delete baseOption.crosshair;
+  delete baseOption.axes;
+
+  console.log("==> 修改属性基础配置", baseOption);
 
   // 1. 打开蒙版
+  const $dialogMask = $("#luckysheet-modal-dialog-mask");
   $dialogMask.show();
-  // 2. 设置背景
   $dialogMask.css("background", "rgba(0, 0, 0, 0.15)");
 
-  let drawer = document.querySelector("#luckysheet-vchart-setting-dialog");
-  if (drawer) {
-    $(drawer).show();
-  } else {
-    // 创建 vchart 属性面板
-    drawer = document.createElement("div");
-    drawer.id = "luckysheet-vchart-setting-dialog";
-    // 添加到 body 上
-    $("body").append(drawer);
+  // 2. 判断 dialog 是否存在
+  let $dialog = document.querySelector("#luckysheet-vchart-setting-dialog");
+
+  if ($dialog) $($dialog).show();
+  else {
+    $dialog = document.createElement("div");
+    $dialog.id = "luckysheet-vchart-setting-dialog";
+    $("body").append($dialog);
   }
 
-  // 创建内容
-  const $content = `<div class="luckysheet-vchart-setting-dialog-title">
-            <span class="title">${locale().vChart.title}</span>
-            <span id="luckysheet-vchart-setting-dialog-close" title="${
-              locale().vChart.close
-            }"">
-                <i class="fa fa-close" aria-hidden="true" /></i>
-            </span>
-        </div>
-        <div class="luckysheet-vchart-setting-dialog-body"></div>
-        <div class="luckysheet-vchart-setting-dialog-footer">
-            <span class="cancel">${locale().vChart.cancel}</span>
-            <span class="confirm">${locale().vChart.confirm}</span>
-        </div>`;
+  // 创建 setting dialog、 setting dialog body 内容html
+  const $content =
+    '<div class="luckysheet-vchart-setting-dialog-title"><span class="title">${title}</span><span id="luckysheet-vchart-setting-dialog-close" title="${close}"><i class="fa fa-close" aria-hidden="true"></i></span></div><div class="luckysheet-vchart-setting-dialog-body">${body}</div><div class="luckysheet-vchart-setting-dialog-footer"><span class="cancel">${cancel}</span><span class="confirm">${confirm}</span></div>';
+  const bodyContent =
+    '<div class="luckysheet-vchart-setting-dialog-body-tabs"><span class="tab active">${type}</span><span class="tab">${style}</span></div><div class="luckysheet-vchart-setting-dialog-body-content" id="type">${typeContent}</div><div class="luckysheet-vchart-setting-dialog-body-content" id="style" style="display:none;">${styleContent}</div>';
 
-  $(drawer).html($content);
+  // 初始化
+  $($dialog).html(
+    replaceHtml($content, {
+      title: locale().vChart.title,
+      close: locale().vChart.close,
+      cancel: locale().vChart.cancel,
+      confirm: locale().vChart.confirm,
+      body: replaceHtml(bodyContent, {
+        type: locale().vChart.type,
+        style: locale().vChart.style,
+        typeContent: vchartTypeContent,
+        styleContent: vchartStyleContent,
+      }),
+    })
+  );
 
-  // 初始化内容
-  const dialogBody = $(".luckysheet-vchart-setting-dialog-body");
-  $(dialogBody).html(`
-        <div class="luckysheet-vchart-setting-dialog-body-tabs">
-            <span class="tab active">图表类型</span>
-            <span class="tab">图表样式</span>
-        </div>
-
-        <div class="luckysheet-vchart-setting-dialog-body-content" id="type">
-
-        </div>  
-        <div class="luckysheet-vchart-setting-dialog-body-content" id="style" style="display:none;">
-                图表样式
-        </div>
-    `);
+  /**
+   * 下列代码测试用
+   */
+  // $("#type").hide();
+  // $("#style").show();
 
   // 实现 tab 切换
-  $(dialogBody).on("click", ".tab", function () {
+  $(".luckysheet-vchart-setting-dialog-body").on("click", ".tab", function () {
     const index = $(this).index();
 
     $(".tab").removeClass("active");
@@ -902,43 +921,169 @@ function openVChartSetting(vchart) {
     $(".luckysheet-vchart-setting-dialog-body-content").eq(index).show();
   });
 
-  // 初始化图表类型选择
-  initVChartType(
-    $(".luckysheet-vchart-setting-dialog-body-content#type"),
-    vchart
-  );
+  let spec = null;
+
+  /**
+   * VChart 配置更新 - 具体内容区的各种事件
+   *  1. 类型事件 - 基于 baseOptions 做调整
+   *  TODO: 待优化
+   */
+  $(".vchart-type-item")
+    .off("click")
+    .on("click", function () {
+      // 1. 获取当前图表类型
+      const type = $(this).attr("data-type");
+      console.log("==> 当前点击的图表类型", type);
+
+      // updateSpec 是 spec 更新，而不是数据替换
+      switch (type) {
+        case "basic-line":
+          spec = Object.assign(baseOption, {
+            type: "line",
+            line: { style: { curveType: "none" } },
+          });
+          break;
+        case "smoothed-line":
+          spec = Object.assign(baseOption, {
+            type: "line",
+            line: { style: { curveType: "monotone" } },
+          });
+          break;
+        case "step-line":
+          spec = Object.assign(baseOption, {
+            type: "line",
+            line: { style: { curveType: "stepAfter" } },
+          });
+          break;
+        case "basic-area":
+          spec = Object.assign(baseOption, {
+            type: "area",
+            line: { style: { curveType: "none" } },
+          });
+          break;
+        case "smoothed-area":
+          spec = Object.assign(baseOption, {
+            type: "area",
+            line: { style: { curveType: "monotone" } },
+          });
+          break;
+        case "step-area":
+          spec = Object.assign(baseOption, {
+            type: "area",
+            line: { style: { curveType: "stepAfter" } },
+          });
+          break;
+        case "basic-column":
+          spec = Object.assign(baseOption, {
+            type: "bar",
+          });
+          break;
+        case "group-column":
+          spec = Object.assign(baseOption, {
+            type: "bar",
+          });
+          break;
+        case "stack-column":
+          spec = Object.assign(baseOption, {
+            type: "bar",
+          });
+          break;
+        case "stack-percentage-column":
+          spec = Object.assign(baseOption, {
+            type: "bar",
+          });
+          break;
+        case "basic-pie":
+          spec = Object.assign(baseOption, {
+            type: "pie",
+            outerRadius: 0.8,
+            innerRadius: 0,
+            padAngle: 0,
+            valueField: "value",
+            categoryField: "key",
+            pie: {
+              style: {
+                cornerRadius: 0,
+              },
+              state: {
+                hover: {
+                  outerRadius: 0.85,
+                  lineWidth: 1,
+                },
+                selected: {
+                  outerRadius: 0.85,
+                  lineWidth: 1,
+                },
+              },
+            },
+          });
+          break;
+        case "ring-pie":
+          spec = Object.assign(baseOption, {
+            type: "pie",
+            valueField: "value",
+            categoryField: "key",
+            outerRadius: 0.8,
+            innerRadius: 0.5,
+            padAngle: 0.6,
+            pie: {
+              style: {
+                cornerRadius: 10,
+              },
+              state: {
+                hover: {
+                  outerRadius: 0.85,
+                  lineWidth: 1,
+                },
+                selected: {
+                  outerRadius: 0.85,
+                  lineWidth: 1,
+                },
+              },
+            },
+          });
+          console.log("==> spec", spec);
+          break;
+      }
+      vchart.updateSpec(spec);
+    });
 
   // 监听close 事件
   $("#luckysheet-vchart-setting-dialog-close")
     .off("click")
-    .on("click", () => closeVChartSetting(vchart));
+    .on("click", () => closeVChartSetting(spec));
+
   // 监听取消事件
   $(".luckysheet-vchart-setting-dialog-footer .cancel")
     .off("click")
-    .on("click", () => closeVChartSetting(vchart));
+    .on("click", () => closeVChartSetting(spec));
 
   // 监听确认事件
   $(".luckysheet-vchart-setting-dialog-footer .confirm")
     .off("click")
-    .on("click", () => closeVChartSetting(vchart));
+    .on("click", () => closeVChartSetting(spec));
 
   // 监听蒙版点击事件
   $($dialogMask)
     .off("click")
-    .on("click", () => closeVChartSetting(vchart));
+    .on("click", () => closeVChartSetting(spec));
 }
 
 /**
  * 关闭属性面板
  */
-function closeVChartSetting(vchart) {
+function closeVChartSetting(spec) {
   const $dialogMask = $("#luckysheet-modal-dialog-mask");
   const $drawer = $("#luckysheet-vchart-setting-dialog");
 
   $dialogMask.hide();
   $drawer.hide();
+
+  // 如果是null 则表示当前setting 用户没有执行任何操作
+  if (!spec) return;
+
   console.group("图表更新");
-  console.log("==> ", vchart.getChart()._spec);
+  console.log("==> 更新后的配置", spec);
   console.groupEnd();
 }
 
