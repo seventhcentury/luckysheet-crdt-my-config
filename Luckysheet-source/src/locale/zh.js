@@ -3,6 +3,8 @@ export default {
         title: "VChart 图表设置",
         cancel: "关闭",
         confirm: "确认",
+        type:"图表类型",
+        style:"图表样式"
     },
     functionlist: {
         "SUMIF": {

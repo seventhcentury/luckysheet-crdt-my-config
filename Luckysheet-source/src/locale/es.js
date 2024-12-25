@@ -3,6 +3,8 @@ export default {
         settingTitle: "VCharti diagrammi seadistused",
         cancel: "sulge",
         confirm: "kinnita",
+        type:"图表类型",
+        style:"图表样式"
     },
     functionlist: {
         "SUMIF": {

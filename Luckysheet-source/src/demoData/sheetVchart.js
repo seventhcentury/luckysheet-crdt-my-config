@@ -54,8 +54,10 @@ window.sheetVChart = {
       needRangeShow: true,
       chartOptions: {
         spec: {
+          type: "bar",
           data: [
             {
+              id: "barData",
               values: [
                 { key: "Monday", value: 22 },
                 { key: "Tuesday", value: 13 },
@@ -65,7 +67,6 @@ window.sheetVChart = {
               ],
             },
           ],
-          type: "bar",
           xField: "key",
           yField: "value",
         },
