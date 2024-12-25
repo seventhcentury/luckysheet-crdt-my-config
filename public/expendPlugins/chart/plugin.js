@@ -1,5 +1,5 @@
 import { seriesLoadScripts, loadLinks, $$, arrayRemoveItem } from '../../utils/util'
-import { generateRandomKey, replaceHtml } from '../../utils/chartUtil'
+import { generateRandomKey, replaceHtml, parseDataToPX } from '../../utils/chartUtil'
 import { getdatabyselection, getcellvalue } from '../../global/getdata';
 import chartInfo from '../../store'
 import formula from '../../global/formula';
@@ -22,15 +22,17 @@ let _colLocation = colLocation
 
 // Dynamically load dependent scripts and styles
 const dependScripts = [
+    // 'https://cdn.jsdelivr.net/npm/vue@2.6.11',
     'expendPlugins/libs/vue@2.6.11.min.js',
     'expendPlugins/libs/vuex.min.js',
     'expendPlugins/libs/elementui.min.js',
     'expendPlugins/libs/echarts.min.js',
     'expendPlugins/chart/chartmix.umd.min.js',
-    // 'https://cdn.jsdelivr.net/npm/vue@2.6.11',
     // 'https://unpkg.com/vuex@3.4.0',
     // 'https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/index.js',
     // 'https://cdn.bootcdn.net/ajax/libs/echarts/4.8.0/echarts.min.js',
+    // 'expendPlugins/chart/chartmix.umd.min.js',
+
     // 'http://26.26.26.1:8000/chartmix.umd.js'
 ]
 
@@ -46,7 +48,9 @@ function chart(data, isDemo) {
 
     seriesLoadScripts(dependScripts, null, function () {
         const store = new Vuex.Store()
-        console.info('chartmix::', chartmix.default)
+        console.group("chartmix 加载完成");
+        console.info(chartmix.default);
+        console.groupEnd();
 
         Vue.use(chartmix.default, { store })
         let outDom = document.getElementsByTagName('body')[0]
@@ -110,7 +114,6 @@ function chart(data, isDemo) {
 
 // rendercharts
 function renderCharts(chartLists, isDemo) {
-
     // no chart
     if (chartLists == undefined) {
         return;
@@ -143,7 +146,6 @@ function renderCharts(chartLists, isDemo) {
 
         let container = document.getElementById(chart_id_c)
 
-
         let chart_json
         chart_json = chartInfo.chartparam.getChartJson(chart.chart_id)
 
@@ -170,6 +172,8 @@ function renderCharts(chartLists, isDemo) {
             }
             e.stopPropagation()
         })
+
+
         $t.mousedown(function (e) {  // move chart
             if (!chartInfo.chartparam.luckysheetCurrentChartMaxState) {
                 //当前图表显示区域高亮
@@ -268,17 +272,20 @@ function renderCharts(chartLists, isDemo) {
                 }
             })
 
+        // 这里要兼容带单位的宽度和高度，不然会出现位置异常BUG
+        let width = parseDataToPX(chart.width)
+        let height = parseDataToPX(chart.height)
+        let left = parseDataToPX(chart.left)
+        let top = parseDataToPX(chart.top)
 
-        let width = chart.width
-        let height = chart.height
-        let left = chart.left
-        let top = chart.top
-        container.style.width = width + 'px'
-        container.style.height = height + 'px'
+
+
+        container.style.width = width
+        container.style.height = height
         container.style.position = 'absolute'
         container.style.background = '#fff'
-        container.style.left = left + 'px'
-        container.style.top = top + 'px'
+        container.style.left = left
+        container.style.top = top
         container.style.zIndex = chartInfo.zIndex ? chartInfo.zIndex : 15
         chartInfo.zIndex++
 
@@ -1066,8 +1073,8 @@ function chart_selection() {
 }
 
 // create chart
-function createLuckyChart(width, height, left, top, flag) {
-    //如果只选中一个单元格，则自动填充选取
+function createLuckyChart(width, height, left, top,) {
+    // 如果只选中一个单元格，则自动填充选取
     var jfgird_select_save = luckysheet.getluckysheet_select_save();
     if (
         jfgird_select_save.length == 1 &&
@@ -1161,7 +1168,7 @@ function createLuckyChart(width, height, left, top, flag) {
 
     var rangeTxt = getRangetxt(chartInfo.currentSheetIndex, rangeArray[0], chartInfo.currentSheetIndex)
 
-
+    console.log("==>rangeArray ", rangeArray);
     let chartData = getdatabyselection()
     console.dir(chartData)
 
@@ -1186,17 +1193,18 @@ function createLuckyChart(width, height, left, top, flag) {
     let { render, chart_json } = chartInfo.createChart($(`#${chart_id_c}`).children('.luckysheet-modal-dialog-content')[0], chartData, chart_id, rangeArray, rangeTxt)
     // chartInfo.currentChart = chart_json.chartOptions
 
+    // 需要兼容不同的单位
+    width = parseDataToPX(width || 400)
+    height = parseDataToPX(height || 250)
+    left = parseDataToPX(left || 0)
+    top = parseDataToPX(top || 0)
 
-    width = width ? width : 400
-    height = height ? height : 250
-    left = left ? left : 0
-    top = top ? top : 0
-    container.style.width = width + 'px'
-    container.style.height = height + 'px'
+    container.style.width = width
+    container.style.height = height
     container.style.position = 'absolute'
     container.style.background = '#fff'
-    container.style.left = left + 'px'
-    container.style.top = top + 'px'
+    container.style.left = left
+    container.style.top = top
     render.style.width = '100%'
     render.style.height = '100%'
     container.style.zIndex = chartInfo.zIndex ? chartInfo.zIndex : 15
@@ -1216,14 +1224,6 @@ function createLuckyChart(width, height, left, top, flag) {
         top,
         sheetIndex: sheetFile.index
     })
-
-    // 发送协同数据
-
-    const v = { chart_id, width, height, left, top, sheetIndex: sheetFile.index, needRangeShow: false, chartOptions: chart_json.chartOptions, chartData }
-    console.log("==> 图表协同 :新建图表", v);
-    server.saveParam('c', sheetFile.index, v, { "op": "add", "cid": chart_id })
-
-
 
     //处理区域高亮框参数，当前页中，只有当前的图表的needRangShow为true,其他为false
     showNeedRangeShow(chart_id);
@@ -1345,6 +1345,11 @@ function createLuckyChart(width, height, left, top, flag) {
 
             }
         })
+
+    // 创建统计图之后，发送协同数据
+    const v = { chart_id, width, height, left, top, sheetIndex: sheetFile.index, needRangeShow: false, chartOptions: chart_json.chartOptions, chartData }
+    console.log("==> 图表协同 :新建图表", v);
+    server.saveParam('c', sheetFile.index, v, { "op": "add", "cid": chart_id })
 }
 
 /**
@@ -1366,7 +1371,7 @@ function setChartMoveableEffect($container) {
 }
 
 // delete chart
-function delChart(chart_id) {
+function delChart(chart_id,) {
     // delete container
     $(`.luckysheet-cell-main #${chart_id}_c`).remove()
 
@@ -1380,9 +1385,9 @@ function delChart(chart_id) {
     // api call
     chartInfo.deleteChart(chart_id)
 
-    console.group("发送协同消息");
-    console.log("删除图表 ID", chart_id);
-    console.groupEnd();
+    console.log("==> 图表协同 :删除图表", chart_id);
+    server.saveParam('c', sheetFile.index, { "chart_id": chart_id }, { "op": "del", "cid": chart_id })
+
 }
 
 //设置某个图表的高亮区域状态为显示,处理当前页的所有图表，只取一个图表设置为显示，其他隐藏，其他页不管
@@ -1423,7 +1428,6 @@ function hideAllNeedRangeShow() {
 
 //选择区域高亮
 function selectRangeBorderShow(chart_id) {
-
     let $t = $('#' + chart_id + '_c')
 
     // Highlight of data range
@@ -1470,6 +1474,14 @@ function selectRangeBorderHide(settingShow) {
 
     //标识：是否处理设置界面
     if (!settingShow && $('.chartSetting').is(':visible') && !isEditMode()) {
+        // 劫持用户关闭设置面板操作，发送协同更新 update options 操作
+        // 获取 chart_id
+        let sheetFile = chartInfo.luckysheetfile[getSheetIndex(chartInfo.currentSheetIndex)]
+        const chart_id = chartInfo.chartparam.luckysheetCurrentChart
+        const chartOptions = chartInfo.chartparam.getChartJson(chart_id)
+        console.log("==> 图表协同 :更新配置");
+        server.saveParam('c', sheetFile.index, { "chart_id": chart_id, chartOptions }, { "op": "update", "cid": chart_id })
+
         hideChartSettingComponent()
     }
 }
@@ -1554,4 +1566,4 @@ function renderChartShow(index) {
 
 }
 
-export { chart, createLuckyChart, showNeedRangeShow, hideAllNeedRangeShow, renderChartShow, delChart, setChartMoveableEffect }
+export { chart, createLuckyChart, chart_selection, showNeedRangeShow, hideAllNeedRangeShow, renderChartShow, delChart, setChartMoveableEffect, selectRangeBorderShow, showChartSettingComponent }

@@ -715,9 +715,11 @@ function getVChartOption(rangeArray) {
         options.data[0].values.push({ xAxis, series, value });
       }
     }
-    // 修正 xField yField
+    // 声明 x 轴字段，当存在分组时
     options.xField = ["series", "xAxis"];
+    // 声明 y 轴字段
     options.yField = "value";
+    // 用于颜色映射
     options.seriesField = "xAxis";
   }
 
