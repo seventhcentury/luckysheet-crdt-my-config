@@ -208,6 +208,10 @@ export const WS_SERVER_URL = "ws://127.0.0.1:9000";
 <p align="center">
   <img src='/public/vchart.gif' />
 </p>
+<span style="font-weight:900">vchart 图表设置</span>
+<p align="center">
+  <img src='/public/vchart-setting.gif' />
+</p>
 
 ### 3️⃣ 图片移动性能优化
 <span style="font-weight:900">原效果：</span>

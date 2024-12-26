@@ -1484,6 +1484,27 @@ const vchartTypeContent = `
 <div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div>
 
 
+<h1 class="tips">柱状图</h1>
+<div class="vchart-type-item" title="基础柱状图" data-type="basic-column">
+    <img src="../../assets/vchart/basic-column.png" alt="基础柱状图" />
+    <div class="vchart-type-item-name">基础柱状图</div>
+</div>
+<!--
+  <div class="vchart-type-item" title="分组柱状图" data-type="group-column">
+      <img src="../../assets/vchart/group-column.png" alt="分组柱状图" />
+      <div class="vchart-type-item-name">分组柱状图</div>
+  </div>
+  <div class="vchart-type-item" title="堆叠柱状图" data-type="stack-column">
+      <img src="../../assets/vchart/stack-column.png" alt="堆叠柱状图" />
+      <div class="vchart-type-item-name">堆叠柱状图</div>
+  </div>
+  <div class="vchart-type-item" title="百分比堆叠柱状图" data-type="stack-percentage-column">
+      <img src="../../assets/vchart/stack-percentage-column.png" alt="百分比堆叠柱状图" />
+      <div class="vchart-type-item-name">百分比堆叠柱状图</div>
+  </div>
+-->
+<div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div>
+
 
 <h1 class="tips">面积图</h1>
 <div class="vchart-type-item" title="基础面积图" data-type="basic-area">
@@ -1499,28 +1520,6 @@ const vchartTypeContent = `
     <div class="vchart-type-item-name">阶梯面积图</div>
 </div>
 <div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div>
-
-
-
-<h1 class="tips">柱状图</h1>
-<div class="vchart-type-item" title="基础柱状图" data-type="basic-column">
-    <img src="../../assets/vchart/basic-column.png" alt="基础柱状图" />
-    <div class="vchart-type-item-name">基础柱状图</div>
-</div>
-<div class="vchart-type-item" title="分组柱状图" data-type="group-column">
-    <img src="../../assets/vchart/group-column.png" alt="分组柱状图" />
-    <div class="vchart-type-item-name">分组柱状图</div>
-</div>
-<div class="vchart-type-item" title="堆叠柱状图" data-type="stack-column">
-    <img src="../../assets/vchart/stack-column.png" alt="堆叠柱状图" />
-    <div class="vchart-type-item-name">堆叠柱状图</div>
-</div>
-<div class="vchart-type-item" title="百分比堆叠柱状图" data-type="stack-percentage-column">
-    <img src="../../assets/vchart/stack-percentage-column.png" alt="百分比堆叠柱状图" />
-    <div class="vchart-type-item-name">百分比堆叠柱状图</div>
-</div>
-<div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div>
-
 
 
 <h1 class="tips">饼图</h1>
@@ -1540,7 +1539,7 @@ const vchartStyleContent = `
 <h1 class="tips">Title</h1>
 <div class="vchart-style-item">
     <span class="vchart-style-item-label">标题</span>
-    <input  />
+    <input id="vchart-setting-title" autocomplete ="off"  />
 </div>
 <div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div>
 

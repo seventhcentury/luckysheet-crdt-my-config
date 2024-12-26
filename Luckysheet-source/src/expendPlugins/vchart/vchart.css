@@ -123,7 +123,7 @@
   box-shadow: 0 6px 20px var(--luckysheet-main-color-a1);
   border-radius: 8px;
   overflow: hidden;
-  border: solid 1px transparent;
+  border: solid 2px transparent;
   transition: all 0.3s;
   cursor: pointer;
 }
