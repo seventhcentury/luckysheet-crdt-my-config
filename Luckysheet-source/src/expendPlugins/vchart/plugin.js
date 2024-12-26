@@ -978,21 +978,6 @@ function openVChartSetting(vchart) {
             type: "bar",
           });
           break;
-        case "group-column":
-          spec = Object.assign(baseOption, {
-            type: "bar",
-          });
-          break;
-        case "stack-column":
-          spec = Object.assign(baseOption, {
-            type: "bar",
-          });
-          break;
-        case "stack-percentage-column":
-          spec = Object.assign(baseOption, {
-            type: "bar",
-          });
-          break;
         case "basic-pie":
           spec = Object.assign(baseOption, {
             type: "pie",
@@ -1045,6 +1030,21 @@ function openVChartSetting(vchart) {
           console.log("==> spec", spec);
           break;
       }
+      vchart.updateSpec(spec);
+    });
+
+  // 标题 - 目前使用 input 事件，可以考虑使用 blur
+  $("#vchart-setting-title")
+    .off("input")
+    .on("input", function () {
+      const text = $(this)[0].value;
+
+      spec = Object.assign(baseOption, {
+        title: {
+          visible: true,
+          text,
+        },
+      });
       vchart.updateSpec(spec);
     });
 
