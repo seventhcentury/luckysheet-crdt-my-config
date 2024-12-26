@@ -1,31 +1,254 @@
 /**
  * 超级公式相关实现逻辑
+ *  1. 公用一个弹窗
+ *  2. 还需要进行选区操作，因此不再适用蒙版关闭方案，需要直接式提供按钮实现
  */
+import locale from "../locale/locale";
+import luckysheetPostil from "./postil";
+import menuButton from "./menuButton";
+import {
+	replaceHtml,
+	mouseclickposition,
+	luckysheetContainerFocus,
+} from "../utils/util";
+import functionImplementation from "../function/functionImplementation";
+import getLocalizedFunctionList from "../function/getLocalizedFunctionList";
+import Store from "../store";
 
-function super_compute() {
-	console.log("==> super_compute",);
+function superFormulaCompute() {
+	openDialog("compute");
 }
-function super_dateDiff() {
-	console.log("==> super_dateDiff",);
+function superFormulaDateDiff() {
+	openDialog("dateDiff");
 }
-function super_ranking() {
-	console.log("==> super_ranking",);
+function superFormulaRanking() {
+	openDialog("ranking");
 }
-function super_idInfo() {
-	console.log("==> super_idInfo",);
+function superFormulaIdInfo() {
+	openDialog("idInfo");
 }
-function super_script() {
-	console.log("==> super_script",);
+function superFormulaScript() {
+	openDialog("script");
 }
-function super_latex() {
-	console.log("==> super_latex",);
+function superFormulaLatex() {
+	openDialog("latex");
+}
+
+/**
+ * 公共函数
+ */
+function openDialog(type) {
+	let $dialog = $("#luckysheet-superformula-dialog");
+	if ($dialog.length) {
+		$dialog.show();
+	} else {
+		$dialog = $(
+			replaceHtml("<div id='luckysheet-superformula-dialog'></div>")
+		).appendTo($("body"));
+	}
+
+	// 头部提供下拉菜单，快捷切换公式
+	const $content =
+		'<div class="luckysheet-superformula-dialog-header"> <span class="title">${title} <i class="iconfont luckysheet-iconfont-xiayige"style="user-select: none;" /></span> <span class="close" title="关闭"><i class="fa fa-close" aria-hidden="true"></i></span></div><div class="luckysheet-superformula-dialog-content"><div class="describe"><span class="tips">功能说明</span><span class="text">${describe}</span></div><div class="example"><span class="tips">使用样例</span>${example}</div><div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div><div class="content">${content}</div></div><div class="luckysheet-superformula-dialog-footer">	<span class="cancel">${cancel}</span><span class="confirm">${confirm}</span></div>';
+	// 初始化内容
+	$($dialog).html(
+		replaceHtml($content, {
+			...getTypeInfo(type),
+			cancel: locale().vChart.cancel,
+			confirm: locale().vChart.confirm,
+		})
+	);
+
+	// 初始化内容实现事件 - 实现算术计算、日期差 的核心算法
+	initTypeEvent(type);
+
+	// 实现标题点击出现下拉菜单
+	$dialog
+		.find(".luckysheet-superformula-dialog-header .title")
+		.click(openSubMenu);
+
+	// 监听 close confirm 事件
+	$dialog
+		.find(".luckysheet-superformula-dialog-header .close")
+		.click(closeDialog);
+	$dialog
+		.find(".luckysheet-superformula-dialog-footer .cancel")
+		.click(closeDialog);
+	$dialog
+		.find(".luckysheet-superformula-dialog-footer .confirm")
+		.click(closeDialog);
+}
+function closeDialog() {
+	let $dialog = $("#luckysheet-superformula-dialog");
+	$dialog.hide();
+}
+
+// 根据传入的类型，获取其 title 及内容区 hml
+function getTypeInfo(type) {
+	const map = {
+		compute: {
+			title: locale().superFormula.compute,
+			content: `
+			<div class="content-item">
+				<div class="label">文本算式:</div>
+				<input placeholder="请输入单元格,例如: B1 | B1:B4 " autocomplete="off" />
+			</div>
+			<div class="content-item" style="align-items: flex-start;">
+				<div class="label">输出位置:</div>
+				<div>
+					<input type="radio" id="apple" name="fruit" value="apple" checked>
+					<label for="apple">原位置后插入新列</label><br>
+					<input type="radio" id="orange" name="fruit" value="orange">
+					<label for="orange">原位置覆盖</label><br>
+					<input type="radio" id="banana" name="fruit" value="banana">
+					<label for="banana">自定义单元格输出</label><br>
+					<input placeholder="请输入单元格,例如: B1 | B1:B4 " autocomplete="off" />
+				</div>
+			</div>`,
+			describe:
+				"快速计算出单元格文本算式的结果，如：单元格中输入：3*3+4，则计算结果为：13。",
+			example: "<img src='../assets/superFormula/compute.png' />",
+		},
+		dateDiff: {
+			title: locale().superFormula.dateDiff,
+			content: "dateDiff",
+			describe: "",
+			example: "<img src='../assets/superFormula/compute.png' />",
+		},
+		ranking: {
+			title: locale().superFormula.ranking,
+			content: "ranking",
+			describe: "",
+			example: "<img src='../assets/superFormula/compute.png' />",
+		},
+		idInfo: {
+			title: locale().superFormula.idInfo,
+			content: "idInfo",
+			describe: "",
+			example: "<img src='../assets/superFormula/compute.png' />",
+		},
+		script: {
+			title: locale().superFormula.script,
+			content: "script",
+			describe: "",
+			example: "<img src='../assets/superFormula/compute.png' />",
+		},
+		latex: {
+			title: locale().superFormula.latex,
+			content: "latex",
+			describe: "",
+			example: "<img src='../assets/superFormula/compute.png' />",
+		},
+	};
+
+	return map[type] || { title: "未找到标题", content: "未找到内容" };
+}
+
+/**
+ * initTypeEvent 实现核心算法
+ * @param {*} type
+ */
+function initTypeEvent(type) {
+	// 根据类型执行不同的事件
+	const eventMap = {
+		compute: initComputeHandle,
+		dateDiff: initDateDiffHandle,
+		ranking: initRankingHandle,
+		idInfo: initIdInfoHandle,
+		script: initScriptHandle,
+		latex: initLatexHandle,
+	};
+	eventMap[type]();
+}
+function initComputeHandle() {
+	const EVALUATE_CALL_OBJ = [
+		...getLocalizedFunctionList(locale().functionlist),
+	].find((i) => i.n === "EVALUATE");
+
+	console.log(
+		"==> ",
+		functionImplementation.EVALUATE.call(EVALUATE_CALL_OBJ, "3*3+4")
+	);
+}
+function initDateDiffHandle() {}
+function initRankingHandle() {}
+function initIdInfoHandle() {}
+function initScriptHandle() {}
+function initLatexHandle() {}
+
+// 打开二级菜单
+function openSubMenu(type) {
+	let menuButtonId = "luckysheet-icon-superFormula-dialog-menuButton";
+	let $menuButton = $("#" + menuButtonId);
+	const locale_superFormula = locale().superFormula;
+	$menuButton.remove();
+	luckysheetPostil.removeActivePs();
+	let itemdata = [
+		{ text: locale_superFormula.compute, value: "compute", example: "" },
+		{ text: locale_superFormula.dateDiff, value: "dateDiff", example: "" },
+		{ text: "", value: "split", example: "" },
+		{ text: locale_superFormula.ranking, value: "ranking", example: "" },
+		{ text: locale_superFormula.idInfo, value: "idInfo", example: "" },
+		{ text: "", value: "split", example: "" },
+		{ text: locale_superFormula.script, value: "script", example: "" },
+		{ text: locale_superFormula.latex, value: "latex", example: "" },
+	];
+	let itemset = menuButton.createButtonMenu(itemdata);
+
+	let menu = replaceHtml(menuButton.menu, {
+		id: "superFormula-dialog",
+		item: itemset,
+		subclass: "",
+		sub: "",
+	});
+	$("body").append(menu);
+
+	$menuButton = $("#" + menuButtonId).width(170);
+	$menuButton = $("#" + menuButtonId).css("z-index", "10000");
+
+	// 给子项注册事件
+	$menuButton.find(".luckysheet-cols-menuitem").click(function () {
+		$menuButton.hide();
+		luckysheetContainerFocus();
+
+		let $t = $(this),
+			itemvalue = $t.attr("itemvalue");
+
+		if (itemvalue === "compute") {
+			superFormulaCompute();
+		} else if (itemvalue === "dateDiff") {
+			superFormulaDateDiff();
+		} else if (itemvalue === "ranking") {
+			superFormulaRanking();
+		} else if (itemvalue === "idInfo") {
+			superFormulaIdInfo();
+		} else if (itemvalue === "script") {
+			superFormulaScript();
+		} else if (itemvalue === "latex") {
+			superFormulaLatex();
+		}
+	});
+
+	let userlen = $(this).outerWidth();
+	let tlen = $menuButton.outerWidth();
+
+	let menuleft = $(this).offset().left;
+	if (tlen > userlen && tlen + menuleft > $("#" + Store.container).width()) {
+		menuleft = menuleft - tlen + userlen;
+	}
+	mouseclickposition(
+		$menuButton,
+		menuleft,
+		$(this).offset().top + 25,
+		"lefttop"
+	);
 }
 
 export {
-	super_compute,
-	super_dateDiff,
-	super_ranking,
-	super_idInfo,
-	super_script,
-	super_latex,
+	superFormulaCompute,
+	superFormulaDateDiff,
+	superFormulaRanking,
+	superFormulaIdInfo,
+	superFormulaScript,
+	superFormulaLatex,
 };

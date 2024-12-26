@@ -69,14 +69,13 @@ import {
 import { createLuckyChart } from "../expendPlugins/chart/plugin";
 import { createVChart } from "../expendPlugins/vchart/plugin";
 import {
-	super_compute,
-	super_dateDiff,
-	super_ranking,
-	super_idInfo,
-	super_script,
-	super_latex,
+	superFormulaCompute,
+	superFormulaDateDiff,
+	superFormulaRanking,
+	superFormulaIdInfo,
+	superFormulaScript,
+	superFormulaLatex,
 } from "./superFormula";
-
 const menuButton = {
 	menu: '<div class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-menuButton ${subclass} luckysheet-mousedown-cancel" id="luckysheet-icon-${id}-menuButton">${item}</div>',
 	// "item": '<div itemvalue="${value}" itemname="${name}" class="luckysheet-cols-menuitem ${sub} luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel" style="padding: 3px 0px 3px 1px;"><span style="margin-right:3px;width:13px;display:inline-block;" class="icon luckysheet-mousedown-cancel"></span> ${name} <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;">${example}</span></div></div>',
@@ -4752,17 +4751,17 @@ const menuButton = {
 					itemvalue = $t.attr("itemvalue");
 
 				if (itemvalue === "compute") {
-					super_compute();
+					superFormulaCompute();
 				} else if (itemvalue === "dateDiff") {
-					super_dateDiff();
+					superFormulaDateDiff();
 				} else if (itemvalue === "ranking") {
-					super_ranking();
+					superFormulaRanking();
 				} else if (itemvalue === "idInfo") {
-					super_idInfo();
+					superFormulaIdInfo();
 				} else if (itemvalue === "script") {
-					super_script();
+					superFormulaScript();
 				} else if (itemvalue === "latex") {
-					super_latex();
+					superFormulaLatex();
 				}
 			});
 
