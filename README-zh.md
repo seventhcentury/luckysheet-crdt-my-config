@@ -32,8 +32,8 @@ git clone https://gitee.com/wfeng0/luckysheet-crdt
 
 2. 下载依赖: 
 ```bash
-## "modules": "npm install --s && cd server && npm install --s"
-npm run modules
+## "dep": "npm install --s && cd server && npm install --s"
+npm run dep
 ```
 
 **⛔️ 温馨提示：**
@@ -42,7 +42,7 @@ npm run modules
 1. 项目依赖分为前台依赖、后台依赖（独立的项目哈）；
 2. 推荐大家使用 `npm install` 安装依赖，避免出现版本冲突问题；
 3. 如果依赖下载报错，可以尝试删除 `package-lock.json` 文件，重新执行依赖安装；
-4. 如果封装命令 `npm run modules` 报错，请尝试执行 `npm install --s` 命令进行前台依赖安装，执行 `cd server && npm install --s` 命令进行后台依赖安装。
+4. 如果封装命令 `npm run dep` 报错，请尝试执行 `npm install --s` 命令进行前台依赖安装，执行 `cd server && npm install --s` 命令进行后台依赖安装。
 
 **如果还报错，请确认环境是否满足运行条件：**
 `node -v ==> v20.x.x` // 请确保 node 版本大于 18
