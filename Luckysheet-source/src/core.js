@@ -38,7 +38,7 @@ import Mandarin from "flatpickr/dist/l10n/zh.js";
 import { initListener } from "./controllers/listener";
 import { hideloading, showloading, setloadingcolor } from "./global/loading.js";
 import { luckysheetextendData } from "./global/extend.js";
-import { superFormulaCompute } from "./controllers/superFormula";
+import { superFormulaCompute, superFormulaScript } from "./controllers/superFormula";
 
 let luckysheet = {};
 
@@ -203,7 +203,7 @@ luckysheet.create = function (setting) {
 	}
 	// 测试用例
 	// setTimeout(() => {
-	// 	superFormulaCompute();
+	// 	superFormulaScript();
 	// }, 100);
 };
 
