@@ -230,6 +230,12 @@ export const WS_SERVER_URL = "ws://127.0.0.1:9000";
   <img src='/public/picture-new.gif' />
 </p>
 
+### 4️⃣ 超级公式
+<span style="font-weight:900">功能仍在开发中...</span>
+<p align="center">
+  <img src='/public/super-formula.gif' />
+</p>
+
 ## 开源贡献
 1. 提交 [issue](https://gitee.com/wfeng0/luckysheet-crdt/issues/new)
 2. fork 本项目，提交 PR

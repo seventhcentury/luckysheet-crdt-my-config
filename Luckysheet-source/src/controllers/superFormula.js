@@ -130,7 +130,12 @@ function getTypeInfo(type) {
 		},
 		script: {
 			title: locale().superFormula.script,
-			content: "<div id='editor' class='hljs language-js'></div>",
+			content: `
+			<div class="content-item">
+				<div class="label">数据单元格:</div>
+				<input placeholder="请输入单元格,例如: B1 | B1:B4 " autocomplete="off" />
+			</div>
+			<div id='editor' class='hljs language-js'></div>`,
 			describe:
 				"自定义脚本实现数据处理，例如：获取用户信息，计算用户年龄，返回年龄。",
 			example: "",
@@ -181,20 +186,31 @@ function initScriptHandle() {
 
 	// 2. 加载 codeFlask 依赖
 	const dependScripts = [
-		"https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js",
 		"expendPlugins/codejar/codejar.js",
+		"https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js",
 	];
 	const dependLinks = [
-		"https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css",
+		"https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/atom-one-dark.min.css",
 	];
 	loadLinks(dependLinks);
 
+	// 不能每次都加载，会报错的，应该需要判断
 	seriesLoadScripts(dependScripts, null, function () {
 		console.log("==> CodeFlask 加载完成");
 		const editorDOM = $("#editor")[0];
 		// hljs.highlightElement(editorDOM);
-		let jar = CodeJar(editorDOM, hljs.highlightElement);
-		jar.updateCode(`let foo = bar`);
+		let jar = CodeJar(editorDOM, (editor) => {
+			$(editorDOM).html(
+				hljs.highlight(editor.textContent, { language: "js" }).value
+			);
+		});
+		jar.updateCode(`/** 数据处理函数 - 参数说明
+ * @param { string[][] } data
+ * @param {  } rangeArray
+ */
+console.log('数据源 data',data)
+console.log('选区范围 rangeArray',rangeArray)	
+			`);
 	});
 }
 function initLatexHandle() {}

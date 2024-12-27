@@ -152,7 +152,7 @@
 	.codeflask__pre.codeflask__flatten.language-js {
 	width: auto !important;
 }
-.luckysheet-superformula-dialog-content #codeFlask .codeflask__lines {
-	background-color: #eee;
-	z-index: 10;
+.luckysheet-superformula-dialog-content #editor {
+	padding: 10px;
+	height: 100%;
 }

@@ -231,6 +231,12 @@ export const WS_SERVER_URL = "ws://127.0.0.1:9000";
 </p>
 
 
+### 4️⃣ Super formula
+<span style="font-weight:900">The function is still under development...</span>
+<p align="center">
+  <img src='/public/super-formula.gif' />
+</p>
+
 ## Open source contribution
 1. Submit an [issue](https://gitee.com/wfeng0/luckysheet-crdt/issues/new)
 2. Fork this project and submit a PR
