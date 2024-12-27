@@ -32,8 +32,8 @@ git clone https://gitee.com/wfeng0/luckysheet-crdt
 
 1. Download dependencies: 
 ```bash
-## "modules": "npm install --s && cd server && npm install --s"
-npm run modules
+## "dep": "npm install --s && cd server && npm install --s"
+npm run dep
 ```
 
 **⛔️ Tips：**
@@ -42,7 +42,7 @@ npm run modules
 1. Project dependencies are divided into front-end dependencies and back-end dependencies (independent projects)；
 2. We recommend using `npm install` to install dependencies and avoid version conflicts；
 3. If the dependency download error occurs, you can try deleting the `package lock. json` file and re executing the dependency installation;
-4. If executing the command 'npm run modules' reports an error，Please try executing the 'npm install -- s' command for front-end dependency installation，Execute the 'cd server && npm install -- s' command for background dependency installation。
+4. If executing the command 'npm run dep' reports an error，Please try executing the 'npm install -- s' command for front-end dependency installation，Execute the 'cd server && npm install -- s' command for background dependency installation。
 
 **If the error persists, please confirm if the environment meets the operating conditions：**
 `node -v ==> v20.x.x` // 请确保 node 版本大于 18

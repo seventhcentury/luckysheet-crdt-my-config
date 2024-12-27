@@ -12,7 +12,7 @@
     "lint": "eslint --fix",
     "db": "cd server && npm run db",
     "source": "cd Luckysheet-source && npm run dev",
-    "modules": "npm install --s && cd server && npm install --s"
+    "dep": "npm install --s && cd server && npm install --s"
   },
   "description": "A CRDT library for Luckysheet",
   "keywords": [
