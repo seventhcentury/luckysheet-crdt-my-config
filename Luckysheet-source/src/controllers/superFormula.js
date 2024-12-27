@@ -14,6 +14,7 @@ import {
 import functionImplementation from "../function/functionImplementation";
 import getLocalizedFunctionList from "../function/getLocalizedFunctionList";
 import Store from "../store";
+import { seriesLoadScripts, loadLinks } from "../utils/util";
 
 function superFormulaCompute() {
 	openDialog("compute");
@@ -129,9 +130,10 @@ function getTypeInfo(type) {
 		},
 		script: {
 			title: locale().superFormula.script,
-			content: "script",
-			describe: "",
-			example: "<img src='../assets/superFormula/compute.png' />",
+			content: "<div id='editor' class='hljs language-js'></div>",
+			describe:
+				"自定义脚本实现数据处理，例如：获取用户信息，计算用户年龄，返回年龄。",
+			example: "",
 		},
 		latex: {
 			title: locale().superFormula.latex,
@@ -173,7 +175,28 @@ function initComputeHandle() {
 function initDateDiffHandle() {}
 function initRankingHandle() {}
 function initIdInfoHandle() {}
-function initScriptHandle() {}
+function initScriptHandle() {
+	// 1. 隐藏样例
+	$(".luckysheet-superformula-dialog-content .example").hide();
+
+	// 2. 加载 codeFlask 依赖
+	const dependScripts = [
+		"https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js",
+		"expendPlugins/codejar/codejar.js",
+	];
+	const dependLinks = [
+		"https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css",
+	];
+	loadLinks(dependLinks);
+
+	seriesLoadScripts(dependScripts, null, function () {
+		console.log("==> CodeFlask 加载完成");
+		const editorDOM = $("#editor")[0];
+		// hljs.highlightElement(editorDOM);
+		let jar = CodeJar(editorDOM, hljs.highlightElement);
+		jar.updateCode(`let foo = bar`);
+	});
+}
 function initLatexHandle() {}
 
 // 打开二级菜单

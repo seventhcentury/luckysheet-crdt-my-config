@@ -46,6 +46,8 @@
 	padding: 10px;
 	overflow: hidden;
 	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
 }
 
 /* 滚动条样式 */
@@ -84,6 +86,7 @@
 
 .luckysheet-superformula-dialog-content .content {
 	margin-top: 10px;
+	flex: auto;
 }
 .luckysheet-superformula-dialog-content .content .content-item {
 	margin: 10px 0;
@@ -135,4 +138,21 @@
 	background-color: var(--luckysheet-main-color-a8);
 	border-color: transparent;
 	color: #fff;
+}
+
+.luckysheet-superformula-dialog-content #codeFlask {
+	position: relative;
+	height: 100%;
+	width: 100%;
+	min-height: calc(100% - 100px);
+	border: solid #eee 1px;
+}
+.luckysheet-superformula-dialog-content
+	#codeFlask
+	.codeflask__pre.codeflask__flatten.language-js {
+	width: auto !important;
+}
+.luckysheet-superformula-dialog-content #codeFlask .codeflask__lines {
+	background-color: #eee;
+	z-index: 10;
 }
