@@ -4859,6 +4859,7 @@ export default function luckysheetHandler() {
         splitColumn.init();
     });
 
+
     //菜单栏 插入图片按钮
     $("#luckysheet-insertImg-btn-title").click(function () {
         // *如果禁止前台编辑，则中止下一步操作

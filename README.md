@@ -32,7 +32,8 @@ git clone https://gitee.com/wfeng0/luckysheet-crdt
 
 1. Download dependencies: 
 ```bash
-npm run install
+## "modules": "npm install --s && cd server && npm install --s"
+npm run modules
 ```
 
 **⛔️ Tips：**
@@ -40,7 +41,12 @@ npm run install
 ```js
 1. Project dependencies are divided into front-end dependencies and back-end dependencies (independent projects)；
 2. We recommend using `npm install` to install dependencies and avoid version conflicts；
-3. If the dependency download error occurs, you can try deleting the `package lock. json` file and re executing the dependency installation。
+3. If the dependency download error occurs, you can try deleting the `package lock. json` file and re executing the dependency installation;
+4. If executing the command 'npm run modules' reports an error，Please try executing the 'npm install -- s' command for front-end dependency installation，Execute the 'cd server && npm install -- s' command for background dependency installation。
+
+**If the error persists, please confirm if the environment meets the operating conditions：**
+`node -v ==> v20.x.x` // 请确保 node 版本大于 18
+`npm -v ==> 10.x.x` // 请确保 npm 版本大于 7.x.x
 ```
 
 3. 🚫<span style="color:red;font-weight:900">~~If there is no database service, please skip this step~~</span>🚫 Configure database parameters：
@@ -207,6 +213,10 @@ export const WS_SERVER_URL = "ws://127.0.0.1:9000";
 <span style="font-weight:900">The vchart chart animation is smoother, and the page is concise and beautiful</span>
 <p align="center">
   <img src='/public/vchart.gif' />
+</p>
+<span style="font-weight:900">vchart setting</span>
+<p align="center">
+  <img src='/public/vchart-setting.gif' />
 </p>
 
 ### 3️⃣ Optimization of image mobility performance

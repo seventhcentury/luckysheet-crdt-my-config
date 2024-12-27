@@ -32,7 +32,8 @@ git clone https://gitee.com/wfeng0/luckysheet-crdt
 
 2. 下载依赖: 
 ```bash
-npm run install
+## "modules": "npm install --s && cd server && npm install --s"
+npm run modules
 ```
 
 **⛔️ 温馨提示：**
@@ -40,7 +41,12 @@ npm run install
 ```js
 1. 项目依赖分为前台依赖、后台依赖（独立的项目哈）；
 2. 推荐大家使用 `npm install` 安装依赖，避免出现版本冲突问题；
-3. 如果依赖下载报错，可以尝试删除 `package-lock.json` 文件，重新执行依赖安装。
+3. 如果依赖下载报错，可以尝试删除 `package-lock.json` 文件，重新执行依赖安装；
+4. 如果封装命令 `npm run modules` 报错，请尝试执行 `npm install --s` 命令进行前台依赖安装，执行 `cd server && npm install --s` 命令进行后台依赖安装。
+
+**如果还报错，请确认环境是否满足运行条件：**
+`node -v ==> v20.x.x` // 请确保 node 版本大于 18
+`npm -v ==> 10.x.x` // 请确保 npm 版本大于 7.x.x
 ```
 
 3. 🚫<span style="color:red;font-weight:900">~~如果无数据库服务，请跳过此步骤~~</span>🚫 配置数据库参数：
@@ -207,6 +213,10 @@ export const WS_SERVER_URL = "ws://127.0.0.1:9000";
 <span style="font-weight:900">vchart 图表动画更加流畅，页面简洁美观</span>
 <p align="center">
   <img src='/public/vchart.gif' />
+</p>
+<span style="font-weight:900">vchart 图表设置</span>
+<p align="center">
+  <img src='/public/vchart-setting.gif' />
 </p>
 
 ### 3️⃣ 图片移动性能优化

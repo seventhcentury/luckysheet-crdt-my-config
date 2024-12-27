@@ -1,112 +1,132 @@
-import locale from '../locale/locale';
-import luckysheetConfigsetting from './luckysheetConfigsetting';
+import locale from "../locale/locale";
+import luckysheetConfigsetting from "./luckysheetConfigsetting";
 
-import { getObjType, camel2split } from '../utils/util';
+import { getObjType, camel2split } from "../utils/util";
 
 // 默认的工具栏按钮
 export const defaultToolbar = [
-    'undo',
-    'redo',
-    'paintFormat',
-    '|',
+  "undo",
+  "redo",
+  "paintFormat",
+  "|",
 
-    'currencyFormat',
-    'percentageFormat',
-    'numberIncrease',
-    'numberDecrease',
-    'moreFormats',
-    '|',
+  "currencyFormat",
+  "percentageFormat",
+  "numberIncrease",
+  "numberDecrease",
+  "moreFormats",
+  "|",
 
-    'font',
-    '|',
-    'fontSize',
-    '|',
+  "font",
+  "|",
+  "fontSize",
+  "|",
 
-    'bold',
-    'italic',
-    'strikethrough',
-    'underline',
-    'textColor',
-    '|',
+  "bold",
+  "italic",
+  "strikethrough",
+  "underline",
+  "textColor",
+  "|",
 
-    'fillColor',
-    'border',
-    'mergeCell',
-    '|',
+  "fillColor",
+  "border",
+  "mergeCell",
+  "|",
 
-    'horizontalAlignMode',
-    'verticalAlignMode',
-    'textWrapMode',
-    'textRotateMode',
-    '|',
+  "horizontalAlignMode",
+  "verticalAlignMode",
+  "textWrapMode",
+  "textRotateMode",
+  "|",
 
-    'image',
-    'link',
-    'chart',
-    'postil',
-    'pivotTable',
-    '|',
+  "superFormula",
+  "image",
+  "link",
+  "chart",
+  "postil",
+  "pivotTable",
+  "|",
 
-    'function',
-    'frozenMode',
-    'sortAndFilter',
-    'conditionalFormat',
-    'dataVerification',
-    'splitColumn',
-    'screenshot',
-    'findAndReplace',
-    'protection',
-    'print'
+  "function",
+  "frozenMode",
+  "sortAndFilter",
+  "conditionalFormat",
+  "dataVerification",
+  "splitColumn",
+  "screenshot",
+  "findAndReplace",
+  "protection",
+  "print",
 ];
 
 // 工具栏按钮 id 关系
 export const toolbarIdMap = {
-    undo: '#luckysheet-icon-undo', //Undo redo
-    redo: '#luckysheet-icon-redo',
-    paintFormat: ['#luckysheet-icon-paintformat'], //Format brush
-    currencyFormat: '#luckysheet-icon-currency', //currency format
-    percentageFormat: '#luckysheet-icon-percent', //Percentage format
-    numberDecrease: '#luckysheet-icon-fmt-decimal-decrease', //'Decrease the number of decimal places'
-    numberIncrease: '#luckysheet-icon-fmt-decimal-increase', //'Increase the number of decimal places
-    moreFormats: '#luckysheet-icon-fmt-other', //'More Formats'
-    font: '#luckysheet-icon-font-family', //'font'
-    fontSize: '#luckysheet-icon-font-size', //'Font size'
-    bold: '#luckysheet-icon-bold', //'Bold (Ctrl+B)'
-    italic: '#luckysheet-icon-italic', //'Italic (Ctrl+I)'
-    strikethrough: '#luckysheet-icon-strikethrough', //'Strikethrough (Alt+Shift+5)'
-    underline: '#luckysheet-icon-underline', //'Underline (Alt+Shift+6)'
-    textColor: ['#luckysheet-icon-text-color', '#luckysheet-icon-text-color-menu'], //'Text color'
-    fillColor: ['#luckysheet-icon-cell-color', '#luckysheet-icon-cell-color-menu'], //'Cell color'
-    border: ['#luckysheet-icon-border-all', '#luckysheet-icon-border-menu'], //'border'
-    mergeCell: ['#luckysheet-icon-merge-button', '#luckysheet-icon-merge-menu'], //'Merge cells'
-    horizontalAlignMode: ['#luckysheet-icon-align', '#luckysheet-icon-align-menu'], //'Horizontal alignment'
-    verticalAlignMode: ['#luckysheet-icon-valign', '#luckysheet-icon-valign-menu'], //'Vertical alignment'
-    textWrapMode: ['#luckysheet-icon-textwrap', '#luckysheet-icon-textwrap-menu'], //'Wrap mode'
-    textRotateMode: ['#luckysheet-icon-rotation', '#luckysheet-icon-rotation-menu'], //'Text Rotation Mode'
-    image: '#luckysheet-insertImg-btn-title', //'Insert link'
-    link: '#luckysheet-insertLink-btn-title', //'Insert picture'
-    chart: '#luckysheet-icon-chart-btn', //'chart' (the icon is hidden, but if the chart plugin is configured, you can still create a new chart by right click)
-    postil: '#luckysheet-icon-postil', //'comment'
-    pivotTable: ['#luckysheet-pivot-btn-title'], //'PivotTable'
-    function: ['#luckysheet-icon-function', '#luckysheet-icon-function-menu'], //'formula'
-    frozenMode: ['#luckysheet-freezen-btn-horizontal', '#luckysheet-icon-freezen-menu'], //'freeze mode'
-    sortAndFilter: '#luckysheet-icon-autofilter', //'sort and filter'
-    conditionalFormat: '#luckysheet-icon-conditionformat', //'Conditional Format'
-    dataVerification: '#luckysheet-dataVerification-btn-title', // 'Data Verification'
-    splitColumn: '#luckysheet-splitColumn-btn-title', //'Split column'
-    screenshot: '#luckysheet-chart-btn-screenshot', //'screenshot'
-    findAndReplace: '#luckysheet-icon-seachmore', //'Find and Replace'
-    protection: '#luckysheet-icon-protection', // 'Worksheet protection'
-    print: '#luckysheet-icon-print' // 'print'
+  undo: "#luckysheet-icon-undo", //Undo redo
+  redo: "#luckysheet-icon-redo",
+  paintFormat: ["#luckysheet-icon-paintformat"], //Format brush
+  currencyFormat: "#luckysheet-icon-currency", //currency format
+  percentageFormat: "#luckysheet-icon-percent", //Percentage format
+  numberDecrease: "#luckysheet-icon-fmt-decimal-decrease", //'Decrease the number of decimal places'
+  numberIncrease: "#luckysheet-icon-fmt-decimal-increase", //'Increase the number of decimal places
+  moreFormats: "#luckysheet-icon-fmt-other", //'More Formats'
+  font: "#luckysheet-icon-font-family", //'font'
+  fontSize: "#luckysheet-icon-font-size", //'Font size'
+  bold: "#luckysheet-icon-bold", //'Bold (Ctrl+B)'
+  italic: "#luckysheet-icon-italic", //'Italic (Ctrl+I)'
+  strikethrough: "#luckysheet-icon-strikethrough", //'Strikethrough (Alt+Shift+5)'
+  underline: "#luckysheet-icon-underline", //'Underline (Alt+Shift+6)'
+  textColor: [
+    "#luckysheet-icon-text-color",
+    "#luckysheet-icon-text-color-menu",
+  ], //'Text color'
+  fillColor: [
+    "#luckysheet-icon-cell-color",
+    "#luckysheet-icon-cell-color-menu",
+  ], //'Cell color'
+  border: ["#luckysheet-icon-border-all", "#luckysheet-icon-border-menu"], //'border'
+  mergeCell: ["#luckysheet-icon-merge-button", "#luckysheet-icon-merge-menu"], //'Merge cells'
+  horizontalAlignMode: [
+    "#luckysheet-icon-align",
+    "#luckysheet-icon-align-menu",
+  ], //'Horizontal alignment'
+  verticalAlignMode: [
+    "#luckysheet-icon-valign",
+    "#luckysheet-icon-valign-menu",
+  ], //'Vertical alignment'
+  textWrapMode: ["#luckysheet-icon-textwrap", "#luckysheet-icon-textwrap-menu"], //'Wrap mode'
+  textRotateMode: [
+    "#luckysheet-icon-rotation",
+    "#luckysheet-icon-rotation-menu",
+  ], //'Text Rotation Mode'
+  superFormula: "#luckysheet-icon-superFormula-btn", // 'superFormula'
+  image: "#luckysheet-insertImg-btn-title", //'Insert link'
+  link: "#luckysheet-insertLink-btn-title", //'Insert picture'
+  chart: "#luckysheet-icon-chart-btn", //'chart' (the icon is hidden, but if the chart plugin is configured, you can still create a new chart by right click)
+  postil: "#luckysheet-icon-postil", //'comment'
+  pivotTable: ["#luckysheet-pivot-btn-title"], //'PivotTable'
+  function: ["#luckysheet-icon-function", "#luckysheet-icon-function-menu"], //'formula'
+  frozenMode: [
+    "#luckysheet-freezen-btn-horizontal",
+    "#luckysheet-icon-freezen-menu",
+  ], //'freeze mode'
+  sortAndFilter: "#luckysheet-icon-autofilter", //'sort and filter'
+  conditionalFormat: "#luckysheet-icon-conditionformat", //'Conditional Format'
+  dataVerification: "#luckysheet-dataVerification-btn-title", // 'Data Verification'
+  splitColumn: "#luckysheet-splitColumn-btn-title", //'Split column'
+  screenshot: "#luckysheet-chart-btn-screenshot", //'screenshot'
+  findAndReplace: "#luckysheet-icon-seachmore", //'Find and Replace'
+  protection: "#luckysheet-icon-protection", // 'Worksheet protection'
+  print: "#luckysheet-icon-print", // 'print'
 };
 
 // 创建工具栏按钮的html
 export function createToolbarHtml() {
-    const toolbar = locale().toolbar;
-    const fontarray = locale().fontarray;
-    const defaultFmtArray = locale().defaultFmt;
-    const htmlMap = {
-        undo: `<div class="luckysheet-toolbar-button luckysheet-inline-block disabled" data-tips="${toolbar.undo}"
+  const toolbar = locale().toolbar;
+  const fontarray = locale().fontarray;
+  const defaultFmtArray = locale().defaultFmt;
+  const htmlMap = {
+    undo: `<div class="luckysheet-toolbar-button luckysheet-inline-block disabled" data-tips="${toolbar.undo}"
         id="luckysheet-icon-undo" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -120,7 +140,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`,
-        redo: `<div class="luckysheet-toolbar-button luckysheet-inline-block disabled" data-tips="${toolbar.redo}"
+    redo: `<div class="luckysheet-toolbar-button luckysheet-inline-block disabled" data-tips="${toolbar.redo}"
         id="luckysheet-icon-redo" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -134,7 +154,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`,
-        paintFormat: `<div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${toolbar.paintFormat}"
+    paintFormat: `<div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${toolbar.paintFormat}"
         id="luckysheet-icon-paintformat" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -148,7 +168,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`,
-        currencyFormat: `<div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${toolbar.currencyFormat}"
+    currencyFormat: `<div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${toolbar.currencyFormat}"
         id="luckysheet-icon-currency" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -162,7 +182,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`,
-        percentageFormat: `<div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${toolbar.percentageFormat}"
+    percentageFormat: `<div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${toolbar.percentageFormat}"
         id="luckysheet-icon-percent" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -176,7 +196,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, //Percentage format
-        numberDecrease: `<div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${toolbar.numberDecrease}"
+    numberDecrease: `<div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${toolbar.numberDecrease}"
         id="luckysheet-icon-fmt-decimal-decrease" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -191,7 +211,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, //'Decrease the number of decimal places'
-        numberIncrease: `<div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${toolbar.numberIncrease}"
+    numberIncrease: `<div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${toolbar.numberIncrease}"
         id="luckysheet-icon-fmt-decimal-increase" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -206,7 +226,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, //'Increase the number of decimal places
-        moreFormats: `<div class="luckysheet-toolbar-select luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="${toolbar.moreFormats}"
+    moreFormats: `<div class="luckysheet-toolbar-select luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="${toolbar.moreFormats}"
         id="luckysheet-icon-fmt-other" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -222,7 +242,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, //'More Formats'
-        font: `<div class="luckysheet-toolbar-select luckysheet-toolbar-menu-button luckysheet-inline-block"
+    font: `<div class="luckysheet-toolbar-select luckysheet-toolbar-menu-button luckysheet-inline-block"
         data-tips="${toolbar.font}" id="luckysheet-icon-font-family" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -238,7 +258,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, //'font'
-        fontSize: `<div class="luckysheet-toolbar-select luckysheet-toolbar-zoom-combobox luckysheet-toolbar-combo-button luckysheet-inline-block"
+    fontSize: `<div class="luckysheet-toolbar-select luckysheet-toolbar-zoom-combobox luckysheet-toolbar-combo-button luckysheet-inline-block"
         data-tips="${toolbar.fontSize}" id="luckysheet-icon-font-size" style="user-select: none;">
             <div class="luckysheet-toolbar-combo-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -256,7 +276,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, //'Font size'
-        bold: `<div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${toolbar.bold}"
+    bold: `<div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${toolbar.bold}"
         id="luckysheet-icon-bold" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -270,7 +290,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, //'Bold (Ctrl+B)'
-        italic: `<div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${toolbar.italic}"
+    italic: `<div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${toolbar.italic}"
         id="luckysheet-icon-italic" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -284,7 +304,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, //'Italic (Ctrl+I)'
-        strikethrough: `<div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${toolbar.strikethrough}"
+    strikethrough: `<div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${toolbar.strikethrough}"
         id="luckysheet-icon-strikethrough" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -298,7 +318,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, //'Strikethrough (Alt+Shift+5)'
-        underline: `<div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${toolbar.underline}"
+    underline: `<div class="luckysheet-toolbar-button luckysheet-inline-block" data-tips="${toolbar.underline}"
         id="luckysheet-icon-underline" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -312,7 +332,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, //'Underline (Alt+Shift+6)'
-        textColor: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block luckysheet-icon-text-color"
+    textColor: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block luckysheet-icon-text-color"
         data-tips="${toolbar.textColor}" id="luckysheet-icon-text-color" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -345,7 +365,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, //'Text color'
-        fillColor: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block luckysheet-icon-cell-color"
+    fillColor: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block luckysheet-icon-cell-color"
         data-tips="${toolbar.fillColor}" id="luckysheet-icon-cell-color" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -378,7 +398,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, //'Cell color'
-        border: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block luckysheet-icon-border-all"
+    border: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block luckysheet-icon-border-all"
         data-tips="${toolbar.border}" id="luckysheet-icon-border-all" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -404,7 +424,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, //'border'
-        mergeCell: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block luckysheet-icon-merge-button"
+    mergeCell: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block luckysheet-icon-merge-button"
         data-tips="${toolbar.mergeCell}" id="luckysheet-icon-merge-button" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -430,7 +450,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, //'Merge cells'
-        horizontalAlignMode: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block luckysheet-icon-align"
+    horizontalAlignMode: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block luckysheet-icon-align"
         data-tips="${toolbar.horizontalAlign}" id="luckysheet-icon-align" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -459,7 +479,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, //'Horizontal alignment'
-        verticalAlignMode: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block luckysheet-icon-valign"
+    verticalAlignMode: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block luckysheet-icon-valign"
         data-tips="${toolbar.verticalAlign}" id="luckysheet-icon-valign" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -488,7 +508,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, //'Vertical alignment'
-        textWrapMode: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block luckysheet-icon-textwrap"
+    textWrapMode: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block luckysheet-icon-textwrap"
         data-tips="${toolbar.textWrap}" id="luckysheet-icon-textwrap" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -517,7 +537,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, //'Wrap mode'
-        textRotateMode: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block luckysheet-icon-rotation"
+    textRotateMode: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block luckysheet-icon-rotation"
         data-tips="${toolbar.textRotate}" id="luckysheet-icon-rotation" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -546,7 +566,22 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, //'Text Rotation Mode'
-        image: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
+    superFormula: ` <div class="luckysheet-toolbar-select luckysheet-toolbar-menu-button luckysheet-inline-block" 
+            data-tips="${toolbar.superFormula}" id="luckysheet-icon-superFormula-btn" role="button" style="user-select: none;">
+            <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
+            style="user-select: none;">
+                <div class="luckysheet-toolbar-menu-button-inner-box luckysheet-inline-block"
+                style="user-select: none;">
+                    <div class="luckysheet-icon-img-container luckysheet-toolbar-menu-button-caption luckysheet-inline-block iconfont icon-tianjiagongshi"
+                    style="user-select: none;">
+                    </div>
+                    <div class="luckysheet-toolbar-menu-button-dropdown luckysheet-inline-block iconfont luckysheet-iconfont-xiayige"
+                    style="user-select: none;">
+                    </div>
+                </div>
+            </div>
+        </div>`, // "superFormula"
+    image: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
         data-tips="${toolbar.insertImage}" id="luckysheet-insertImg-btn-title" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -564,7 +599,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, // 'Insert picture'
-        link: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
+    link: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
         data-tips="${toolbar.insertLink}" id="luckysheet-insertLink-btn-title" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -581,7 +616,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, // 'Insert link'(TODO)
-        chart: `<div class="luckysheet-toolbar-select luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="${toolbar.chart}"
+    chart: `<div class="luckysheet-toolbar-select luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="${toolbar.chart}"
         id="luckysheet-icon-chart-btn" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -596,7 +631,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, //'chart' (the icon is hidden, but if the chart plugin is configured, you can still create a new chart by right click)
-        postil: `<div class="luckysheet-toolbar-select luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="${toolbar.postil}"
+    postil: `<div class="luckysheet-toolbar-select luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="${toolbar.postil}"
         id="luckysheet-icon-postil" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -611,7 +646,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, //'comment'
-        pivotTable: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
+    pivotTable: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
         data-tips="${toolbar.pivotTable}" id="luckysheet-pivot-btn-title" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -628,7 +663,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, //'PivotTable'
-        function: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block luckysheet-icon-function"
+    function: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block luckysheet-icon-function"
         data-tips="${toolbar.autoSum}" id="luckysheet-icon-function" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -658,7 +693,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, //'formula'
-        frozenMode: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block luckysheet-freezen-btn-horizontal"
+    frozenMode: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block luckysheet-freezen-btn-horizontal"
         data-tips="${toolbar.freezeTopRow}" id="luckysheet-freezen-btn-horizontal" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -689,7 +724,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, //'freeze mode'
-        sortAndFilter: `<div class="luckysheet-toolbar-select luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="${toolbar.sortAndFilter}"
+    sortAndFilter: `<div class="luckysheet-toolbar-select luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="${toolbar.sortAndFilter}"
         id="luckysheet-icon-autofilter" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -706,7 +741,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, //'Sort and filter'
-        conditionalFormat: `<div class="luckysheet-toolbar-select luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="${toolbar.conditionalFormat}"
+    conditionalFormat: `<div class="luckysheet-toolbar-select luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="${toolbar.conditionalFormat}"
         id="luckysheet-icon-conditionformat" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -724,7 +759,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, //'Conditional Format'
-        dataVerification: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
+    dataVerification: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
         data-tips="${toolbar.dataVerification}" id="luckysheet-dataVerification-btn-title" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -741,7 +776,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, // 'Data Verification'
-        splitColumn: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
+    splitColumn: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
         data-tips="${toolbar.splitColumn}" id="luckysheet-splitColumn-btn-title" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -758,7 +793,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, //'Split column'
-        screenshot: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
+    screenshot: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
         data-tips="${toolbar.screenshot}" id="luckysheet-chart-btn-screenshot" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -775,7 +810,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, //'screenshot'
-        findAndReplace: `<div class="luckysheet-toolbar-select luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="${toolbar.findAndReplace}"
+    findAndReplace: `<div class="luckysheet-toolbar-select luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="${toolbar.findAndReplace}"
         id="luckysheet-icon-seachmore" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -793,7 +828,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, //'Find and Replace'
-        protection: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
+    protection: `<div class="luckysheet-toolbar-button-split-left luckysheet-toolbar-button luckysheet-inline-block"
         data-tips="${toolbar.protection}" id="luckysheet-icon-protection" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -810,7 +845,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, // 'Worksheet protection'
-        print: `<div class="luckysheet-toolbar-select luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="${toolbar.print}"
+    print: `<div class="luckysheet-toolbar-select luckysheet-toolbar-menu-button luckysheet-inline-block" data-tips="${toolbar.print}"
         id="luckysheet-icon-print" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
             style="user-select: none;">
@@ -827,75 +862,78 @@ export function createToolbarHtml() {
                     </div>
                 </div>
             </div>
-        </div>` // 'print'
-    };
+        </div>`, // 'print'
+  };
 
-    const showtoolbar = luckysheetConfigsetting.showtoolbar;
-    const showtoolbarConfig = luckysheetConfigsetting.showtoolbarConfig;
+  const showtoolbar = luckysheetConfigsetting.showtoolbar;
+  const showtoolbarConfig = luckysheetConfigsetting.showtoolbarConfig;
+  const buttonHTML = ['<div class="luckysheet-toolbar-left-theme"></div>'];
 
-    const buttonHTML = ['<div class="luckysheet-toolbar-left-theme"></div>'];
-
-    // 数组形式直接生成
-    if (getObjType(showtoolbarConfig) === 'array') {
-        // 此时不根据 showtoolbar=false，showtoolbarConfig为某几个进行适配，此时showtoolbarConfig本身就是全部要显示的按钮
-        if (!showtoolbar) {
-            return '';
-        }
-        let i = 0;
-        showtoolbarConfig.forEach(function (key, i) {
-            if (key === '|') {
-                const nameKeys = showtoolbarConfig[i - 1]
-                if (nameKeys !== '|') {
-                    buttonHTML.push(
-                        `<div id="toolbar-separator-${camel2split(nameKeys)}" class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"></div>`
-                    );
-                }
-            } else {
-                buttonHTML.push(htmlMap[key]);
-            }
-        });
-        return buttonHTML.join('');
-    }
-
-    const config = defaultToolbar.reduce(function (total, curr) {
-        if (curr !== '|') {
-            total[curr] = true;
-        }
-        return total;
-    }, {});
-
+  // 数组形式直接生成
+  if (getObjType(showtoolbarConfig) === "array") {
+    // 此时不根据 showtoolbar=false，showtoolbarConfig为某几个进行适配，此时showtoolbarConfig本身就是全部要显示的按钮
     if (!showtoolbar) {
-        for (let s in config) {
-            config[s] = false;
-        }
+      return "";
     }
+    let i = 0;
+    showtoolbarConfig.forEach(function (key, i) {
+      if (key === "|") {
+        const nameKeys = showtoolbarConfig[i - 1];
+        if (nameKeys !== "|") {
+          buttonHTML.push(
+            `<div id="toolbar-separator-${camel2split(
+              nameKeys
+            )}" class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"></div>`
+          );
+        }
+      } else {
+        buttonHTML.push(htmlMap[key]);
+      }
+    });
+    return buttonHTML.join("");
+  }
 
-    // 对象模式 则从里面挑选 true 保留 false 删掉
-    if (JSON.stringify(showtoolbarConfig) !== '{}') {
-        if (showtoolbarConfig.hasOwnProperty('undoRedo')) {
-            config.undo = config.redo = showtoolbarConfig.undoRedo;
-        }
-        Object.assign(config, showtoolbarConfig);
+  const config = defaultToolbar.reduce(function (total, curr) {
+    if (curr !== "|") {
+      total[curr] = true;
     }
-    for (let i = 0; i < defaultToolbar.length; i++) {
-        let key = defaultToolbar[i];
-        if (!config[key] && key !== '|') {
-            // 如果当前元素隐藏 按照之前的规则 后面紧跟的 | 分割也不需要显示了
-            if (defaultToolbar[i + 1] === '|') {
-                i++;
-            }
-            continue;
-        }
-        if (key === '|') {
-            const nameKeys = defaultToolbar[i - 1]
-            if (nameKeys !== '|') {
-                buttonHTML.push(
-                    `<div id="toolbar-separator-${camel2split(nameKeys)}" class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"></div>`
-                );
-            }
-        } else {
-            buttonHTML.push(htmlMap[key]);
-        }
+    return total;
+  }, {});
+
+  if (!showtoolbar) {
+    for (let s in config) {
+      config[s] = false;
     }
-    return buttonHTML.join('');
+  }
+
+  // 对象模式 则从里面挑选 true 保留 false 删掉
+  if (JSON.stringify(showtoolbarConfig) !== "{}") {
+    if (showtoolbarConfig.hasOwnProperty("undoRedo")) {
+      config.undo = config.redo = showtoolbarConfig.undoRedo;
+    }
+    Object.assign(config, showtoolbarConfig);
+  }
+  for (let i = 0; i < defaultToolbar.length; i++) {
+    let key = defaultToolbar[i];
+    if (!config[key] && key !== "|") {
+      // 如果当前元素隐藏 按照之前的规则 后面紧跟的 | 分割也不需要显示了
+      if (defaultToolbar[i + 1] === "|") {
+        i++;
+      }
+      continue;
+    }
+    if (key === "|") {
+      const nameKeys = defaultToolbar[i - 1];
+      if (nameKeys !== "|") {
+        buttonHTML.push(
+          `<div id="toolbar-separator-${camel2split(
+            nameKeys
+          )}" class="luckysheet-toolbar-separator luckysheet-inline-block" style="user-select: none;"></div>`
+        );
+      }
+    } else {
+      buttonHTML.push(htmlMap[key]);
+    }
+  }
+  return buttonHTML.join("");
 }
