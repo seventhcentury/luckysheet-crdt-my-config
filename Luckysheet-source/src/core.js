@@ -1,5 +1,5 @@
 import defaultSetting from "./config.js";
-import { common_extend } from "./utils/util";
+import { common_extend, replaceHtml } from "./utils/util";
 import Store from "./store";
 import { locales } from "./locale/locale";
 import server from "./controllers/server";
@@ -38,7 +38,11 @@ import Mandarin from "flatpickr/dist/l10n/zh.js";
 import { initListener } from "./controllers/listener";
 import { hideloading, showloading, setloadingcolor } from "./global/loading.js";
 import { luckysheetextendData } from "./global/extend.js";
-import { superFormulaCompute, superFormulaScript } from "./controllers/superFormula";
+import {
+	superFormulaCompute,
+	superFormulaScript,
+} from "./controllers/superFormula";
+import { fileDecryption, fileEncryption } from "./controllers/fileMenu.js";
 
 let luckysheet = {};
 
@@ -142,6 +146,9 @@ luckysheet.create = function (setting) {
 	luckysheetConfigsetting.container = extendsetting.container;
 	luckysheetConfigsetting.hook = extendsetting.hook;
 
+	// 菜单功能用户注册事件
+	luckysheetConfigsetting.menuHandler = extendsetting.menuHandler;
+
 	luckysheetConfigsetting.pager = extendsetting.pager;
 
 	luckysheetConfigsetting.initShowsheetbarConfig = false;
@@ -170,42 +177,108 @@ luckysheet.create = function (setting) {
 	const loadingObj = luckysheetlodingHTML("#" + container);
 	Store.loadingObj = loadingObj;
 
-	if (loadurl == "") {
-		initPlugins(extendsetting.plugins, extendsetting.data);
-		sheetmanage.initialjfFile(menu, title);
-		// luckysheetsizeauto();
-		initialWorkBook();
-	} else {
-		$.post(loadurl, { gridKey: server.gridKey }, function (d) {
-			let data = new Function("return " + d)();
-			Store.luckysheetfile = data;
-			// 协同请求到数据后，再执行 init plugin
-			initPlugins(extendsetting.plugins, data);
+	/**
+	 * 处理加密逻辑
+	 */
+	if (
+		luckysheetConfigsetting &&
+		luckysheetConfigsetting.menuHandler &&
+		luckysheetConfigsetting.menuHandler.openDocumentPassword &&
+		typeof luckysheetConfigsetting.menuHandler.openDocumentPassword ==
+			"function"
+	) {
+		// 1. 隐藏 loading
+		loadingObj.close();
+		// 2. 显示密码输入弹窗
+		const $mask =
+			'<div class="luckysheet-encrypt-mask"><div class="luckysheet-encrypt-content"><div class="luckysheet-encrypt-content-title"> <span class="title">${title}</span><span class="close" id="close" title="${close}"><i class="fa fa-close" aria-hidden="true"></i></span></div><div class="luckysheet-encrypt-tips">${tips}</div><div class="luckysheet-encrypt-content-input"><i class="fa fa-lock" aria-hidden="true" /></i><input type="password" id="luckysheet-encrypt-input" aotucomplete="off" placeholder="${placeholder}"></input></div><div class="luckysheet-encrypt-content-result"></div><div class="luckysheet-encrypt-content-footer"><span class="cancel">${cancel}</span><span class="confirm">${confirm}</span></div></div></div>';
 
-			sheetmanage.initialjfFile(menu, title);
-			// luckysheetsizeauto();
-			initialWorkBook();
+		const target = "#" + container;
+		$(target).append(
+			replaceHtml($mask, {
+				title: "文档已加密",
+				close: "关闭",
+				tips: "此文档为加密文档，请输入文档打开密码:",
+				placeholder: "请输入文档密码",
+				cancel: "取消",
+				confirm: "确认",
+			})
+		);
 
-			//需要更新数据给后台时，建立WebSocket连接
-			if (server.allowUpdate) {
-				server.openWebSocket();
-			}
-		}).error((error) => {
-			// 向上暴露错误 error 不能阻塞渲染
-			console.error("协同服务异常，请检查后重试！", error);
-			loadingObj.close();
-			sheetmanage.initialjfFile(menu, title);
-			// luckysheetsizeauto();
-			initialWorkBook();
-			showloading("协同服务异常，请检查后重试！");
-			setloadingcolor("#F56C6C");
+		// 在输入过程中，清空 result 结果提示
+		$("#luckysheet-encrypt-input").on("input", () => {
+			$(".luckysheet-encrypt-content-result").text("");
 		});
+
+		// 注册关闭事件
+		$(".luckysheet-encrypt-content-footer .cancel").click(() => {
+			$(".luckysheet-encrypt-mask").remove();
+		});
+		$("#close").click(() => {
+			$(".luckysheet-encrypt-mask").remove();
+		});
+
+		// 注册确认按钮
+		$(".luckysheet-encrypt-content-footer .confirm").click(() => {
+			const value =
+				luckysheetConfigsetting.menuHandler.openDocumentPassword(
+					$("#luckysheet-encrypt-input").val()
+				);
+			if (!value) {
+				// 密码错误
+				$(".luckysheet-encrypt-content-result").text("⛔️ 密码错误!");
+				$("#luckysheet-encrypt-input").val("");
+			} else {
+				loadingObj.show();
+				luckysheetHandler();
+			}
+		});
+	} else luckysheetHandler();
+
+	/**
+	 * 执行后续的 luckysheet 初始化工作
+	 */
+	function luckysheetHandler() {
+		if (loadurl == "") {
+			initPlugins(extendsetting.plugins, extendsetting.data);
+			sheetmanage.initialjfFile(menu, title);
+			// luckysheetsizeauto();
+			initialWorkBook();
+		} else {
+			$.post(loadurl, { gridKey: server.gridKey }, function (d) {
+				let data = new Function("return " + d)();
+				Store.luckysheetfile = data;
+				// 协同请求到数据后，再执行 init plugin
+				initPlugins(extendsetting.plugins, data);
+
+				sheetmanage.initialjfFile(menu, title);
+				// luckysheetsizeauto();
+				initialWorkBook();
+
+				//需要更新数据给后台时，建立WebSocket连接
+				if (server.allowUpdate) {
+					server.openWebSocket();
+				}
+			}).error((error) => {
+				// 向上暴露错误 error 不能阻塞渲染
+				console.error("协同服务异常，请检查后重试！", error);
+				loadingObj.close();
+				sheetmanage.initialjfFile(menu, title);
+				// luckysheetsizeauto();
+				initialWorkBook();
+				showloading("协同服务异常，请检查后重试！");
+				setloadingcolor("#F56C6C");
+			});
+		}
 	}
-	// 测试用例
-	// setTimeout(() => {
-	// 	superFormulaScript();
-	// }, 100);
 };
+
+/**
+ * 测试用例
+ */
+function demoTest() {
+	// fileDecryption()
+}
 
 function initialWorkBook() {
 	luckysheetHandler(); //Overall dom initialization
@@ -219,6 +292,7 @@ function initialWorkBook() {
 	zoomInitial(); //zoom method initialization
 	printInitial(); //print initialization
 	initListener();
+	demoTest();
 }
 
 //获取所有表格数据

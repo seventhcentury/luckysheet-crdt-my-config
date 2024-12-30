@@ -50,7 +50,7 @@ function openDialog(type) {
 
 	// 头部提供下拉菜单，快捷切换公式
 	const $content =
-		'<div class="luckysheet-superformula-dialog-header"> <span class="title">${title} <i class="iconfont luckysheet-iconfont-xiayige"style="user-select: none;" /></span> <span class="close" title="关闭"><i class="fa fa-close" aria-hidden="true"></i></span></div><div class="luckysheet-superformula-dialog-content"><div class="describe"><span class="tips">功能说明</span><span class="text">${describe}</span></div><div class="example"><span class="tips">使用样例</span>${example}</div><div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div><div class="content">${content}</div></div><div class="luckysheet-superformula-dialog-footer">	<span class="cancel">${cancel}</span><span class="confirm">${confirm}</span></div>';
+		'<div class="luckysheet-superformula-dialog-header"> <span class="title">${title} <i class="iconfont luckysheet-iconfont-xiayige"style="user-select: none;" /></span> <span class="close" title="关闭"><i class="fa fa-close" aria-hidden="true"></i></span></div><div class="luckysheet-superformula-dialog-content"><div class="describe"><span class="tips">功能说明</span><span class="text">${describe}</span></div><div class="example"><span class="tips">使用样例</span>${example}</div><div class="luckysheet-menuseparator luckysheet-mousedown-cancel" role="separator"></div><div class="content">${content}</div></div><div class="luckysheet-superformula-dialog-footer"><span class="confirm">${confirm}</span></div>';
 	// 初始化内容
 	$($dialog).html(
 		replaceHtml($content, {
@@ -92,18 +92,15 @@ function getTypeInfo(type) {
 			content: `
 			<div class="content-item">
 				<div class="label">文本算式:</div>
-				<input placeholder="请输入单元格,例如: B1 | B1:B4 " autocomplete="off" />
+				<input id="input" placeholder="请输入单元格,例如: B1 | B1:B4 " autocomplete="off" />
 			</div>
 			<div class="content-item" style="align-items: flex-start;">
 				<div class="label">输出位置:</div>
-				<div>
-					<input type="radio" id="apple" name="fruit" value="apple" checked>
-					<label for="apple">原位置后插入新列</label><br>
-					<input type="radio" id="orange" name="fruit" value="orange">
-					<label for="orange">原位置覆盖</label><br>
-					<input type="radio" id="banana" name="fruit" value="banana">
-					<label for="banana">自定义单元格输出</label><br>
-					<input placeholder="请输入单元格,例如: B1 | B1:B4 " autocomplete="off" />
+				<div style="flex:auto">
+					<div style="display:flex;align-items: center;"><input style="flex:none" type="radio" id="newcol" name="output" value="newcol" checked> <label for="newcol">原位置后插入新列</label></div>
+					<div style="display:flex;align-items: center;"><input style="flex:none" type="radio" id="cover" name="output" value="cover"> <label for="cover">原位置覆盖</label></div>
+					<div style="display:flex;align-items: center;"><input style="flex:none" type="radio" id="custom" name="output" value="custom"><label for="custom">自定义单元格输出</label></div>
+					<input style="width:100%;display:none" type="text" id="custom" placeholder="请输入单元格,例如: B1 | B1:B4 " autocomplete="off" />
 				</div>
 			</div>`,
 			describe:
@@ -167,7 +164,19 @@ function initTypeEvent(type) {
 	};
 	eventMap[type]();
 }
+// 算术计算
 function initComputeHandle() {
+	// 1. 初始化单选事件
+	$(".luckysheet-superformula-dialog-content input[type='radio']").click(
+		function () {
+			if ($(this).val() === "custom") {
+				$("input[type='text']#custom").show();
+			} else {
+				$("input[type='text']#custom").hide();
+			}
+		}
+	);
+
 	const EVALUATE_CALL_OBJ = [
 		...getLocalizedFunctionList(locale().functionlist),
 	].find((i) => i.n === "EVALUATE");
@@ -177,9 +186,13 @@ function initComputeHandle() {
 		functionImplementation.EVALUATE.call(EVALUATE_CALL_OBJ, "3*3+4")
 	);
 }
+// 日期计算
 function initDateDiffHandle() {}
+// 排序
 function initRankingHandle() {}
+// 身份信息提取
 function initIdInfoHandle() {}
+// 脚本
 function initScriptHandle() {
 	// 1. 隐藏样例
 	$(".luckysheet-superformula-dialog-content .example").hide();
@@ -194,8 +207,7 @@ function initScriptHandle() {
 	];
 	loadLinks(dependLinks);
 
-	// 不能每次都加载，会报错的，应该需要判断
-	seriesLoadScripts(dependScripts, null, function () {
+	function initEditor() {
 		console.log("==> CodeFlask 加载完成");
 		const editorDOM = $("#editor")[0];
 		// hljs.highlightElement(editorDOM);
@@ -211,12 +223,18 @@ function initScriptHandle() {
 console.log('数据源 data',data)
 console.log('选区范围 rangeArray',rangeArray)	
 			`);
-	});
+	}
+
+	// 不能每次都加载，会报错的，应该需要判断
+	if (window.CodeJar) return initEditor();
+
+	seriesLoadScripts(dependScripts, null, initEditor);
 }
+// latex
 function initLatexHandle() {}
 
 // 打开二级菜单
-function openSubMenu(type) {
+function openSubMenu() {
 	let menuButtonId = "luckysheet-icon-superFormula-dialog-menuButton";
 	let $menuButton = $("#" + menuButtonId);
 	const locale_superFormula = locale().superFormula;
