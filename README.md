@@ -10,7 +10,7 @@
 <p style="border-bottom:solid rgba(85, 187, 138, 0.5) 1px"></p>
 
 <p align="center">
-  <img src='/public/result.gif' alt='result' />
+  <img src='/public/result/result.gif' alt='result' />
 </p>
 
 
@@ -198,43 +198,58 @@ export const WS_SERVER_URL = "ws://127.0.0.1:9000";
 #### 1️⃣ Page UI Refactoring
 1. Source code UI refactoring, please refer to [Luckysheet-source-recover-style](/Luckysheet-source/src/css/recover.css)
 <p align="center">
-  <img src='/public/example.gif' />
+  <img src='/public/result/ui.gif' />
 </p>
 
 #### 2️⃣ Expand the vchart
 1. Implemented vchart, please refer to [Luckysheet-source-vchart](/Luckysheet-source/src/expendPlugins/vchart/plugin.js)
 <p align="center">
-  <img src='/public/chart-menu.png' />
+  <img src='/public/result/chart-menu.png' />
 </p>
 <span style="font-weight:900">On the left is' vchart 'rendering, and on the right is' chartmix' rendering</span>
 <p align="center">
-  <img src='/public/chartmix-vchart.png' />
+  <img src='/public/result/chartmix-vchart.png' />
 </p>
 <span style="font-weight:900">The vchart chart animation is smoother, and the page is concise and beautiful</span>
 <p align="center">
-  <img src='/public/vchart.gif' />
+  <img src='/public/result/vchart.gif' />
 </p>
 <span style="font-weight:900">vchart setting</span>
 <p align="center">
-  <img src='/public/vchart-setting.gif' />
+  <img src='/public/result/vchart-setting.gif' />
 </p>
 
 ### 3️⃣ Optimization of image mobility performance
 <span style="font-weight:900">Original effect:</span>
 <p align="center">
-  <img src='/public/picture-old.gif' />
+  <img src='/public/result/picture-old.gif' />
 </p>
 
 <span style="font-weight:900">After optimization:</span>
 <p align="center">
-  <img src='/public/picture-new.gif' />
+  <img src='/public/result/picture-new.gif' />
 </p>
 
 
 ### 4️⃣ Super formula
 <span style="font-weight:900">The function is still under development...</span>
 <p align="center">
-  <img src='/public/super-formula.gif' />
+  <img src='/public/result/super-formula.gif' />
+</p>
+
+### 5️⃣ Menu - Document encryption and decryption
+<span style="font-weight:900">encryption</span>
+<p align="center">
+  <img src='/public/result/file-encrypt.png' />
+</p>
+<span style="font-weight:900">decryption</span>
+<p align="center">
+  <img src='/public/result/file-decrypt.png' />
+</p>
+
+<span style="font-weight:900">Opening a document requires a password</span>
+<p align="center">
+  <img src='/public/result/encryption.gif' />
 </p>
 
 ## Open source contribution
