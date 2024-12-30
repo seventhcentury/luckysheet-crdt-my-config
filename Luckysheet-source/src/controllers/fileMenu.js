@@ -1,13 +1,108 @@
 /**
  * 文件菜单实现函数
  */
+import {
+	deleteSheetByIndex,
+	getAllSheets,
+	setSheetAdd,
+	setSheetDelete,
+} from "../global/api";
 import { replaceHtml } from "../utils/chartUtil";
 import luckysheetConfigsetting from "./luckysheetConfigsetting";
+import Store from "../store";
+import sheetmanage from "./sheetmanage";
 
 function fileNew() {}
 
 function fileSaveAs() {}
-function fileImport() {}
+
+/**
+ * 文件导入
+ */
+function fileImport() {
+	// 判断是否存在 导入插件，不存在则提示
+	if (!Reflect.get(window, "LuckyExcel")) {
+		alert("请先注册插件 LuckyExcel");
+		return;
+	}
+
+	let file = null;
+
+	// 创建配置面板
+	const $content =
+		'<div class="luckysheet-import-mask"><div class="luckysheet-import-setting"><div class="luckysheet-import-title"><span class="title">${title}</span><span class="close" id="close" title="${close}"><i class="fa fa-close" aria-hidden="true"></i></span></div><div class="luckysheet-import-content"><i class="fa fa-cloud-upload" aria-hidden="true" /></i><p>Drop file here or <span>click to upload</span></p></div><div class="luckysheet-import-content-mode">导入模式:<input  type="radio" id="cover" name="mode" value="cover" checked> <label for="cover">覆盖Sheet导入</label><input  type="radio" id="newsheet" name="mode" value="newsheet"> <label for="newsheet">新建Sheet导入</label></div><div class="luckysheet-import-content-result">导入文件:<span id="file-result"></span></div><div class="luckysheet-import-content-footer"><span class="cancel">${cancel}</span><span class="confirm">${confirm}</span></div></div></div>';
+
+	// 添加到 body 上
+	$("body").append(
+		replaceHtml($content, {
+			title: "导入文件",
+			close: "关闭",
+			cancel: "取消",
+			confirm: "导入",
+		})
+	);
+
+	// 取下 关闭按钮事件
+	const close = () => $(".luckysheet-import-mask").remove();
+	$(".luckysheet-import-content-footer .cancel").click(close);
+	$(".luckysheet-import-title .close").click(close);
+
+	// 实现 点击 上传文件
+	$(".luckysheet-import-content").click(() => {
+		const $input = $("<input type='file' id='luckysheet-import-input' />");
+		$input.click();
+		$input.change((e) => {
+			file = e.target.files[0];
+			$(".luckysheet-import-content-result #file-result").text(file.name);
+		});
+	});
+
+	// 实现 拖住 上传文件
+
+	// 确认按钮
+	$(".luckysheet-import-content-footer .confirm").click(() => {
+		// 获取导入模式
+		const mode = $("input[name='mode']:checked").val();
+
+		if (!file) return console.error("导入文件异常");
+
+		// 因为 luckysheet 至少需要保留一个 sheet ,所以如果是覆盖式导入的话,需要先插入 sheet 后删除 sheet
+		const currentSheets = getAllSheets();
+		// 1. 获取目前的 luckysheetfile
+		const luckysheetNameMap = Store.luckysheetfile.map((i) => i.name);
+
+		// transformExcelToLucky 是异步回调的形式执行的,因此,删除操作西药放置到函数内部
+		LuckyExcel.transformExcelToLucky(file, ({ sheets }) => {
+			(sheets || []).forEach((sheet) => {
+				// 针对当前导入的sheet 创建 order index ,处理 name 属性
+				let order = Store.luckysheetfile.length;
+				let index = sheetmanage.generateRandomSheetIndex();
+				let sheetname = luckysheetNameMap.includes(sheet.name)
+					? sheetmanage.generateCopySheetName(
+							Store.luckysheetfile,
+							sheet.name
+					  )
+					: sheet.name;
+				setSheetAdd({
+					sheetObject: {
+						...sheet,
+						name: sheetname,
+						status: "0",
+						order: order,
+						index: index,
+					},
+					order,
+				});
+			});
+
+			if (mode !== "cover") return close();
+
+			// 删除sheet
+			currentSheets.forEach(({ index }) => deleteSheetByIndex({ index }));
+			close();
+		});
+	});
+}
 
 function fileExport() {}
 

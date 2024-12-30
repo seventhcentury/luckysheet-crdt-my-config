@@ -113,6 +113,10 @@ npm run db
 
 ## 协同功能计划表
 **已实现功能 ✅️，未实现功能 ❌️**
+- 文件导入、导出
+  - ✅️ 导入文件
+  - ❌️ 导出文件
+
 - 单元格操作
   - ✅️ 单个单元格操作
   - ✅️ 范围单元格操作
@@ -250,6 +254,66 @@ export const WS_SERVER_URL = "ws://127.0.0.1:9000";
 <p align="center">
   <img src='/public/result/encryption.gif' />
 </p>
+<span style="font-weight:900">配置方法：</span>
+
+```js
+/**
+ * 这里涉及三个方法及其校验，均交由用户自行处理：
+ *  1. 加密
+ *  2. 解密
+ *  3. 打开文件校验
+ */
+const options = {
+  // ...other config
+  menuHandler:{
+      exit() {
+      	console.log("==> 点击了退出按钮");
+      },
+      shear() {
+      	console.log("==> 点击了分享按钮");
+      },
+
+      // 菜单解密 返回值为 Boolean
+      decrypt(password) {
+      	// 执行后续 server 操作
+      	console.log("==> 解密文档：", password);
+      	// 解密过程需要校验密码，因此需要提供返回值
+      	return password === "123456";
+      },
+
+      // 菜单加密
+      encryption: (password) => {
+      	// 拿到password可执行后续 server操作
+      	console.log("==> 文档已加密:", password);
+      },
+
+      // 打开文档输入密码 标记文档是否加密 返回值为 Boolean
+      openDocumentPassword: (password) => {
+      	console.log("==> 用户输入密码:", password);
+      	return password === "123456";
+      },
+  }
+}
+```
+
+
+### 6️⃣ 菜单功能 - 文件导入
+<span style="font-weight:900">支持协同~</span>
+<p align="center">
+  <img src='/public/result/file-import.gif' />
+</p>
+<span style="font-weight:900">配置方法：</span>
+
+```js
+// 1. 配置导入插件
+const options = {
+  // ...other config
+  plugins: ["fileImport"],
+}
+
+luckysheet.create(options)
+```
+
 
 ## 开源贡献
 1. 提交 [issue](https://gitee.com/wfeng0/luckysheet-crdt/issues/new)

@@ -214,20 +214,20 @@ const menuButton = {
 				},
 				{ text: "", value: "split", example: "" },
 				{
-					text: "导入",
+					text: "导入excel",
 					value: "import",
 					example: replaceHtml(icon, { icon: "icon-daoru" }),
 				},
 				{
-					text: "导出",
+					text: "导出excel",
 					value: "export",
 					example: replaceHtml(icon, { icon: "icon-daochu" }),
 				},
-				{
-					text: "打印",
-					value: "print",
-					example: replaceHtml(icon, { icon: "icon-dayin" }),
-				},
+				// {
+				// 	text: "打印",
+				// 	value: "print",
+				// 	example: replaceHtml(icon, { icon: "icon-dayin" }),
+				// },
 				{ text: "", value: "split", example: "" },
 				{
 					text: "分享发送",

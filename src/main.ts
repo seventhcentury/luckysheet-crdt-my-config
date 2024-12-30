@@ -22,12 +22,12 @@ async function initLuckysheet() {
     lang: "zh",
     title: "Luckysheet",
     container: "luckysheetContainer",
-    showinfobar: false, // 隐藏顶部的信息栏
+    // showinfobar: false, // 隐藏顶部的信息栏
     allowUpdate: false, // 配置协同功能
     loadUrl: "",
     updateUrl: "", // 协同服务转发服务
     data: [],
-    plugins: ["chart",'vchart'],
+    plugins: ["chart",'vchart','fileImport'],
 
     // 处理协同图片上传
     uploadImage: async (file: File) => {

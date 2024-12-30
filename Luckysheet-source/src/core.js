@@ -42,7 +42,11 @@ import {
 	superFormulaCompute,
 	superFormulaScript,
 } from "./controllers/superFormula";
-import { fileDecryption, fileEncryption } from "./controllers/fileMenu.js";
+import {
+	fileDecryption,
+	fileEncryption,
+	fileImport,
+} from "./controllers/fileMenu.js";
 
 let luckysheet = {};
 
@@ -278,6 +282,9 @@ luckysheet.create = function (setting) {
  */
 function demoTest() {
 	// fileDecryption()
+	setTimeout(() => {
+		// fileImport();
+	}, 100);
 }
 
 function initialWorkBook() {

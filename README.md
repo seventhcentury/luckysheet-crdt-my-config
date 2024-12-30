@@ -114,6 +114,10 @@ npm run db
 
 ## Collaborative Function Plan Table
 **Implemented  ✅️ Unrealized  ❌️**
+- File operation
+  - ✅️ import file
+  - ❌️ export file
+
 - Cell operation
   - ✅️ Single cell operation
   - ✅️ Range cell operation
@@ -251,6 +255,67 @@ export const WS_SERVER_URL = "ws://127.0.0.1:9000";
 <p align="center">
   <img src='/public/result/encryption.gif' />
 </p>
+
+<span style="font-weight:900">Configuration method:</span>
+
+```js
+/**
+ * There are three methods and their verification involved here, all of which are handled by the user themselves:
+ *  1. encryption
+ *  2. decryption
+ *  3. Open file verification
+ */
+const options = {
+  // ...other config
+  menuHandler:{
+      exit() {
+      	console.log("==> exit handler");
+      },
+      shear() {
+      	console.log("==> shear handler");
+      },
+
+      //  Return Boolean
+      decrypt(password) {
+      	// 执行后续 server 操作
+      	console.log("==> 解密文档：", password);
+      	// 解密过程需要校验密码，因此需要提供返回值
+      	return password === "123456";
+      },
+
+      // 菜单加密
+      encryption: (password) => {
+      	// 拿到password可执行后续 server操作
+      	console.log("==> 文档已加密:", password);
+      },
+
+      // 打开文档输入密码 标记文档是否加密 返回值为 Boolean
+      openDocumentPassword: (password) => {
+      	console.log("==> 用户输入密码:", password);
+      	return password === "123456";
+      },
+  }
+}
+```
+
+### 6️⃣ Menu  - File Import
+<span style="font-weight:900">Support collaboration~</span>
+<p align="center">
+  <img src='/public/result/file-import.gif' />
+</p>
+<span style="font-weight:900">Configuration method:</span>
+
+```js
+// 1. Configure import plugin
+const options = {
+  // ...other config
+  plugins: ["fileImport"],
+}
+
+luckysheet.create(options)
+```
+
+
 
 ## Open source contribution
 1. Submit an [issue](https://gitee.com/wfeng0/luckysheet-crdt/issues/new)
