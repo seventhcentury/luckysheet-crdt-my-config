@@ -1,12 +1,7 @@
 /**
  * 文件菜单实现函数
  */
-import {
-	deleteSheetByIndex,
-	getAllSheets,
-	setSheetAdd,
-	setSheetDelete,
-} from "../global/api";
+import { deleteSheetByIndex, getAllSheets, setSheetAdd } from "../global/api";
 import { replaceHtml } from "../utils/chartUtil";
 import luckysheetConfigsetting from "./luckysheetConfigsetting";
 import Store from "../store";
