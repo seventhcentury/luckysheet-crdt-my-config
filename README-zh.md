@@ -314,6 +314,12 @@ const options = {
 luckysheet.create(options)
 ```
 
+<span style="font-weight:900">注意事项：</span>
+1. 文件导入依赖于 `luckyexcel` 插件；
+2. 故而有些功能受限于插件，如需拓展，请自行实现哈！
+3. 请正确配置 `plugins: [ 'fileImport' ]` 后使用导入功能。
+
+
 ### 7️⃣ 菜单功能 - 文件导出
 <p align="center">
   <img src='/public/result/file-export.gif' />
@@ -329,6 +335,12 @@ const options = {
 
 luckysheet.create(options)
 ```
+
+<span style="font-weight:900">注意事项：</span>
+1. 文件导入依赖于 `exceljs | file-saver` 插件；
+2. 故而有些功能受限于插件，如需拓展，请自行实现哈！
+3. 请正确配置 `plugins: [ 'fileExport' ]` 后使用导入功能。
+
 
 
 ## 开源贡献
