@@ -26,7 +26,7 @@ async function initLuckysheet() {
 		allowUpdate: false, // 配置协同功能
 		loadUrl: "",
 		updateUrl: "", // 协同服务转发服务
-		plugins: ["chart", "vchart", "fileImport"],
+		plugins: ["chart", "vchart", "fileImport",'fileExport'],
 
 		// 处理协同图片上传
 		uploadImage: async (file: File) => {
