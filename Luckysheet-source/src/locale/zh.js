@@ -6232,6 +6232,7 @@ export default {
     titleNumber: "数字格式",
   },
   info: {
+    menu:"菜单",
     detailUpdate: "新打开",
     detailSave: "已恢复本地缓存",
     row: "行",

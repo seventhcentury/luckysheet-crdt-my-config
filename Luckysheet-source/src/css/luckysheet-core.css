@@ -127,7 +127,9 @@
   margin: auto;
 }
 
-.luckysheet_info_detail div.luckysheet_info_detail_back {
+.luckysheet_info_detail div.luckysheet-icon-menu-btn {
+  height: 32px;
+  line-height: 32px;
   font-size: 14px;
   padding: 0 8px;
   margin-right: 18px;
@@ -135,7 +137,7 @@
   cursor: pointer;
 }
 
-.luckysheet_info_detail div.luckysheet_info_detail_back:hover {
+.luckysheet_info_detail div.luckysheet-icon-menu-btn:hover {
   background: #eee;
 }
 
@@ -2120,6 +2122,7 @@ body:not(.ewa-ipad) .luckysheet-rows-h-cell-sel:hover {
 }
 
 .luckysheet-cols-menu {
+  padding: 10px 0;
   border-radius: var(--luckysheet-border-radius) !important;
   max-height: 100%;
   overflow-y: auto;
@@ -2140,7 +2143,6 @@ body:not(.ewa-ipad) .luckysheet-rows-h-cell-sel:hover {
   font-size: 13px;
   margin: 0;
   outline: none;
-  padding: 6px 0;
   position: absolute;
   z-index: 1004;
   box-sizing: border-box;

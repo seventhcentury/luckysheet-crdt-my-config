@@ -1,26 +1,26 @@
-import { chart } from '../expendPlugins/chart/plugin'
-import { print } from '../expendPlugins/print/plugin'
-import { vchart } from '../expendPlugins/vchart/plugin'
+import { chart } from "../expendPlugins/chart/plugin";
+import { print } from "../expendPlugins/print/plugin";
+import { vchart } from "../expendPlugins/vchart/plugin";
+import { fileImport } from "../expendPlugins/fileImport/plugin";
 
 const pluginsObj = {
-    "chart": chart,
-    'print': print,
-    "vchart": vchart
-}
+	chart: chart,
+	print: print,
+	vchart: vchart,
+	fileImport: fileImport,
+};
 
-const isDemo = true
+const isDemo = true;
 
 /**
  * Register plugins
  */
 function initPlugins(plugins, data) {
-    if (plugins.length) {
-        plugins.forEach(plugin => {
-            pluginsObj[plugin](data, isDemo)
-        });
-    }
+	if (plugins.length) {
+		plugins.forEach((plugin) => {
+			pluginsObj[plugin](data, isDemo);
+		});
+	}
 }
 
-export {
-    initPlugins
-}
+export { initPlugins };

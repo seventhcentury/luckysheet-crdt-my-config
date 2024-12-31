@@ -6355,6 +6355,7 @@ export default {
     titleNumber: "Number formats",
   },
   info: {
+    menu:"Menu",
     detailUpdate: "New opened",
     detailSave: "Local cache restored",
     row: "",

@@ -76,6 +76,17 @@ import {
 	superFormulaScript,
 	superFormulaLatex,
 } from "./superFormula";
+import {
+	fileEncryption,
+	fileExit,
+	fileExport,
+	fileImport,
+	fileNew,
+	fileSaveAs,
+	fileSetting,
+	fileShear,
+	fileDecryption,
+} from "./fileMenu";
 const menuButton = {
 	menu: '<div class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-menuButton ${subclass} luckysheet-mousedown-cancel" id="luckysheet-icon-${id}-menuButton">${item}</div>',
 	// "item": '<div itemvalue="${value}" itemname="${name}" class="luckysheet-cols-menuitem ${sub} luckysheet-mousedown-cancel"><div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel" style="padding: 3px 0px 3px 1px;"><span style="margin-right:3px;width:13px;display:inline-block;" class="icon luckysheet-mousedown-cancel"></span> ${name} <span class="luckysheet-submenu-arrow luckysheet-mousedown-cancel" style="user-select: none;">${example}</span></div></div>',
@@ -178,6 +189,133 @@ const menuButton = {
 	luckysheetPaintSingle: false,
 	initialMenuButton: function () {
 		let _this = this;
+
+		//左上角菜单按钮
+		$("#luckysheet-icon-menu-btn").click(function () {
+			// 打开二级菜单
+			let menuButtonId = $(this).attr("id") + "-menuButton";
+			let $menuButton = $("#" + menuButtonId);
+			const locale_superFormula = locale().superFormula;
+			$menuButton.remove();
+			luckysheetPostil.removeActivePs();
+			const icon =
+				'<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-textwrap-overflow iconfont ${icon}" style="user-select: none;"> </div> </div>';
+
+			let itemdata = [
+				{
+					text: "新建",
+					value: "new",
+					example: replaceHtml(icon, { icon: "icon-zengjiaxinjian" }),
+				},
+				{
+					text: "另存为",
+					value: "saveas",
+					example: replaceHtml(icon, { icon: "icon-lingcunwei" }),
+				},
+				{ text: "", value: "split", example: "" },
+				{
+					text: "导入excel",
+					value: "import",
+					example: replaceHtml(icon, { icon: "icon-daoru" }),
+				},
+				{
+					text: "导出excel",
+					value: "export",
+					example: replaceHtml(icon, { icon: "icon-daochu" }),
+				},
+				// {
+				// 	text: "打印",
+				// 	value: "print",
+				// 	example: replaceHtml(icon, { icon: "icon-dayin" }),
+				// },
+				{ text: "", value: "split", example: "" },
+				{
+					text: "分享发送",
+					value: "shear",
+					example: replaceHtml(icon, { icon: "icon-fabu" }),
+				},
+				{
+					text: "文档加密",
+					value: "encryption",
+					example: replaceHtml(icon, { icon: "icon-suoding" }),
+				},
+				{
+					text: "文档解密",
+					value: "decrypt",
+					example: replaceHtml(icon, { icon: "icon-jiesuo" }),
+				},
+				{ text: "", value: "split", example: "" },
+				{
+					text: "选项",
+					value: "setting",
+					example: replaceHtml(icon, { icon: "icon-shezhi" }),
+				},
+				{
+					text: "退出",
+					value: "exit",
+					example: replaceHtml(icon, { icon: "icon-zhuxiao" }),
+				},
+			];
+			let itemset = _this.createButtonMenu(itemdata);
+
+			let menu = replaceHtml(_this.menu, {
+				id: "menu-btn",
+				item: itemset,
+				subclass: "",
+				sub: "",
+			});
+			$("body").append(menu);
+
+			$menuButton = $("#" + menuButtonId).width(170);
+
+			// 给子项注册事件
+			$menuButton.find(".luckysheet-cols-menuitem").click(function () {
+				$menuButton.hide();
+				luckysheetContainerFocus();
+
+				let $t = $(this),
+					itemvalue = $t.attr("itemvalue");
+
+				if (itemvalue === "new") {
+					fileNew();
+				} else if (itemvalue === "saveas") {
+					fileSaveAs();
+				} else if (itemvalue === "import") {
+					fileImport();
+				} else if (itemvalue === "export") {
+					fileExport();
+				} else if (itemvalue === "print") {
+					alert("print");
+				} else if (itemvalue === "shear") {
+					fileShear();
+				} else if (itemvalue === "encryption") {
+					fileEncryption();
+				} else if (itemvalue === "decrypt") {
+					fileDecryption();
+				} else if (itemvalue === "setting") {
+					fileSetting();
+				} else if (itemvalue === "exit") {
+					fileExit();
+				}
+			});
+
+			let userlen = $(this).outerWidth();
+			let tlen = $menuButton.outerWidth();
+
+			let menuleft = $(this).offset().left;
+			if (
+				tlen > userlen &&
+				tlen + menuleft > $("#" + Store.container).width()
+			) {
+				menuleft = menuleft - tlen + userlen;
+			}
+			mouseclickposition(
+				$menuButton,
+				menuleft,
+				$(this).offset().top + 25,
+				"lefttop"
+			);
+		});
 
 		//格式刷
 		$("#luckysheet-icon-paintformat").click(function (e) {
@@ -4682,7 +4820,7 @@ const menuButton = {
 			);
 		});
 
-		//菜单栏 超级公式按钮
+		//菜单栏 超级公式 按钮
 		$("#luckysheet-icon-superFormula-btn").click(function () {
 			// 打开二级菜单
 			let menuButtonId = $(this).attr("id") + "-menuButton";
@@ -4690,31 +4828,32 @@ const menuButton = {
 			const locale_superFormula = locale().superFormula;
 			$menuButton.remove();
 			luckysheetPostil.removeActivePs();
+			const icon =
+				'<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-textwrap-overflow iconfont ${icon}" style="user-select: none;"> </div> </div>';
+
 			let itemdata = [
 				{
 					text: locale_superFormula.compute,
 					value: "compute",
-					example:
-						'<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-textwrap-overflow iconfont icon-jisuanqi" style="user-select: none;"> </div> </div>',
+					example: replaceHtml(icon, { icon: "icon-jisuanqi" }),
 				},
 				{
 					text: locale_superFormula.dateDiff,
 					value: "dateDiff",
-					example:
-						'<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-textwrap-wrap iconfont icon-rili" style="user-select: none;"> </div> </div>',
+					example: replaceHtml(icon, { icon: "icon-rili" }),
 				},
 				{ text: "", value: "split", example: "" },
 				{
 					text: locale_superFormula.ranking,
 					value: "ranking",
-					example:
-						'<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-textwrap-wrap iconfont icon-shenfenzheng" style="user-select: none;"> </div> </div>',
+					example: replaceHtml(icon, { icon: "icon-shenfenzheng" }),
 				},
 				{
 					text: locale_superFormula.idInfo,
 					value: "idInfo",
-					example:
-						'<div class="luckysheet-icon luckysheet-inline-block" style="user-select: none;opacity:1;"> <div aria-hidden="true" class="luckysheet-icon-img-container luckysheet-icon-img luckysheet-icon-textwrap-wrap iconfont icon-paihangbang_paiming" style="user-select: none;"> </div> </div>',
+					example: replaceHtml(icon, {
+						icon: "icon-paihangbang_paiming",
+					}),
 				},
 				{ text: "", value: "split", example: "" },
 				{

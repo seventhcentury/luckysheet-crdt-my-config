@@ -566,7 +566,7 @@ export function createToolbarHtml() {
                 </div>
             </div>
         </div>`, //'Text Rotation Mode'
-    superFormula: ` <div class="luckysheet-toolbar-select luckysheet-toolbar-menu-button luckysheet-inline-block" 
+    superFormula: `<div class="luckysheet-toolbar-select luckysheet-toolbar-menu-button luckysheet-inline-block" 
             data-tips="${toolbar.superFormula}" id="luckysheet-icon-superFormula-btn" role="button" style="user-select: none;">
             <div class="luckysheet-toolbar-menu-button-outer-box luckysheet-inline-block"
             style="user-select: none;">

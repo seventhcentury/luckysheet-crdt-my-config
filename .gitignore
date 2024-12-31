@@ -30,3 +30,11 @@ server/public/dist
 
 Luckysheet-source/dist
 Luckysheet-source/node_modules
+
+*.xlsx
+*.zip
+*.rar
+*.7z
+*.tar.gz
+*.tar.bz2
+*.tar.xz

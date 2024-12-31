@@ -10,7 +10,7 @@
 <p style="border-bottom:solid rgba(85, 187, 138, 0.5) 1px"></p>
 
 <p align="center">
-  <img src='/public/result.gif' />
+  <img src='/public/result/result.gif' />
 </p>
 
 
@@ -30,7 +30,7 @@
 git clone https://gitee.com/wfeng0/luckysheet-crdt
 ```
 
-2. 下载依赖: 
+2. **下载依赖:** 
 ```bash
 ## "dep": "npm install --s && cd server && npm install --s"
 npm run dep
@@ -113,6 +113,10 @@ npm run db
 
 ## 协同功能计划表
 **已实现功能 ✅️，未实现功能 ❌️**
+- 文件导入、导出
+  - ✅️ 导入文件
+  - ❌️ 导出文件
+
 - 单元格操作
   - ✅️ 单个单元格操作
   - ✅️ 范围单元格操作
@@ -198,37 +202,118 @@ export const WS_SERVER_URL = "ws://127.0.0.1:9000";
 #### 1️⃣ 页面UI重构
 1. 源码UI重构，请查阅 [Luckysheet-source-recover-style](/Luckysheet-source/src/css/recover.css)
 <p align="center">
-  <img src='/public/example.gif' />
+  <img src='/public/result/ui.gif' />
 </p>
 
 #### 2️⃣ 拓展vchart图表
 1. 已实现vchart图表，请查阅 [Luckysheet-source-vchart](/Luckysheet-source/src/expendPlugins/vchart/plugin.js)
 <p align="center">
-  <img src='/public/chart-menu.png' />
+  <img src='/public/result/chart-menu.png' />
 </p>
 <span style="font-weight:900">左侧为 `vchart` 渲染，右侧为 `chartmix` 渲染</span>
 <p align="center">
-  <img src='/public/chartmix-vchart.png' />
+  <img src='/public/result/chartmix-vchart.png' />
 </p>
 <span style="font-weight:900">vchart 图表动画更加流畅，页面简洁美观</span>
 <p align="center">
-  <img src='/public/vchart.gif' />
+  <img src='/public/result/vchart.gif' />
 </p>
 <span style="font-weight:900">vchart 图表设置</span>
 <p align="center">
-  <img src='/public/vchart-setting.gif' />
+  <img src='/public/result/vchart-setting.gif' />
 </p>
 
 ### 3️⃣ 图片移动性能优化
 <span style="font-weight:900">原效果：</span>
 <p align="center">
-  <img src='/public/picture-old.gif' />
+  <img src='/public/result/picture-old.gif' />
 </p>
 
 <span style="font-weight:900">优化后：(调整图片设置打开方式)</span>
 <p align="center">
-  <img src='/public/picture-new.gif' />
+  <img src='/public/result/picture-new.gif' />
 </p>
+
+### 4️⃣ 超级公式
+<span style="font-weight:900">功能仍在开发中...</span>
+<p align="center">
+  <img src='/public/result/super-formula.gif' />
+</p>
+
+### 5️⃣ 菜单功能 - 文档加密解密
+<span style="font-weight:900">文档加密功能</span>
+<p align="center">
+  <img src='/public/result/file-encrypt.png' />
+</p>
+<span style="font-weight:900">文档解密功能</span>
+<p align="center">
+  <img src='/public/result/file-decrypt.png' />
+</p>
+
+<span style="font-weight:900">打开文档需要密码</span>
+<p align="center">
+  <img src='/public/result/encryption.gif' />
+</p>
+<span style="font-weight:900">配置方法：</span>
+
+```js
+/**
+ * 这里涉及三个方法及其校验，均交由用户自行处理：
+ *  1. 加密
+ *  2. 解密
+ *  3. 打开文件校验
+ */
+const options = {
+  // ...other config
+  menuHandler:{
+      exit() {
+      	console.log("==> 点击了退出按钮");
+      },
+      shear() {
+      	console.log("==> 点击了分享按钮");
+      },
+
+      // 菜单解密 返回值为 Boolean
+      decrypt(password) {
+      	// 执行后续 server 操作
+      	console.log("==> 解密文档：", password);
+      	// 解密过程需要校验密码，因此需要提供返回值
+      	return password === "123456";
+      },
+
+      // 菜单加密
+      encryption: (password) => {
+      	// 拿到password可执行后续 server操作
+      	console.log("==> 文档已加密:", password);
+      },
+
+      // 打开文档输入密码 标记文档是否加密 返回值为 Boolean
+      openDocumentPassword: (password) => {
+      	console.log("==> 用户输入密码:", password);
+      	return password === "123456";
+      },
+  }
+}
+```
+
+
+### 6️⃣ 菜单功能 - 文件导入
+<span style="font-weight:900">支持协同~</span>
+<p align="center">
+  <img src='/public/result/file-import.gif' />
+</p>
+<span style="font-weight:900">配置方法：</span>
+
+```js
+// 1. 配置导入插件
+const options = {
+  // ...other config
+  plugins: ["fileImport"],
+}
+
+luckysheet.create(options)
+```
+
 
 ## 开源贡献
 1. 提交 [issue](https://gitee.com/wfeng0/luckysheet-crdt/issues/new)
