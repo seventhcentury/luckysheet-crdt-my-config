@@ -315,6 +315,22 @@ const options = {
 luckysheet.create(options)
 ```
 
+### 7️⃣ Menu - File Export
+<p align="center">
+  <img src='/public/result/file-export.gif' />
+</p>
+<span style="font-weight:900">Configuration method：</span>
+
+```js
+// 1. Configure export plugin
+const options = {
+  // ...other config
+  plugins: ["fileExport"],
+}
+
+luckysheet.create(options)
+```
+
 
 
 ## Open source contribution
