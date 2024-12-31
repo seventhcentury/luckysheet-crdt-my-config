@@ -315,6 +315,33 @@ const options = {
 luckysheet.create(options)
 ```
 
+<span style="font-weight:900">matters needing attention:</span>
+1. File import depends on the `luckyuexcel` plugin；
+2. Therefore, some functions are limited by plugins. If you need to expand them, please implement them yourself!
+3. Please configure plugins correctly Use the import function after `fileImport`.
+
+
+### 7️⃣ Menu - File Export
+<p align="center">
+  <img src='/public/result/file-export.gif' />
+</p>
+<span style="font-weight:900">Configuration method：</span>
+
+```js
+// 1. Configure export plugin
+const options = {
+  // ...other config
+  plugins: ["fileExport"],
+}
+
+luckysheet.create(options)
+```
+
+<span style="font-weight:900">matters needing attention:</span>
+1. File import depends on the `exceljs | file-saver` plugin；
+2. Therefore, some functions are limited by plugins. If you need to expand them, please implement them yourself!
+3. Please configure plugins correctly Use the import function after `fileExport`.
+
 
 
 ## Open source contribution

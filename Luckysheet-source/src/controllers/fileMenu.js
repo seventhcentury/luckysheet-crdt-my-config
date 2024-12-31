@@ -1,11 +1,17 @@
 /**
  * 文件菜单实现函数
  */
-import { deleteSheetByIndex, getAllSheets, setSheetAdd } from "../global/api";
+import {
+	deleteSheetByIndex,
+	getAllSheets,
+	getWorkbookName,
+	setSheetAdd,
+} from "../global/api";
 import { replaceHtml } from "../utils/chartUtil";
 import luckysheetConfigsetting from "./luckysheetConfigsetting";
 import Store from "../store";
 import sheetmanage from "./sheetmanage";
+import { setStyleAndValue, setMerge, setBorder } from "../utils/fileExport";
 
 function fileNew() {}
 
@@ -17,7 +23,7 @@ function fileSaveAs() {}
 function fileImport() {
 	// 判断是否存在 导入插件，不存在则提示
 	if (!Reflect.get(window, "LuckyExcel")) {
-		alert("请先注册插件 LuckyExcel");
+		alert("请先注册插件 fileImport");
 		return;
 	}
 
@@ -99,7 +105,49 @@ function fileImport() {
 	});
 }
 
-function fileExport() {}
+/**
+ * 文件导出
+ */
+async function fileExport() {
+	if (!Reflect.get(window, "ExcelJS") || !Reflect.get(window, "saveAs")) {
+		alert("请先注册导出插件 fileExport");
+		return;
+	}
+
+	// 执行导出操作
+	const ExcelJS = Reflect.get(window, "ExcelJS");
+	const saveAs = Reflect.get(window, "saveAs");
+
+	// 导出文件需要两个东西 name  allSheets
+	const workerBookName = getWorkbookName();
+	const sheets = getAllSheets();
+
+	// 获取 sheet 的 buffer 信息
+	const workbook = new ExcelJS.Workbook();
+	// 创建表格，第二个参数可以配置创建什么样的工作表
+	sheets.every(function (table) {
+		if (table.data.length === 0) return true;
+		const worksheet = workbook.addWorksheet(table.name);
+		// 3.设置单元格合并,设置单元格边框,设置单元格样式,设置值
+		setStyleAndValue(table.data, worksheet);
+		setMerge(table.config.merge, worksheet);
+		setBorder(table.config.borderInfo, worksheet);
+		return true;
+	});
+	// 写入 buffer
+	const buffer = await workbook.xlsx.writeBuffer();
+
+	// 保存文件
+	try {
+		const blob = new Blob([buffer], {
+			type: "application/vnd.ms-excel;charset=utf-8",
+		});
+		saveAs(blob, `${workerBookName.split(".")[0]}.xlsx`);
+		console.log("文件导出成功");
+	} catch (error) {
+		console.error("文件导出失败");
+	}
+}
 
 function fileShear() {
 	if (
