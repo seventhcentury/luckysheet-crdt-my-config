@@ -1,10 +1,10 @@
 import {
+	type ChartType,
 	type MergeType,
 	type ImagesType,
 	type BorderInfoType,
 	type CellDataItemType,
 	type WorkerSheetItemType,
-	ChartType,
 } from "../../Interface/luckysheet";
 import { DB } from "../../Sequelize";
 import { getURLQuery } from "../../Utils";

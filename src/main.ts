@@ -18,6 +18,7 @@ async function initLuckysheet() {
 	 * 请注意，目前前台仅为展示，并无其他能力，因此加载的是默认协同演示 worker books 数据，gridkey = gridkey_demo
 	 * 常理来说，当前工作簿的数据，都应该通过 fileid （gridkey） 请求得来
 	 */
+
 	const options = {
 		lang: "zh",
 		title: "Luckysheet",
@@ -26,7 +27,7 @@ async function initLuckysheet() {
 		allowUpdate: false, // 配置协同功能
 		loadUrl: "",
 		updateUrl: "", // 协同服务转发服务
-		plugins: ["chart", "vchart", "fileImport",'fileExport'],
+		plugins: ["chart", "vchart", "fileImport", "fileExport"],
 
 		// 处理协同图片上传
 		uploadImage: async (file: File) => {
@@ -61,9 +62,19 @@ async function initLuckysheet() {
 			data: { gridKey },
 		});
 
-		// 协同服务可用场景下，才初始化协同
-		options.lang = data.data.lang;
-		options.title = data.data.title;
+		/**
+		 * 兼容无数据库服务场景
+		 */
+		if (data.code !== 200) {
+			// 协同服务可用场景下，才初始化协同
+			options.lang = "zh";
+			options.title = "未命名工作簿";
+		} else {
+			// 协同服务可用场景下，才初始化协同
+			options.lang = data.data.lang;
+			options.title = data.data.title;
+		}
+
 		options.allowUpdate = true;
 		options.loadUrl = `/api/loadSheetData?gridkey=${gridKey}`;
 		options.updateUrl = `${WS_SERVER_URL}?type=luckysheet&userid=${id}&username=${username}&gridkey=${gridKey}`;
