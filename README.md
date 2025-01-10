@@ -116,7 +116,7 @@ npm run db
 **Implemented  ✅️ Unrealized  ❌️**
 - File operation
   - ✅️ import file
-  - ❌️ export file
+  - ✅️ export file(Not implemented)
 
 - Cell operation
   - ✅️ Single cell operation
@@ -207,9 +207,6 @@ export const WS_SERVER_URL = "ws://127.0.0.1:9000";
 
 #### 2️⃣ Expand the vchart
 1. Implemented vchart, please refer to [Luckysheet-source-vchart](/Luckysheet-source/src/expendPlugins/vchart/plugin.js)
-<p align="center">
-  <img src='/public/result/chart-menu.png' />
-</p>
 <span style="font-weight:900">On the left is' vchart 'rendering, and on the right is' chartmix' rendering</span>
 <p align="center">
   <img src='/public/result/chartmix-vchart.png' />
