@@ -48,7 +48,7 @@ function chart(data, isDemo) {
 
     seriesLoadScripts(dependScripts, null, function () {
         const store = new Vuex.Store()
-        console.group("chartmix 加载完成");
+        console.groupCollapsed("chartmix 插件加载完成");
         console.info(chartmix.default);
         console.groupEnd();
 
