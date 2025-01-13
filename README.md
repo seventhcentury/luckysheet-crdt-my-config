@@ -116,7 +116,7 @@ npm run db
 **Implemented  ✅️ Unrealized  ❌️**
 - File operation
   - ✅️ import file
-  - ❌️ export file
+  - ✅️ export file(Not implemented)
 
 - Cell operation
   - ✅️ Single cell operation
@@ -207,9 +207,6 @@ export const WS_SERVER_URL = "ws://127.0.0.1:9000";
 
 #### 2️⃣ Expand the vchart
 1. Implemented vchart, please refer to [Luckysheet-source-vchart](/Luckysheet-source/src/expendPlugins/vchart/plugin.js)
-<p align="center">
-  <img src='/public/result/chart-menu.png' />
-</p>
 <span style="font-weight:900">On the left is' vchart 'rendering, and on the right is' chartmix' rendering</span>
 <p align="center">
   <img src='/public/result/chartmix-vchart.png' />
@@ -347,5 +344,8 @@ luckysheet.create(options)
 ## Open source contribution
 1. Submit an [issue](https://gitee.com/wfeng0/luckysheet-crdt/issues/new)
 2. Fork this project and submit a PR
-3. Join the communication group:`Q: 522121825`
-4. Contact the author:`V: 18276861941`
+3. Join the communication group:
+<p align="center">
+  <img src='/public/result/qq-group.png' />
+  <img src='/public/result/wechat-group.jpg' />
+</p>

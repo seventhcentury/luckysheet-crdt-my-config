@@ -115,7 +115,7 @@ npm run db
 **已实现功能 ✅️，未实现功能 ❌️**
 - 文件导入、导出
   - ✅️ 导入文件
-  - ❌️ 导出文件
+  - ✅️ 导出文件(导出不需要协同)
 
 - 单元格操作
   - ✅️ 单个单元格操作
@@ -207,9 +207,6 @@ export const WS_SERVER_URL = "ws://127.0.0.1:9000";
 
 #### 2️⃣ 拓展vchart图表
 1. 已实现vchart图表，请查阅 [Luckysheet-source-vchart](/Luckysheet-source/src/expendPlugins/vchart/plugin.js)
-<p align="center">
-  <img src='/public/result/chart-menu.png' />
-</p>
 <span style="font-weight:900">左侧为 `vchart` 渲染，右侧为 `chartmix` 渲染</span>
 <p align="center">
   <img src='/public/result/chartmix-vchart.png' />
@@ -346,5 +343,8 @@ luckysheet.create(options)
 ## 开源贡献
 1. 提交 [issue](https://gitee.com/wfeng0/luckysheet-crdt/issues/new)
 2. fork 本项目，提交 PR
-3. 加入交流群：`Q: 522121825`
-4. 联系作者：`V: 18276861941`
+3. 加入交流群：
+<p align="center">
+  <img src='/public/result/qq-group.png' />
+  <img src='/public/result/wechat-group.jpg' />
+</p>
