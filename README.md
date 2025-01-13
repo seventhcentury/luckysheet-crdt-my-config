@@ -344,5 +344,8 @@ luckysheet.create(options)
 ## Open source contribution
 1. Submit an [issue](https://gitee.com/wfeng0/luckysheet-crdt/issues/new)
 2. Fork this project and submit a PR
-3. Join the communication group:`Q: 522121825`
-4. Contact the author:`V: 18276861941`
+3. Join the communication group:
+<p align="center">
+  <img src='/public/result/qq-group.png' />
+  <img src='/public/result/wechat-group.jpg' />
+</p>

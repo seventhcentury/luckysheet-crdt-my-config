@@ -343,5 +343,8 @@ luckysheet.create(options)
 ## 开源贡献
 1. 提交 [issue](https://gitee.com/wfeng0/luckysheet-crdt/issues/new)
 2. fork 本项目，提交 PR
-3. 加入交流群：`Q: 522121825`
-4. 联系作者：`V: 18276861941`
+3. 加入交流群：
+<p align="center">
+  <img src='/public/result/qq-group.png' />
+  <img src='/public/result/wechat-group.jpg' />
+</p>
