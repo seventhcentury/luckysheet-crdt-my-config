@@ -1222,8 +1222,12 @@ const server = {
 
 			if (op == "add") {
 				//插入
-				console.log("==> file.chart",file.chart);
-				file.chart.push(value);
+				console.log("==> file.chart", file.chart);
+				if (file.chart) {
+					file.chart.push(value);
+				} else {
+					file.chart = [value];
+				}
 				// 注释下行代码，luckysheet 上不存在 insertChartTosheet 方法
 				// luckysheet.insertChartTosheet(value.sheetIndex, value.dataSheetIndex, value.option, value.chartType, value.selfOption, value.defaultOption, value.row, value.column, value.chart_selection_color, value.chart_id, value.chart_selection_id, value.chartStyle, value.rangeConfigCheck, value.rangeRowCheck, value.rangeColCheck, value.chartMarkConfig, value.chartTitleConfig, value.winWidth, value.winHeight, value.scrollLeft1, value.scrollTop1, value.chartTheme, value.myWidth, value.myHeight, value.myLeft, value.myTop, value.myindexrank1, true);
 				// 协同创建图表
