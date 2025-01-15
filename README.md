@@ -340,6 +340,46 @@ luckysheet.create(options)
 3. Please configure plugins correctly Use the import function after `fileExport`.
 
 
+## frequently asked questions
+1. When importing files, prompt `file format error`：
+```ts
+At present, only xlsx format is supported. 
+Please check if the file format is correct.
+```
+
+2. The page displays `Collaboration service unavailable, currently in normal mode`：
+```ts
+try {
+  const { data } = await fetch({
+      url: "/api/getWorkerBook",
+      method: "post",
+      data: { gridKey },
+   });
+}
+catch (error) {}
+
+If and only if! When a fetch request fails, it will enter the catch block,
+At this time, it will prompt 'Collaboration service unavailable, currently in normal mode';
+Please check if the service is functioning properly. There are generally the following possibilities:
+1. Service exception
+2. Database exception
+3. Abnormal database table structure
+```
+3. Chaotic database data:
+```ts
+The only possible reason for this is that the application does not have a relevant delete statement,
+It's not that I don't write, but rather that everyone expands based on their actual business needs.
+The following steps can restore:
+1. Delete all data tables of luckyshev_crdt;
+2. Execute npm run db to synchronize database tables;
+3. Execute npm run server to start the service;
+The appeal operation will create a database table by oneself and synchronize the latest model structure,
+And create a gridkey demo worker books and worker sheets record;
+If and only if there are recorded scenes in these two tables, the luckySheet can be rendered;
+be careful! If there is no record in two tables, it may also cause the inability to collaborate (problem 2)
+```
+
+
 
 ## Open source contribution
 1. Submit an [issue](https://gitee.com/wfeng0/luckysheet-crdt/issues/new)

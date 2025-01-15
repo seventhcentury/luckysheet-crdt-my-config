@@ -31,7 +31,7 @@ const SQL_CONFIG = {
 	 * $ npm install --save oracledb # Oracle Database
 	 */
 	logger: true, // 开启日志
-	enable: true, // 是否启用数据库服务
+	enable: false, // 是否启用数据库服务
 };
 
 /**

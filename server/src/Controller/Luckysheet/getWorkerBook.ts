@@ -1,6 +1,6 @@
+import { DB } from "../../Sequelize";
 import { Request, Response } from "express";
 import { WorkerBookService } from "../../Service/WorkerBook";
-import { DB } from "../../Sequelize";
 export async function getWorkerBook(req: Request, res: Response) {
 	const gridKey = req.body.gridKey;
 	if (!gridKey) {
