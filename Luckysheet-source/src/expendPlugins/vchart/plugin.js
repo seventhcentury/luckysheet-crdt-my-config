@@ -24,6 +24,7 @@ import {
 } from "../../controllers/constant";
 import { deepCopy } from "../../utils/chartUtil";
 import locale from "../../locale/locale";
+import server from "../../controllers/server";
 
 /**
  * VChart 相关依赖及样式文件
@@ -36,7 +37,7 @@ const dependLinks = ["expendPlugins/vchart/vchart.css"];
  * @param {*} data 整个 worker books data
  * @param {*} isDemo
  */
-function vchart(data, isDemo) {
+function registerVChartPlugin(data, isDemo) {
 	// setTimeout(() => {
 	//   openVChartSetting();
 	// }, 100);
@@ -50,9 +51,12 @@ function vchart(data, isDemo) {
 
 		chartInfo.chart_selection = chart_selection();
 
-		// Initialize the rendering vchart
+		/**
+		 * Initialize the rendering vchart
+		 * vchart 与 chartmix 公用一个 file chart ，通过 chartType 识别不同的图表
+		 */
 		for (let i = 0; i < data.length; i++) {
-			renderVCharts(data[i].vchart, isDemo);
+			renderVCharts(data[i].chart, isDemo);
 		}
 
 		for (let i = 0; i < data.length; i++) {
@@ -64,11 +68,13 @@ function vchart(data, isDemo) {
 }
 
 /**
- * 渲染图表 - 是初始化页面时，如果 sheet file vchart 有数据的话，应该调用 render 创建图表
+ * 渲染图表 - 是初始化页面时，如果 sheet file 有数据的话，应该调用 render 创建图表
  */
-function renderVCharts(vchartList, isDemo) {
+function renderVCharts(chartList, isDemo) {
 	// no chart
-	if (vchartList == undefined) return;
+	if (chartList == undefined) return;
+
+	const vchartList = chartList.filter((i) => i.chartType === "vchart");
 
 	for (let i = 0; i < vchartList.length; i++) {
 		let vchartItem = vchartList[i];
@@ -101,10 +107,9 @@ function renderVCharts(vchartList, isDemo) {
 		let container = document.getElementById(chart_id_c);
 
 		/**
-		 * 核心方法 ： 创建 vchart 图表
+		 * 创建 vchart 图表 ：
 		 * 定义 item ={ width:xxx; chart_id:xxx; chartOptions:{ spec:{...}; rangeArray:[] } }
 		 * 后续的图表操作，需要基于创建对象 IVChart 及 ISpec 两个对象
-		 * 包括修改图表配置等
 		 */
 		const vchart = new VChart.default(vchartItem.chartOptions.spec, {
 			dom,
@@ -429,6 +434,9 @@ function createVChart(width, height, left, top) {
 	const vchart = new VChart.default(spec, { dom });
 	vchart.renderSync();
 
+	chartInfo.currentChart = chartOptions;
+	chartmix.default.insertToStore({ chart_id, chartOptions });
+
 	width = parseDataToPX(width || 400);
 	height = parseDataToPX(height || 250);
 	left = parseDataToPX(left || 0);
@@ -447,10 +455,10 @@ function createVChart(width, height, left, top) {
 	let sheetFile =
 		chartInfo.luckysheetfile[getSheetIndex(chartInfo.currentSheetIndex)];
 
-	if (!sheetFile.vchart) {
-		sheetFile.vchart = [];
-	}
-	sheetFile.vchart.push({
+	if (!sheetFile.chart) sheetFile.chart = [];
+
+	sheetFile.chart.push({
+		chartType: "vchart",
 		chart_id,
 		width,
 		height,
@@ -579,6 +587,26 @@ function createVChart(width, height, left, top) {
 				e.stopPropagation();
 			}
 		});
+
+	// 创建统计图之后，发送协同数据
+	const v = {
+		chartType: "vchart",
+		chart_id,
+		width,
+		height,
+		left,
+		top,
+		sheetIndex: sheetFile.index,
+		needRangeShow: false,
+		chartOptions,
+		chartData,
+	};
+	console.log("==> 图表协同 :vchart 新建图表", v);
+	server.saveParam("c", sheetFile.index, v, {
+		op: "add",
+		cid: chart_id,
+		chartType: "vchart",
+	});
 }
 
 /**
@@ -595,8 +623,15 @@ function delVChart(chart_id) {
 	let sheetFile =
 		chartInfo.luckysheetfile[getSheetIndex(chartInfo.currentSheetIndex)];
 
-	let index = sheetFile.vchart.findIndex((item) => item.chart_id == chart_id);
-	sheetFile.vchart.splice(index, 1);
+	let index = sheetFile.chart.findIndex((item) => item.chart_id == chart_id);
+	sheetFile.chart.splice(index, 1);
+	console.log("==> 图表协同 :删除图表", chart_id);
+	server.saveParam(
+		"c",
+		sheetFile.index,
+		{ chart_id: chart_id, chartType: "vchart" },
+		{ op: "del", cid: chart_id }
+	);
 }
 
 // 隐藏其他sheet的图表，显示当前sheet的图表 chartMix 切换sheet页显示隐藏图表
@@ -608,35 +643,34 @@ function renderChartShow(index) {
 	luckysheetfile.forEach((file) => {
 		//切换当前页的所有图表都显示出来
 		if (file.index == index) {
-			const chartLists = file.vchart || [];
+			const chartLists = file.chart || [];
 
-			chartLists.forEach((vchart) => {
-				vchart.isShow = true;
-				$("#" + vchart.chart_id + "_c").show();
+			chartLists.forEach((chart) => {
+				chart.isShow = true;
+				$("#" + chart.chart_id + "_c").show();
 
-				if (vchart.needRangeShow == true) {
+				if (chart.needRangeShow == true) {
 					//一个sheet页只有一个图表高亮显示,//重要！因为在store了做了存储，所以能在此处找到对应图表设置显示隐藏
 					//操作DOM当前图表选择区域高亮
-					selectRangeBorderShow(vchart.chart_id);
+					selectRangeBorderShow(chart.chart_id);
 				}
 			});
 		}
 
 		// 隐藏其他页的图表
 		else {
-			const chartLists = file.vchart || [];
+			const chartLists = file.chart || [];
 
-			chartLists.forEach((vchart) => {
-				vchart.isShow = false;
-				$("#" + vchart.chart_id + "_c").hide();
+			chartLists.forEach((chart) => {
+				chart.isShow = false;
+				$("#" + chart.chart_id + "_c").hide();
 			});
 		}
 	});
 }
 
 /**
- * ** 核心方法 **
- * 根据传入的 rangeArray 创建 VChart data 配置项
+ * 核心方法 ：根据传入的 rangeArray 创建 VChart data 配置项
  */
 function getVChartOption(rangeArray) {
 	const { coltitle, rowtitle, content, range } = rangeArray;
@@ -780,7 +814,7 @@ function setChartMoveableEffect($container) {
 function showNeedRangeShow(chart_id) {
 	let chartLists =
 		chartInfo.luckysheetfile[getSheetIndex(chartInfo.currentSheetIndex)]
-			.vchart;
+			.chart;
 	for (let chartId in chartLists) {
 		//当前sheet的图表先设置为false
 		chartLists[chartId].needRangeShow = false;
@@ -840,7 +874,7 @@ function selectRangeBorderShow(chart_id) {
 function hideAllNeedRangeShow() {
 	let chartLists =
 		chartInfo.luckysheetfile[getSheetIndex(chartInfo.currentSheetIndex)]
-			.vchart;
+			.chart;
 	for (let chartId in chartLists) {
 		//当前sheet的图表设置为false
 		chartLists[chartId].needRangeShow = false;
@@ -1103,9 +1137,15 @@ function closeVChartSetting(spec) {
 	// 如果是null 则表示当前setting 用户没有执行任何操作
 	if (!spec) return;
 
-	console.group("图表更新");
+	console.log("==> 图表协同 :更新配置");
 	console.log("==> 更新后的配置", spec);
+	// server.saveParam(
+	// 	"c",
+	// 	sheetFile.index,
+	// 	{ chart_id: chart_id, chartOptions: "", chartType: "vchart" },
+	// 	{ op: "update", cid: chart_id }
+	// );
 	console.groupEnd();
 }
 
-export { vchart, createVChart, renderVCharts };
+export { registerVChartPlugin, createVChart, renderVCharts };
