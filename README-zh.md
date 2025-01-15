@@ -339,6 +339,47 @@ luckysheet.create(options)
 3. 请正确配置 `plugins: [ 'fileExport' ]` 后使用导入功能。
 
 
+## 常见问题
+1. 导入文件时，提示 `文件格式错误`：
+```ts
+目前仅支持 xlsx 格式，请检查文件格式是否正确。
+```
+
+2. 页面显示`协同服务不可用，当前为普通模式`：
+```ts
+try {
+  const { data } = await fetch({
+      url: "/api/getWorkerBook",
+      method: "post",
+      data: { gridKey },
+   });
+}
+catch (error) {}
+
+当且仅当！ fetch 请求失败时，会进入 catch 块，
+此时会提示 `协同服务不可用，当前为普通模式`；
+请检查服务是否正常，一般有下列可能：
+
+1. 服务异常
+2. 数据库异常
+3. 数据库表结构异常
+```
+3. 数据库数据混乱：
+```ts
+造成该原因的唯一可能，就是应用没有相关的 delete 语句，
+不是我不写哈，而是大家根据自己的实际业务，进行拓展。
+下列步骤可恢复：
+1. 删除 luckysheet_crdt 所有数据表;
+2. 执行 npm run db 同步数据库表;
+3. 执行 npm run server 启动服务;
+
+上诉操作，会自己创建数据库表，同步最新的模型结构，
+并且创建一个 gridkey-demo 的 workerbooks、workersheets 记录；
+当且仅当，这两个表有记录的场景下，才能渲染 luckysheet；
+
+注意！如果两个表没有一条记录，也可能造成无法协同（问题2）
+```
+
 
 ## 开源贡献
 1. 提交 [issue](https://gitee.com/wfeng0/luckysheet-crdt/issues/new)
