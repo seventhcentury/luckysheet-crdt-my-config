@@ -100,7 +100,7 @@ type SHA = {
 		columnlen: { [key: string]: number };
 		rowhidden: { [key: string]: 0 };
 		colhidden: { [key: string]: 0 };
-		borderInfo: BorderInfoType;
+		borderInfo: BorderInfoType[];
 	};
 };
 

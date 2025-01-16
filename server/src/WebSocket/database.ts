@@ -533,16 +533,16 @@ async function sha(data: string, gridKey: string) {
 				const newBorderInfo: BorderInfoModelType = {
 					worker_sheet_id: v.index,
 					rangeType: item.rangeType,
-					row_index: item.value.row_index,
-					col_index: item.value.col_index,
-					l_style: item.value.l.style,
-					l_color: item.value.l.color,
-					t_style: item.value.t.style,
-					t_color: item.value.t.color,
-					r_style: item.value.r.style,
-					r_color: item.value.r.color,
-					b_style: item.value.b.style,
-					b_color: item.value.b.color,
+					row_index: item.value?.row_index,
+					col_index: item.value?.col_index,
+					l_style: item.value?.l?.style,
+					l_color: item.value?.l?.color,
+					t_style: item.value?.t?.style,
+					t_color: item.value?.t?.color,
+					r_style: item.value?.r?.style,
+					r_color: item.value?.r?.color,
+					b_style: item.value?.b?.style,
+					b_color: item.value?.b?.color,
 				};
 				await BorderInfoService.createConfigBorder(newBorderInfo);
 			} else if (item.rangeType === "range") {
