@@ -1,12 +1,12 @@
 import { chart } from "../expendPlugins/chart/plugin";
 import { print } from "../expendPlugins/print/plugin";
-import { vchart } from "../expendPlugins/vchart/plugin";
+import { registerVChartPlugin } from "../expendPlugins/vchart/plugin";
 import { fileImport } from "../expendPlugins/fileImport/plugin";
 import { fileExport } from "../expendPlugins/fileExport/plugin";
 const pluginsObj = {
 	chart: chart,
 	print: print,
-	vchart: vchart,
+	vchart: registerVChartPlugin,
 	fileImport: fileImport,
 	fileExport: fileExport,
 };

@@ -1,5 +1,9 @@
 import { WebSocket } from "ws";
-import { BASE_CELL_DATA_TYPE, CellDataItemType } from "./luckysheet";
+import {
+	BASE_CELL_DATA_TYPE,
+	BorderInfoType,
+	CellDataItemType,
+} from "./luckysheet";
 
 interface CustomWebSocket extends WebSocket {
 	clientInfo: {
@@ -70,6 +74,7 @@ type MERGE = {
 };
 
 type CHART = {
+	chartType: string;
 	chart_id: string;
 	width: number | string;
 	height: number | string;
@@ -95,7 +100,7 @@ type SHA = {
 		columnlen: { [key: string]: number };
 		rowhidden: { [key: string]: 0 };
 		colhidden: { [key: string]: 0 };
-		borderInfo: any;
+		borderInfo: BorderInfoType;
 	};
 };
 

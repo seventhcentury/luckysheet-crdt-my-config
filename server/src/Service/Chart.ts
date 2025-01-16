@@ -1,5 +1,5 @@
-import { ChartModel, ChartModelType } from "../Sequelize/Models/Chart";
 import { logger } from "../Utils/Logger";
+import { ChartModel, ChartModelType } from "../Sequelize/Models/Chart";
 
 /**
  * 创建图表

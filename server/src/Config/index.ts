@@ -23,15 +23,15 @@ const SQL_CONFIG = {
 	/**
 	 * 数据库引擎 'mysql' | 'postgres' | 'sqlite' | 'mariadb' | 'mssql' | 'db2' | 'snowflake' | 'oracle'
 	 * # 选择以下之一（请注意：目前默认为 MySQL 如果使用其他引擎，请自行下载其他的驱动程序）:
-	 * $ npm install --save pg pg-hstore # Postgres
-	 * $ npm install --save mysql2
-	 * $ npm install --save mariadb
-	 * $ npm install --save sqlite3
-	 * $ npm install --save tedious # Microsoft SQL Server
-	 * $ npm install --save oracledb # Oracle Database
+	 *   npm install --save pg pg-hstore # Postgres
+	 *   npm install --save mysql2
+	 *   npm install --save mariadb
+	 *   npm install --save sqlite3
+	 *   npm install --save tedious # Microsoft SQL Server
+	 *   npm install --save oracledb # Oracle Database
 	 */
 	logger: true, // 开启日志
-	enable: false, // 是否启用数据库服务
+	enable: true, // 是否启用数据库服务
 };
 
 /**
@@ -61,9 +61,9 @@ const MULTER_CONFIG = {
 
 // 统一导出配置对象
 export {
-	SERVER_PORT,
 	SQL_CONFIG,
+	SERVER_PORT,
 	LOGGER_CONFIG,
-	WORKER_BOOK_INFO,
 	MULTER_CONFIG,
+	WORKER_BOOK_INFO,
 };

@@ -2,8 +2,8 @@
  * Worker Books 工作簿模型表
  */
 
-import { DataTypes, InferAttributes, Model, Sequelize } from "sequelize";
 import { WorkerBookModel } from "./WorkerBook";
+import { DataTypes, InferAttributes, Model, Sequelize } from "sequelize";
 
 export class WorkerSheetModel extends Model {
   declare worker_sheet_id?: string; /** 有默认值，非必传 */

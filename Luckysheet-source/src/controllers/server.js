@@ -22,6 +22,7 @@ import luckysheetConfigsetting from "./luckysheetConfigsetting";
 import { customImageUpdate } from "./imageUpdateCtrl";
 import method from "../global/method";
 import { chartController } from "./chart";
+import { vchartController } from "./vchart";
 
 const server = {
 	gridKey: null,
@@ -1222,20 +1223,24 @@ const server = {
 
 			if (op == "add") {
 				//插入
-				console.log("==> file.chart", file.chart);
-				if (file.chart) {
-					file.chart.push(value);
-				} else {
-					file.chart = [value];
+				file.chart ? file.chart.push(value) : (file.chart = [value]);
+
+				if (item?.v?.chartType === "vchart") {
+					// 协同创建 vchart 图表
+					vchartController.renderVChart(value);
+				} else if (item?.v?.chartType === "chartmix") {
+					// 协同创建 chartmix 图表
+					chartController.renderChart(value);
 				}
-				// 注释下行代码，luckysheet 上不存在 insertChartTosheet 方法
-				// luckysheet.insertChartTosheet(value.sheetIndex, value.dataSheetIndex, value.option, value.chartType, value.selfOption, value.defaultOption, value.row, value.column, value.chart_selection_color, value.chart_id, value.chart_selection_id, value.chartStyle, value.rangeConfigCheck, value.rangeRowCheck, value.rangeColCheck, value.chartMarkConfig, value.chartTitleConfig, value.winWidth, value.winHeight, value.scrollLeft1, value.scrollTop1, value.chartTheme, value.myWidth, value.myHeight, value.myLeft, value.myTop, value.myindexrank1, true);
-				// 协同创建图表
-				chartController.renderChart(value);
 			} else if (op == "xy" || op == "wh" || op == "update") {
 				//移动 缩放 更新
-				// 协同更新图表
-				chartController.updateChart(value);
+				if (item?.v?.chartType === "vchart") {
+					vchartController.updateVChart(value);
+				} else if (item?.v?.chartType === "chartmix") {
+					// 协同更新图表
+					chartController.updateChart(value);
+				}
+
 				for (let i = 0; i < file.chart.length; i++) {
 					let chartjson = file.chart[i];
 
@@ -1254,8 +1259,13 @@ const server = {
 				}
 			} else if (op == "del") {
 				//删除
-				// 协同删除图表
-				chartController.deleteChart(cid);
+				if (item?.v?.chartType === "vchart") {
+					vchartController.deleteVChart(value);
+				} else if (item?.v?.chartType === "chartmix") {
+					// 协同删除图表
+					chartController.deleteChart(cid);
+				}
+
 				for (let i = 0; i < file.chart.length; i++) {
 					let chartjson = file.chart[i];
 

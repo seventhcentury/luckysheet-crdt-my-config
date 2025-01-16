@@ -140,16 +140,6 @@ type ColHiddenType = {
 type BorderInfoType = {
 	rangeType: string;
 	borderType?: string;
-	// | "border-left"
-	// | "border-right"
-	// | "border-top"
-	// | "border-bottom"
-	// | "border-all"
-	// | "border-outside"
-	// | "border-inside"
-	// | "border-horizontal"
-	// | "border-vertical"
-	// | "border-none";
 	style?: string;
 	color?: string;
 	range?: [
@@ -182,9 +172,6 @@ type BorderInfoType = {
 	};
 };
 
-// 工作表保护类型
-// type AuthorityType = {};
-
 // 图片类型
 type ImagesType = {
 	type: string;
@@ -216,6 +203,7 @@ type ImagesType = {
 
 // 统计图表类型
 type ChartType = {
+	chartType: string;
 	chart_id: string;
 	width: string | number;
 	height: string | number;

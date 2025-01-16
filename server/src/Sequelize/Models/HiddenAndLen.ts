@@ -2,8 +2,8 @@
  * config row/col hiddens model 配置行列隐藏
  */
 
-import { DataTypes, InferAttributes, Model, Sequelize } from "sequelize";
 import { WorkerSheetModel } from "./WorkerSheet";
+import { DataTypes, InferAttributes, Model, Sequelize } from "sequelize";
 
 export class HiddenAndLenModel extends Model {
   // 类型定义

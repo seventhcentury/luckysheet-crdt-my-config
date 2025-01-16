@@ -25,17 +25,6 @@
  *
  * 注意一点，对象中的i为当前sheet的index值，而不是order
  */
-
-import { isEmpty } from "../Utils";
-import { logger } from "../Utils/Logger";
-import { ImageService } from "../Service/Image";
-import { MergeService } from "../Service/Merge";
-import { BorderInfoService } from "../Service/Border";
-import { CellDataService } from "../Service/CellData";
-import { HiddenAndLenService } from "../Service/HiddenAndLen";
-import { CellDataModelType } from "../Sequelize/Models/CellData";
-import { BorderInfoModelType } from "../Sequelize/Models/BorderInfo";
-import { HiddenAndLenModelType } from "../Sequelize/Models/HiddenAndLen";
 import {
 	CG,
 	CHART,
@@ -45,10 +34,20 @@ import {
 	SHA,
 	V,
 } from "../Interface/WebSocket";
+import { isEmpty } from "../Utils";
+import { logger } from "../Utils/Logger";
+import { ImageService } from "../Service/Image";
 import { ChartService } from "../Service/Chart";
-import { WorkerSheetService } from "../Service/WorkerSheet";
-import { WorkerSheetModelType } from "../Sequelize/Models/WorkerSheet";
+import { MergeService } from "../Service/Merge";
+import { BorderInfoService } from "../Service/Border";
+import { CellDataService } from "../Service/CellData";
 import { WorkerBookService } from "../Service/WorkerBook";
+import { WorkerSheetService } from "../Service/WorkerSheet";
+import { HiddenAndLenService } from "../Service/HiddenAndLen";
+import { CellDataModelType } from "../Sequelize/Models/CellData";
+import { BorderInfoModelType } from "../Sequelize/Models/BorderInfo";
+import { WorkerSheetModelType } from "../Sequelize/Models/WorkerSheet";
+import { HiddenAndLenModelType } from "../Sequelize/Models/HiddenAndLen";
 
 /**
  * 协同消息映射的操作
@@ -585,6 +584,7 @@ async function shc(data: string, gridKey: string) {
 }
 
 // 删除sheet - 不可以直接删除记录，因为还需要恢复，应该标记 deleteFlag 属性即可（celldata可能存在外键关联，因此，不可以直接删除）
+// 请注意： 删除 Sheet 请真实删除 celldata 数据
 async function shd(data: string) {
 	logger.info("[CRDT DATA]:", data);
 	const { t, v } = <CRDTDataType<{ deleIndex: string }>>JSON.parse(data);
@@ -652,10 +652,10 @@ async function c(data: string) {
 	const { t, v, i, op } = <CRDTDataType<CHART>>JSON.parse(data);
 	if (t !== "c") return logger.error("t is not c.");
 	if (isEmpty(i)) return logger.error("i is undefined.");
-
 	// 所有的图表ID均由前台传递
 	// 创建图表
 	const chartInfo = {
+		chartType: v.chartType,
 		worker_sheet_id: i,
 		chart_id: v.chart_id,
 		width: v.width,
@@ -673,6 +673,7 @@ async function c(data: string) {
 	//  {"t":"c","i":"89357e56-c6bc-4de0-bfd1-0e00b3086da4","v":{"chart_id":"chart_01ieK40e4Kal_1734335434241","left":"172.3px","top":"158.3px","scrollTop":0,"scrollLeft":0},"cid":"chart_01ieK40e4Kal_1734335434241","op":"xy"}
 	if (op === "xy" || op === "wh") {
 		await ChartService.updateChart({
+			chartType: v.chartType,
 			worker_sheet_id: i,
 			chart_id: v.chart_id,
 			left: v.left,
@@ -685,6 +686,7 @@ async function c(data: string) {
 	// 更新图表配置
 	if (op === "update") {
 		await ChartService.updateChart({
+			chartType: v.chartType,
 			worker_sheet_id: i,
 			chart_id: v.chart_id,
 			chartOptions: JSON.stringify(v.chartOptions),

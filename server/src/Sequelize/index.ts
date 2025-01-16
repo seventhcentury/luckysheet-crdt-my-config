@@ -31,7 +31,10 @@ class DataBase {
 		const { port, host, database, user, password, enable } = SQL_CONFIG;
 
 		// 禁用数据库
-		if (!enable) return;
+		if (!enable) {
+			logger.warn("🚫 数据库服务已禁用！");
+			return;
+		}
 
 		// 创建连接
 		this._sequelize = new Sequelize(database, user, password, {
