@@ -115,37 +115,37 @@ function getSheetDataTemp(item: WorkerSheetModelType) {
  * 数据库服务不可用，直接返回空模板数据
  */
 function getEmptyData() {
-	// 测试功能
-	return JSON.stringify([
-		{
-			name: "Cell",
-			index: "Sheet_6az6nei65t1i_1596209937084",
-			order: "0",
-			status: 1,
-			celldata: [
-				{
-					r: 0,
-					c: 0,
-					v: { v: "A", ct: { fa: "General", t: "n" }, m: "1" },
-				},
-				{
-					r: 0,
-					c: 1,
-					v: { v: "1", ct: { fa: "General", t: "n" }, m: "1" },
-				},
-				{
-					r: 1,
-					c: 0,
-					v: { v: "B", ct: { fa: "General", t: "n" }, m: "1" },
-				},
-				{
-					r: 1,
-					c: 1,
-					v: { v: "2", ct: { fa: "General", t: "n" }, m: "1" },
-				},
-			],
-		},
-	]);
+	// // 测试功能
+	// return JSON.stringify([
+	// 	{
+	// 		name: "Cell",
+	// 		index: "Sheet_6az6nei65t1i_1596209937084",
+	// 		order: "0",
+	// 		status: 1,
+	// 		celldata: [
+	// 			{
+	// 				r: 0,
+	// 				c: 0,
+	// 				v: { v: "A", ct: { fa: "General", t: "n" }, m: "1" },
+	// 			},
+	// 			{
+	// 				r: 0,
+	// 				c: 1,
+	// 				v: { v: "1", ct: { fa: "General", t: "n" }, m: "1" },
+	// 			},
+	// 			{
+	// 				r: 1,
+	// 				c: 0,
+	// 				v: { v: "B", ct: { fa: "General", t: "n" }, m: "1" },
+	// 			},
+	// 			{
+	// 				r: 1,
+	// 				c: 1,
+	// 				v: { v: "2", ct: { fa: "General", t: "n" }, m: "1" },
+	// 			},
+	// 		],
+	// 	},
+	// ]);
 	return JSON.stringify([
 		{
 			name: "Sheet1",
@@ -287,16 +287,6 @@ async function parseConfigBorder(
 			 */
 			const { rangeType, borderType, style, color } = data;
 			if (rangeType === "cell") {
-				/**
-				 * {
-				 * 	"row_index":7,
-				 * 	"col_index":6,
-				 * 	"l":{"style":1,"color":"#000000"},
-				 * 	"r":{"style":1,"color":"#000000"},
-				 * 	"t":{"style":1,"color":"#000000"},
-				 * 	"b":{"style":1,"color":"#000000"}
-				 * }
-				 */
 				result.push({
 					rangeType,
 					value: {
@@ -312,10 +302,7 @@ async function parseConfigBorder(
 				const baseinfo = { rangeType, borderType, style, color };
 				const row = <[number, number]>[data.row_start, data.row_end];
 				const column = <[number, number]>[data.col_start, data.col_end];
-				result.push({
-					...baseinfo,
-					range: [{ row, column }],
-				});
+				result.push({ ...baseinfo, range: [{ row, column }] });
 			}
 		});
 
@@ -327,27 +314,30 @@ async function parseConfigBorder(
 	}
 }
 
+/**
+ * 解析隐藏行列和行高列宽
+ * @param worker_sheet_id
+ * @param currentSheetData
+ * @returns
+ */
 async function parseHiddenAndLen(
 	worker_sheet_id: string,
 	currentSheetData: WorkerSheetItemType
 ) {
 	try {
-		const hiddens = await HiddenAndLenService.findConfig(worker_sheet_id);
-		hiddens?.forEach((item) => {
+		const dataArray = await HiddenAndLenService.findConfig(worker_sheet_id);
+		dataArray?.forEach((item) => {
 			const data = item.dataValues;
 			const { config_type, config_index } = data;
 			const value = Number(data.config_value);
 			// 解析数据
 			if (config_type === "rowhidden") {
 				currentSheetData.config.rowhidden[config_index] = 0;
-			}
-			if (config_type === "colhidden") {
+			} else if (config_type === "colhidden") {
 				currentSheetData.config.colhidden[config_index] = 0;
-			}
-			if (config_type === "rowlen") {
+			} else if (config_type === "rowlen") {
 				currentSheetData.config.rowlen[config_index] = value;
-			}
-			if (config_type === "columnlen") {
+			} else if (config_type === "columnlen") {
 				currentSheetData.config.columnlen[config_index] = value;
 			}
 		});
@@ -369,9 +359,9 @@ async function parseImages(
 	try {
 		const result = <ImagesType[]>[];
 
-		const imageresult = await ImageService.findAll(worker_sheet_id);
+		const images = await ImageService.findAll(worker_sheet_id);
 
-		imageresult?.forEach((image) => {
+		images?.forEach((image) => {
 			const data = image.dataValues;
 			result.push({
 				type: data.image_type, //1移动并调整单元格大小 2移动并且不调整单元格的大小 3不要移动单元格并调整其大小
@@ -425,6 +415,7 @@ async function parseCharts(
 		charts?.forEach((chart) => {
 			const data = chart.dataValues;
 			result.push({
+				chartType: data.chartType,
 				chart_id: data.chart_id,
 				width: data.width,
 				height: data.height,

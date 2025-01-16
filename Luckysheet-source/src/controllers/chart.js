@@ -439,7 +439,7 @@ function deleteChart(chart_id) {
 	let index = sheetFile.chart.findIndex((item) => item.chart_id == chart_id);
 	sheetFile.chart.splice(index, 1);
 	// api call
-	chartInfo.deleteChart(chart_id);
+	// chartInfo.deleteChart(chart_id);
 }
 
 export const chartController = {

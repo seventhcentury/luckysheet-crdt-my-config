@@ -29,6 +29,7 @@ import server from "../../controllers/server";
 /**
  * VChart 相关依赖及样式文件
  */
+
 const dependScripts = ["expendPlugins/libs/vchart.min.js"];
 const dependLinks = ["expendPlugins/vchart/vchart.css"];
 
@@ -115,6 +116,9 @@ function renderVCharts(chartList, isDemo) {
 			dom,
 		});
 		vchart.renderSync();
+
+		// 设置当前的 chartJson 到 chartInfo 中
+		chartInfo.currentChart = vchartItem.chartOptions;
 
 		//处理区域高亮框参数，当前页中，只有当前的图表的needRangShow为true,其他为false
 		showNeedRangeShow(chart_id);
@@ -435,7 +439,8 @@ function createVChart(width, height, left, top) {
 	vchart.renderSync();
 
 	chartInfo.currentChart = chartOptions;
-	chartmix.default.insertToStore({ chart_id, chartOptions });
+	// 这个是存到 vuex 上的，因此，考虑别的存储方案
+	// chartmix.default.insertToStore({ chart_id, chartOptions });
 
 	width = parseDataToPX(width || 400);
 	height = parseDataToPX(height || 250);
@@ -643,7 +648,8 @@ function renderChartShow(index) {
 	luckysheetfile.forEach((file) => {
 		//切换当前页的所有图表都显示出来
 		if (file.index == index) {
-			const chartLists = file.chart || [];
+			const chartLists =
+				file.chart.filter((i) => i.chartType === "vchart") || [];
 
 			chartLists.forEach((chart) => {
 				chart.isShow = true;

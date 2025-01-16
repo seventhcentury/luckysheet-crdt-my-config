@@ -3,8 +3,8 @@
  *
  */
 
-import { DataTypes, InferAttributes, Model, Sequelize } from "sequelize";
 import { WorkerSheetModel } from "./WorkerSheet";
+import { DataTypes, InferAttributes, Model, Sequelize } from "sequelize";
 
 export class MergeModel extends Model {
   declare config_merge_id?: string;

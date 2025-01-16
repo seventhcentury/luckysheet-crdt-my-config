@@ -37,6 +37,7 @@ import {
 	checkProtectionAuthorityNormal,
 } from "./protection";
 import { openCellFormatModel } from "./cellFormat";
+import chartInfo from "../store";
 
 import {
 	replaceHtml,
@@ -5007,7 +5008,7 @@ export default function luckysheetHandler() {
 					scrollTop1: scrollTop1,
 					scrollLeft1: scrollLeft1,
 				});
-				const chartJson = Store.chartparam.getChartJson(chart_id);
+				const chartJson = chartInfo.currentChart;
 				// luckysheet.sheetmanage.saveChart({ "chart_id": chart_id, "sheetIndex": sheetIndex, "top": myTop, "left": myLeft });
 				//存储滚动条位置//协同编辑时可能影响用户操作，可以考虑不存储滚动条位置,或者滚动条信息仅仅保存到后台，但是不分发到其他设备（google sheet没有存储滚动条位置）
 				server.saveParam(
@@ -5082,7 +5083,8 @@ export default function luckysheetHandler() {
 				//加上滚动条的位置
 				// luckysheet.sheetmanage.saveChart({ "chart_id": chart_id, "sheetIndex": sheetIndex, "height": myHeight, "width": myWidth, "top": myTop, "left": myLeft, "scrollTop": scrollTop, "scrollLeft": scrollLeft });
 
-				const chartJson = Store.chartparam.getChartJson(chart_id);
+				// 从 currentChart 上获取 options
+				const chartJson = chartInfo.currentChart;
 				server.saveParam(
 					"c",
 					Store.currentSheetIndex,

@@ -5,13 +5,13 @@
  * id: "7a"   websocket的id
  * username: 用户名（用于显示 xxx 正在编辑）
  * type:
- *  # message === '用户退出' 用户退出时，关闭协同编辑时其提示框
- *  # type == 1 send 成功或失败
- *  # type == 2 更新数据
- *  # type == 3 多人操作不同选区("t": "mv")（用不同颜色显示其他人所操作的选区）
- *  # type == 4 批量指令更新
- *  # type == 5 showloading
- *  # type == 6 hideloading
+ *    message === '用户退出' 用户退出时，关闭协同编辑时其提示框
+ *    type == 1 send 成功或失败
+ *    type == 2 更新数据
+ *    type == 3 多人操作不同选区("t": "mv")（用不同颜色显示其他人所操作的选区）
+ *    type == 4 批量指令更新
+ *    type == 5 showloading
+ *    type == 6 hideloading
  */
 
 import WebSocket from "ws";

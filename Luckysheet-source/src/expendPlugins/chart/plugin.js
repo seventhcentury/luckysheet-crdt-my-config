@@ -1697,7 +1697,8 @@ function renderChartShow(index) {
 	luckysheetfile.forEach((file) => {
 		//切换当前页的所有图表都显示出来
 		if (file.index == index) {
-			const chartLists = file.chart || [];
+			const chartLists =
+				file.chart.filter((i) => i.chartType === "chartmix") || [];
 
 			chartLists.forEach((chart) => {
 				chart.isShow = true;
