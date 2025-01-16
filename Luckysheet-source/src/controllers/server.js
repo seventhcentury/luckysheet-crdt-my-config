@@ -1803,6 +1803,14 @@ const server = {
 			}
 		});
 	},
+
+	/**
+	 * 需要向外提供关闭连接的方法
+	 */
+	closeWebSocket: function () {
+		if (_this.websocket == null) return;
+		_this.websocket.close(1000);
+	},
 };
 
 export default server;
