@@ -75,7 +75,9 @@ function renderVCharts(chartList, isDemo) {
 	// no chart
 	if (chartList == undefined) return;
 
-	const vchartList = chartList.filter((i) => i.chartType === "vchart");
+	const vchartList = (chartList || []).filter(
+		(i) => i.chartType === "vchart"
+	);
 
 	for (let i = 0; i < vchartList.length; i++) {
 		let vchartItem = vchartList[i];
@@ -649,7 +651,8 @@ function renderChartShow(index) {
 		//切换当前页的所有图表都显示出来
 		if (file.index == index) {
 			const chartLists =
-				file.chart.filter((i) => i.chartType === "vchart") || [];
+				(file.chart || []).filter((i) => i.chartType === "vchart") ||
+				[];
 
 			chartLists.forEach((chart) => {
 				chart.isShow = true;
@@ -1154,4 +1157,4 @@ function closeVChartSetting(spec) {
 	console.groupEnd();
 }
 
-export { registerVChartPlugin, createVChart, renderVCharts };
+export { registerVChartPlugin, createVChart, renderVCharts, delVChart };

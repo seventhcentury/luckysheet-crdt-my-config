@@ -12,7 +12,7 @@ import {
 } from "../expendPlugins/chart/plugin";
 import { mouseposition } from "../global/location";
 import { getRangeSplitArray, getRowColCheck } from "../utils/vchart";
-
+import { delVChart } from "../expendPlugins/vchart/plugin";
 /**
  * 创建图表
  */
@@ -283,10 +283,9 @@ function renderVChart(data) {
 		dom,
 	});
 	vchart.renderSync();
-	
+
 	chartInfo.currentChart = chartOptions;
 	chartmix.default.insertToStore({ chart_id, chartOptions });
-
 
 	//处理区域高亮框参数，当前页中，只有当前的图表的needRangShow为true,其他为false
 	showNeedRangeShow(chart_id);
