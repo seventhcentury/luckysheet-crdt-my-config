@@ -341,13 +341,13 @@ luckysheet.create(options)
 
 
 ## frequently asked questions
-1. When importing files, prompt `file format error`：
+1. **When importing files, prompt `file format error`：**
 ```ts
 At present, only xlsx format is supported. 
 Please check if the file format is correct.
 ```
 
-2. The page displays `Collaboration service unavailable, currently in normal mode`：
+2. **The page displays `Collaboration service unavailable, currently in normal mode`：**
 ```ts
 try {
   const { data } = await fetch({
@@ -365,7 +365,7 @@ Please check if the service is functioning properly. There are generally the fol
 2. Database exception
 3. Abnormal database table structure
 ```
-3. Chaotic database data:
+3. **Chaotic database data:**
 ```ts
 The only possible reason for this is that the application does not have a relevant delete statement,
 It's not that I don't write, but rather that everyone expands based on their actual business needs.

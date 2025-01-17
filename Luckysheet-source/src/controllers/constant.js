@@ -614,12 +614,12 @@ function rightclickHTML() {
                           rightclick.filterSelection
                         }</div>
                     </div>
-                    <div id="luckysheetdatavisual" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="display:${
+                    <div id="luckysheetdatavisual" class="luckysheet-cols-menuitem luckysheet-cols-submenu luckysheet-mousedown-cancel" style="display:${
                       config.chart ? "block" : "none"
                     };">
                         <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">${
                           rightclick.chartGeneration
-                        }</div>
+                        }<span class="luckysheet-submenu-arrow iconfont luckysheet-iconfont-youjiantou" style="user-select: none;"></span></div>
                     </div>
                     <div id="luckysheetInsertImage" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel" style="display:${
                       config.image ? "block" : "none"
@@ -713,7 +713,22 @@ function rightclickHTML() {
                     }</div>
                 </div>
             </div>
-            
+
+            <!-- 图标生成右键菜单二级菜单 -->
+            <div id="luckysheetdatavisual_sub" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-mousedown-cancel">
+                <div id="luckysheet-vchart" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                    <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
+                        ${_locale.chart.vchart}
+                    </div>
+                </div>
+                <div id="luckysheet-chartmix" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
+                    <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">
+                        ${_locale.chart.chartmix}
+                    </div>
+                </div>
+            </div>
+
+
             <div id="luckysheetCellsHandleDel_sub" class="luckysheet-cols-menu luckysheet-rightgclick-menu luckysheet-rightgclick-menu-sub luckysheet-mousedown-cancel">
                 <div id="luckysheet-delCellsMoveLeft" class="luckysheet-cols-menuitem luckysheet-mousedown-cancel">
                     <div class="luckysheet-cols-menuitem-content luckysheet-mousedown-cancel">

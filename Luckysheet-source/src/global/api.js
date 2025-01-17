@@ -7528,3 +7528,10 @@ export function createVChart(
 	// 调用 controll
 	// return chartController.createChart(sheetIndex, chart_id, chartData, [{ row, column }], rangeTxt, width, height, top, left)
 }
+
+/**
+ * 需要向外提供关闭 websocket 协同连接的API
+ */
+export function closeWebSocket() {
+	server.closeWebSocket();
+}

@@ -1260,7 +1260,7 @@ const server = {
 			} else if (op == "del") {
 				//删除
 				if (item?.v?.chartType === "vchart") {
-					vchartController.deleteVChart(value);
+					vchartController.deleteVChart(cid);
 				} else if (item?.v?.chartType === "chartmix") {
 					// 协同删除图表
 					chartController.deleteChart(cid);
@@ -1802,6 +1802,14 @@ const server = {
 				}
 			}
 		});
+	},
+
+	/**
+	 * 需要向外提供关闭连接的方法
+	 */
+	closeWebSocket: function () {
+		if (_this.websocket == null) return;
+		_this.websocket.close(1000);
 	},
 };
 

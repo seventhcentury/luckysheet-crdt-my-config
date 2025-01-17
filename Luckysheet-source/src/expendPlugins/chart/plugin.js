@@ -131,7 +131,9 @@ function renderCharts(chartList, isDemo) {
 	if (chartList == undefined) {
 		return;
 	}
-	const chartLists = chartList.filter((i) => i.chartType === "chartmix");
+	const chartLists = (chartList || []).filter(
+		(i) => i.chartType === "chartmix"
+	);
 
 	for (let i = 0; i < chartLists.length; i++) {
 		let chart = chartLists[i];
@@ -1698,7 +1700,8 @@ function renderChartShow(index) {
 		//切换当前页的所有图表都显示出来
 		if (file.index == index) {
 			const chartLists =
-				file.chart.filter((i) => i.chartType === "chartmix") || [];
+				(file.chart || []).filter((i) => i.chartType === "chartmix") ||
+				[];
 
 			chartLists.forEach((chart) => {
 				chart.isShow = true;

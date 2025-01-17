@@ -5,6 +5,15 @@ import { fetch } from "./axios";
 window.onload = initLuckysheet;
 
 /**
+ * 需要监听刷新、退出浏览器事件，关闭socket 连接，避免协同异常
+ */
+window.onbeforeunload = () => {
+	const luckysheet = Reflect.get(window, "luckysheet");
+	if (!luckysheet) return;
+	luckysheet.closeWebSocket();
+};
+
+/**
  * 初始化前台 Luckysheet
  */
 async function initLuckysheet() {
