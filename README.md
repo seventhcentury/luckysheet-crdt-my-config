@@ -379,6 +379,21 @@ If and only if there are recorded scenes in these two tables, the luckySheet can
 be careful! If there is no record in two tables, it may also cause the inability to collaborate (problem 2)
 ```
 
+4. **Forefront resource reference exception**
+```ts
+Note: Currently, all plugin dependencies in the source code are derived from absolute paths
+// Dynamically load dependent scripts and styles
+const dependScripts = [
+	"expendPlugins/libs/vue@2.6.11.min.js",
+	"expendPlugins/libs/vuex.min.js",
+	"expendPlugins/libs/elementui.min.js",
+	"expendPlugins/libs/echarts.min.js",
+	"expendPlugins/chart/chartmix.umd.min.js",
+];
+
+So, it will cause a problem that the actual project in the front-end is probably not the path of public/appendplugins/ * *. Please ensure that the expenndplugins directory is correctly placed and recognized.
+```
+
 
 
 ## Open source contribution

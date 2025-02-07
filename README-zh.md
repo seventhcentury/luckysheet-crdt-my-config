@@ -380,6 +380,20 @@ catch (error) {}
 注意！如果两个表没有一条记录，也可能造成无法协同（问题2）
 ```
 
+4. **前台资源引用异常**
+```ts
+注意： 目前源码中的所有插件依赖，均源自绝对路径哈：
+// Dynamically load dependent scripts and styles
+const dependScripts = [
+	"expendPlugins/libs/vue@2.6.11.min.js",
+	"expendPlugins/libs/vuex.min.js",
+	"expendPlugins/libs/elementui.min.js",
+	"expendPlugins/libs/echarts.min.js",
+	"expendPlugins/chart/chartmix.umd.min.js",
+];
+
+那么，就会引发一个问题，前台实际的项目，估计不是 public/expendPlugins/ ** 的路径,请确保 expendPlugins 目录被正确放置并识别。
+```
 
 ## 开源贡献
 1. 提交 [issue](https://gitee.com/wfeng0/luckysheet-crdt/issues/new)

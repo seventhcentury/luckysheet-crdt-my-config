@@ -202,15 +202,17 @@ async function rv(data: string) {
 			const c = range.column[0] + j;
 			// i r c 先判断是否存在记录，存在则更新，不存在则创建
 			const exist = await CellDataService.hasCellData(i, r, c);
-			const info: CellDataModelType = {
+
+			// 检查 item 是否为 null 或 undefined
+			const cellInfo = {
 				worker_sheet_id: i,
 				r,
 				c,
 				f: item?.f || "",
-				ctfa: item.ct?.fa,
-				ctt: item.ct?.t,
-				v: <string>item.v || "",
-				m: <string>item.m || "",
+				ctfa: item?.ct?.fa,
+				ctt: item?.ct?.t,
+				v: <string>item?.v || "",
+				m: <string>item?.m || "",
 				bg: item?.bg,
 				bl: <boolean>item?.bl,
 				cl: <boolean>item?.cl,
@@ -222,18 +224,21 @@ async function rv(data: string) {
 				un: <boolean>item?.un,
 				vt: item?.vt,
 			};
+
+			
+
 			if (exist) {
 				// 如果存在则更新 - 注意全量的样式数据
 				await CellDataService.updateCellData({
 					cell_data_id: exist.cell_data_id,
-					...info,
-					bg: item.bg,
-					bl: <boolean>item.bl,
-					cl: <boolean>item.cl,
-					fc: item.fc,
-					ff: <string>item.ff,
+					...cellInfo,
+					bg: cellInfo.bg,
+					bl: <boolean>cellInfo.bl,
+					cl: <boolean>cellInfo.cl,
+					fc: cellInfo.fc,
+					ff: <string>cellInfo.ff,
 				});
-			} else await CellDataService.createCellData(info);
+			} else await CellDataService.createCellData(cellInfo);
 		}
 	}
 }
