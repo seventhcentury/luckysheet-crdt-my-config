@@ -204,12 +204,15 @@ async function rv(data: string) {
 			const exist = await CellDataService.hasCellData(i, r, c);
 
 			// 检查 item 是否为 null 或 undefined
-			const cellInfo = item ? {
-				f: item.f || "",
-				ctfa: item.ct?.fa,
-				ctt: item.ct?.t,
-				v: <string>item.v || "",
-				m: <string>item.m || "",
+			const cellInfo = {
+				worker_sheet_id: i,
+				r,
+				c,
+				f: item?.f || "",
+				ctfa: item?.ct?.fa,
+				ctt: item?.ct?.t,
+				v: <string>item?.v || "",
+				m: <string>item?.m || "",
 				bg: item?.bg,
 				bl: <boolean>item?.bl,
 				cl: <boolean>item?.cl,
@@ -220,43 +223,22 @@ async function rv(data: string) {
 				it: <boolean>item?.it,
 				un: <boolean>item?.un,
 				vt: item?.vt,
-			} : {
-				f: "",
-				ctfa: undefined,
-				ctt: undefined,
-				v: "",
-				m: "",
-				bg: undefined,
-				bl: false,
-				cl: false,
-				fc: undefined,
-				ff: undefined,
-				fs: undefined,
-				ht: undefined,
-				it: false,
-				un: false,
-				vt: undefined,
 			};
 
-			const info: CellDataModelType = {
-				worker_sheet_id: i,
-				r,
-				c,
-				...cellInfo
-			};
+			
 
 			if (exist) {
 				// 如果存在则更新 - 注意全量的样式数据
 				await CellDataService.updateCellData({
 					cell_data_id: exist.cell_data_id,
-					...info,
+					...cellInfo,
 					bg: cellInfo.bg,
 					bl: <boolean>cellInfo.bl,
 					cl: <boolean>cellInfo.cl,
 					fc: cellInfo.fc,
 					ff: <string>cellInfo.ff,
 				});
-			} else await CellDataService.createCellData(info);
+			} else await CellDataService.createCellData(cellInfo);
 		}
 	}
 }
