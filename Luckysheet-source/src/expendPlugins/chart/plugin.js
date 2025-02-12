@@ -27,6 +27,7 @@ import {
 import { isEditMode } from "../../global/validate";
 import luckysheetsizeauto from "../../controllers/resize";
 import server from "../../controllers/server";
+import Store from "../../store";
 
 let _rowLocation = rowLocation;
 let _colLocation = colLocation;
@@ -314,6 +315,7 @@ function renderCharts(chartList, isDemo) {
 }
 
 function jfrefreshchartall(flowdata1, r_st, r_ed, c_st, c_ed) {
+	// 取 currentchart 不对，应该是 当前单元格关联的所有统计图 都需要重新渲染数据
 	let chart = chartInfo.currentChart;
 	if (!chart) {
 		return;
@@ -342,8 +344,10 @@ function jfrefreshchartall(flowdata1, r_st, r_ed, c_st, c_ed) {
 			column: luckysheetgetcellrange.column,
 			dataSheetIndex: sheetIndex,
 		}; //数组
-		var getcelldata = luckysheet_getcelldata(chart.rangeTxt);
 
+		// 关键步骤： 设置当前 sheet index
+		Store.calculateSheetIndex = sheetIndex;
+		var getcelldata = luckysheet_getcelldata(chart.rangeTxt);
 		if (
 			typeof getcelldata === "object" &&
 			getcelldata.length != 0 &&
