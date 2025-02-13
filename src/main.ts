@@ -1,6 +1,14 @@
+/**
+ * @author https://gitee.com/wfeng0/luckysheet-crdt
+ * @description Luckysheet CRDT 协同全功能实现 - Web App
+ * @license Apache 2.0
+ * @copyright Copyright (c) 2025 https://gitee.com/wfeng0/luckysheet-crdt
+ * @time 2024年12月05日
+ */
+
 import { SERVER_URL, WS_SERVER_URL } from "./config";
-import "./style/index.css";
 import { fetch } from "./axios";
+import "./style/index.css";
 
 window.onload = initLuckysheet;
 

@@ -23,8 +23,6 @@ import { customImageUpdate } from "./imageUpdateCtrl";
 import method from "../global/method";
 import { chartController } from "./chart";
 import { vchartController } from "./vchart";
-import { jfrefreshvchartall } from "../expendPlugins/vchart/plugin";
-import { jfrefreshchartall } from "../expendPlugins/chart/plugin";
 
 const server = {
 	gridKey: null,
@@ -1222,6 +1220,7 @@ const server = {
 			//图表操作 TODO
 			let op = item.op,
 				cid = item.cid;
+
 			if (op == "add") {
 				//插入
 				file.chart ? file.chart.push(value) : (file.chart = [value]);
@@ -1281,29 +1280,6 @@ const server = {
 						return;
 					}
 				}
-			} else if (op === "update_data") {
-				// 更新数据项
-				// {"t":"c","i":0,"v":{"r_st":1,"r_ed":1,"c_st":1,"c_ed":1},"op":"update_data"}
-				// console.log("==> server update_data", );
-				const { r_st, r_ed, c_st, c_ed } = value;
-				const sheetIndex = getSheetIndex(Store.currentSheetIndex);
-				let sheetFile = Store.luckysheetfile[sheetIndex];
-				sheetFile.chart.forEach((item) => {
-					// chartmix 传统图表的数据更新使用 jfrefreshchartall
-					if (item.chartType === "chartmix") {
-						Store.currentChart = Store.getChartJson(item.chart_id);
-						jfrefreshchartall(
-							Store.flowdata,
-							r_st,
-							r_ed,
-							c_st,
-							c_ed
-						);
-					} else if (item.chartType === "vchart") {
-						// vchart 图表数据更新自定义实现
-						jfrefreshvchartall(item, r_st, r_ed, c_st, c_ed);
-					}
-				});
 			}
 		} else if (type == "na") {
 			//表格名称
