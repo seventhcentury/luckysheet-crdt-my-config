@@ -424,5 +424,4 @@ const dependScripts = [
 3. 加入交流群：
 <p align="center">
   <img src='/public/result/qq-group.png' />
-  <img src='/public/result/wechat-group.jpg' />
 </p>

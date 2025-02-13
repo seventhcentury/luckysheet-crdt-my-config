@@ -428,5 +428,4 @@ So, it will cause a problem that the actual project in the front-end is probably
 3. Join the communication group:
 <p align="center">
   <img src='/public/result/qq-group.png' />
-  <img src='/public/result/wechat-group.jpg' />
 </p>
