@@ -24,6 +24,25 @@
 
 
 
+## Copyright Notice
+1. This project is based on the [Luckysheet source code](https://github.com/mengshukeji/Luckysheet) modification. Please follow the original author's open source agreement, and do not delete or modify the source code header copyright statement。
+2. This project is open sourced under the **Apache 2.0 protocol**, so please feel free to use it. At the same time, this project will also contribute to the Luksysheet community, enriching the community ecosystem. Thank you again to the @[Luckysheet](https://github.com/mengshukeji/Luckysheet) team ❤️
+3. Please note that there is no Luckymeet source code available for the startup, operation, deployment, and other stages of this project, which does not affect the actual collaborative functionality。
+4. In order to better drive open source, starting from the git head of `bf75470121f0f52737e604233add82ad2502218d`, the source code modification part will no longer be provided. If necessary, please contact the author for a fee to obtain it。
+5. **The lack of Luckysheet source code does not affect the actual functionality, and all collaborative features are open source**。
+6. **The impact of no source code:**
+   1. The source code is only used for functional expansion in binary scenarios;
+   2. If there is no requirement for secondary opening, you do not need to use the source code. If there is a requirement for secondary opening, please contact the author for payment first；
+7. **Please note that:**
+   1.Luckysheet source will be retained, but will not be continuously updated. Subsequent feature upgrades will only provide lib plugin packages；
+   2. Fee standard:**`￥ 99`**
+   3. Provide services: Only provide source code packages (do not provide continuous feature upgrades, bug fixes, and not purchase products!)
+8. **Contact Author**：
+   1. V: 18276861941
+   2. qq group: 522121825 (recommend)
+
+
+
 ## START
 1. Clone project：
 ```bash
@@ -82,6 +101,7 @@ npm run db
 ```js
 // srource code
 - 🗂️Luckysheet-source 
+- 🗂️Luckysheet-source-private // Unopened source portion
 
 // back-up services
 - 🗂️server 
@@ -205,7 +225,7 @@ export const WS_SERVER_URL = "ws://127.0.0.1:9000";
   <img src='/public/result/ui.gif' />
 </p>
 
-#### 2️⃣ Expand the vchart
+#### 2️⃣ Chart Collaboration
 1. Implemented vchart, please refer to [Luckysheet-source-vchart](/Luckysheet-source/src/expendPlugins/vchart/plugin.js)
 <span style="font-weight:900">On the left is' vchart 'rendering, and on the right is' chartmix' rendering</span>
 <p align="center">
@@ -220,6 +240,18 @@ export const WS_SERVER_URL = "ws://127.0.0.1:9000";
   <img src='/public/result/vchart-setting.gif' />
 </p>
 
+
+2. Expand the implementation of chart data update linkage:
+<span style="font-weight:900">chartmix </span>
+<p align="center">
+  <img src='/public/result/chartmix-update-data-crdt.gif' />
+</p>
+
+<span style="font-weight:900">vchart </span>
+<p align="center">
+  <img src='/public/result/vchart-update-data-crdt.gif' />
+</p>
+
 ### 3️⃣ Optimization of image mobility performance
 <span style="font-weight:900">Original effect:</span>
 <p align="center">
@@ -232,13 +264,7 @@ export const WS_SERVER_URL = "ws://127.0.0.1:9000";
 </p>
 
 
-### 4️⃣ Super formula
-<span style="font-weight:900">The function is still under development...</span>
-<p align="center">
-  <img src='/public/result/super-formula.gif' />
-</p>
-
-### 5️⃣ Menu - Document encryption and decryption
+### 4️⃣ Document encryption and decryption
 <span style="font-weight:900">encryption</span>
 <p align="center">
   <img src='/public/result/file-encrypt.png' />
@@ -295,7 +321,7 @@ const options = {
 }
 ```
 
-### 6️⃣ Menu  - File Import
+### 5️⃣ File Import
 <span style="font-weight:900">Support collaboration~</span>
 <p align="center">
   <img src='/public/result/file-import.gif' />
@@ -318,7 +344,7 @@ luckysheet.create(options)
 3. Please configure plugins correctly Use the import function after `fileImport`.
 
 
-### 7️⃣ Menu - File Export
+### 6️⃣ File Export
 <p align="center">
   <img src='/public/result/file-export.gif' />
 </p>

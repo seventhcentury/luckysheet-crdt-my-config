@@ -16,11 +16,28 @@
 
 ## 项目说明
 1. 项目为 **Luckysheet 协同增强版（全功能实现）**，意在提供协同实现思路、数据存储服务、协同演示等，项目基于 [Luckysheet](https://github.com/mengshukeji/Luckysheet) 实现，感谢原作者开源。
-2. 本项目主要**实现协同功能**模块，对其他内容无影响，基于源码修改的部分，均体现在`Luckysheet-source` 文件夹下。
+2. 本项目主要**实现协同功能**模块，对其他内容不做修改，功能使用上并无影响；
 3. 项目支持 **可选数据库服务**，没有数据库的用户数据无法持久化存储，协同功能并不受影响。
 4. 项目使用 **[Sequelize](https://www.sequelize.cn/)** 作为ORM数据服务技术，支持mysql、sqlite、postgres、mssql等数据库，方便用户快速迁移。
 5. 项目使用 **Typescript** 作为主要开发语言，提供完整的类型提示，规范代码，提高开发效率。
 6. **项目有 `master` 分支和 `master-alpha` 分支，最新发布的特性，会在 alpha 上进行测试，稳定后会合并到 master 上。**
+
+## 版权声明
+1. 本项目基于 [Luckysheet](https://github.com/mengshukeji/Luckysheet) 源码修改，**请遵循原作者开源协议**，同时，**请不要删除或修改源码头部版权声明**。
+2. 本项目以 **Apache2.0 协议开源**，请放心使用，同时，本项目也将回馈于 Luksysheet 社区，丰富社区生态，再次感谢 @[Luckysheet](https://github.com/mengshukeji/Luckysheet) 团队 ❤️
+3. 请注意，本项目启动、运行、部署等环节，**没有Luckysheet-source 源码，不影响实际协同功能**。
+4. 为了更好驱动开源，本项目至 `bf75470121f0f52737e604233add82ad2502218d` git head 起，**不再提供源码修改部分，如有需要，请联系作者收费获取**。
+5. **没有 Luckysheet-source源码不影响实际功能，协同部分全部功能均开源**。
+6. **没有源码的影响：**
+   1. 源码仅用于二开场景下，做功能拓展使用；
+   2. 如果没有二开需求，可不使用源码，如有二开需求，请先联系作者收费使用；
+7. **请注意：**
+   1. Luckysheet-source 会保留，但是不会持续更新，后续的功能升级，仅提供 lib 插件包；
+   3. 收费标准：**`99 元`**
+   4. 提供服务：仅提供源码包(不提供持续的功能升级、BUG修复，更不是买产品！)
+8. **联系作者**：
+   1. V: 18276861941
+   2. qq群: 522121825 (推荐)
 
 
 
@@ -30,7 +47,7 @@
 git clone https://gitee.com/wfeng0/luckysheet-crdt
 ```
 
-2. **下载依赖:** 
+1. **下载依赖:** 
 ```bash
 ## "dep": "npm install --s && cd server && npm install --s"
 npm run dep
@@ -81,6 +98,7 @@ npm run db
 ```js
 // 源码
 - 🗂️Luckysheet-source 
+- 🗂️Luckysheet-source-private // 未开源部分
 
 // 后台服务
 - 🗂️server 
@@ -205,7 +223,7 @@ export const WS_SERVER_URL = "ws://127.0.0.1:9000";
   <img src='/public/result/ui.gif' />
 </p>
 
-#### 2️⃣ 拓展vchart图表
+#### 2️⃣ 图表协同
 1. 已实现vchart图表，请查阅 [Luckysheet-source-vchart](/Luckysheet-source/src/expendPlugins/vchart/plugin.js)
 <span style="font-weight:900">左侧为 `vchart` 渲染，右侧为 `chartmix` 渲染</span>
 <p align="center">
@@ -220,6 +238,17 @@ export const WS_SERVER_URL = "ws://127.0.0.1:9000";
   <img src='/public/result/vchart-setting.gif' />
 </p>
 
+2. 拓展实现图表数据更新联动：
+<span style="font-weight:900">chartmix 图表数据联动</span>
+<p align="center">
+  <img src='/public/result/chartmix-update-data-crdt.gif' />
+</p>
+
+<span style="font-weight:900">vchart 图表数据联动</span>
+<p align="center">
+  <img src='/public/result/vchart-update-data-crdt.gif' />
+</p>
+
 ### 3️⃣ 图片移动性能优化
 <span style="font-weight:900">原效果：</span>
 <p align="center">
@@ -231,13 +260,7 @@ export const WS_SERVER_URL = "ws://127.0.0.1:9000";
   <img src='/public/result/picture-new.gif' />
 </p>
 
-### 4️⃣ 超级公式
-<span style="font-weight:900">功能仍在开发中...</span>
-<p align="center">
-  <img src='/public/result/super-formula.gif' />
-</p>
-
-### 5️⃣ 菜单功能 - 文档加密解密
+### 4️⃣ 文档加密解密
 <span style="font-weight:900">文档加密功能</span>
 <p align="center">
   <img src='/public/result/file-encrypt.png' />
@@ -294,7 +317,7 @@ const options = {
 ```
 
 
-### 6️⃣ 菜单功能 - 文件导入
+### 5️⃣ 文件导入
 <span style="font-weight:900">支持协同~</span>
 <p align="center">
   <img src='/public/result/file-import.gif' />
@@ -317,7 +340,7 @@ luckysheet.create(options)
 3. 请正确配置 `plugins: [ 'fileImport' ]` 后使用导入功能。
 
 
-### 7️⃣ 菜单功能 - 文件导出
+### 6️⃣ 文件导出
 <p align="center">
   <img src='/public/result/file-export.gif' />
 </p>

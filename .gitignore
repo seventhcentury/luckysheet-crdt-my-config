@@ -38,3 +38,6 @@ Luckysheet-source/node_modules
 *.tar.gz
 *.tar.bz2
 *.tar.xz
+
+# Luckysheet-source 二开源码不开源
+Luckysheet-source-private
