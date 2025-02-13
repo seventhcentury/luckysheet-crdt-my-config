@@ -4,15 +4,18 @@ import { replaceHtml, parseDataToPX } from "../utils/chartUtil";
 import { getSheetIndex } from "../methods/get";
 import { setluckysheet_scroll_status } from "../methods/set";
 import {
-	showNeedRangeShow,
 	setChartMoveableEffect,
-	showChartSettingComponent,
-	delChart,
 	hideAllNeedRangeShow,
 } from "../expendPlugins/chart/plugin";
+import {
+	showNeedRangeShow,
+	openVChartSetting,
+} from "../expendPlugins/vchart/plugin";
 import { mouseposition } from "../global/location";
 import { getRangeSplitArray, getRowColCheck } from "../utils/vchart";
 import { delVChart } from "../expendPlugins/vchart/plugin";
+import Store from "../store";
+
 /**
  * 创建图表
  */
@@ -242,7 +245,7 @@ function createVChart(
 }
 
 /**
- * 根据 options 创建统计图
+ * 根据 options 创建统计图 - 协同创建的 vchart 需要保存 用于 更新数据
  * @param {*} data
  */
 function renderVChart(data) {
@@ -285,7 +288,10 @@ function renderVChart(data) {
 	vchart.renderSync();
 
 	chartInfo.currentChart = chartOptions;
-	chartmix.default.insertToStore({ chart_id, chartOptions });
+	// chartmix.default.insertToStore({ chart_id, chartOptions });
+console.log("==> renderVChart",);
+	// 需要更新 sheetFile chart vchart 属性
+	setVchartInstance(chart_id, vchart);
 
 	//处理区域高亮框参数，当前页中，只有当前的图表的needRangShow为true,其他为false
 	showNeedRangeShow(chart_id);
@@ -422,6 +428,25 @@ function renderVChart(data) {
 	container.style.top = top;
 	container.style.zIndex = chartInfo.zIndex ? chartInfo.zIndex : 15;
 	chartInfo.zIndex++;
+}
+
+/**
+ * 重要方法： 用于实现数据更新 - 标记 vchart 实例对象
+ */
+function setVchartInstance(chart_id, vchart) {
+	const sheetIndex = getSheetIndex(Store.currentSheetIndex);
+	let sheetFile = Store.luckysheetfile[sheetIndex];
+	const chartList = sheetFile.chart;
+	console.log("==> 协同vchart render",chartList);
+	if (chartList) {
+		const currentVchart = chartList.find(
+			(item) => item.chart_id === chart_id
+		);
+		if (currentVchart) {
+			currentVchart.vchart = vchart;
+			console.log("==> setVchartInstance",);
+		}
+	}
 }
 
 /**

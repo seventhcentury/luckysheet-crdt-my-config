@@ -23,6 +23,8 @@ import {
 import { createFilterOptions } from "../controllers/filter";
 import { getSheetIndex } from "../methods/get";
 import Store from "../store";
+import { jfrefreshvchartall } from "../expendPlugins/vchart/plugin";
+import { jfrefreshchartall } from "../expendPlugins/chart/plugin";
 
 let refreshCanvasTimeOut = null;
 
@@ -207,50 +209,55 @@ function jfrefreshgrid(
 			Store.flowdata[r1][c1].spl = sparklines;
 		}
 
+		//共享编辑模式
 		if (server.allowUpdate) {
-			//共享编辑模式
 			server.historyParam(
 				Store.flowdata,
 				Store.currentSheetIndex,
 				range[s]
 			);
 		}
+
 		// 刷新图表 - 需要区分 vchart 还是 chart 类型 当没注册 chart 时， jfrefreshchartall =''
-		console.group("刷新图表");
-		console.log("r_st:", range[s].row[0]);
-		console.log("r_ed:", range[s].row[1]);
-		console.log("c_st:", range[s].column[0]);
-		console.log("c_ed:", range[s].column[1]);
-		console.groupEnd();
+		const sheetIndex = getSheetIndex(Store.currentSheetIndex);
+		let sheetFile = Store.luckysheetfile[sheetIndex];
 
-		let sheetFile =
-			Store.luckysheetfile[getSheetIndex(Store.currentSheetIndex)];
+		if (sheetFile.chart) {
+			// 广播修改图表数据
+			console.log("==> 图表协同 :单元格更新数据");
+			const v = {
+				r_st: range[s].row[0],
+				r_ed: range[s].row[1],
+				c_st: range[s].column[0],
+				c_ed: range[s].column[1],
+			};
+			server.saveParam("c", sheetFile.index, v, {
+				op: "update_data",
+			});
 
-		(sheetFile.chart || []).forEach((item) => {
-			// chartmix 传统图表的数据更新使用 jfrefreshchartall
-			if (item.chartType === "chartmix") {
-				if (typeof Store.chartparam.jfrefreshchartall == "function") {
+			sheetFile.chart.forEach((item) => {
+				// chartmix 传统图表的数据更新使用 jfrefreshchartall
+				if (item.chartType === "chartmix") {
 					Store.currentChart = Store.getChartJson(item.chart_id);
-					Store.chartparam.jfrefreshchartall(
+					jfrefreshchartall(
 						Store.flowdata,
 						range[s].row[0],
 						range[s].row[1],
 						range[s].column[0],
 						range[s].column[1]
 					);
+				} else if (item.chartType === "vchart") {
+					// vchart 图表数据更新自定义实现
+					jfrefreshvchartall(
+						item,
+						range[s].row[0],
+						range[s].row[1],
+						range[s].column[0],
+						range[s].column[1]
+					);
 				}
-			} else if (item.chartType === "vchart") {
-				// vchart 图表数据更新自定义实现
-                console.log("==> vchart 图表数据更新",);
-			}
-		});
-		// 1. chart 传统型图表数据更新 需要关联该单元格的全部更新数据
-		//  {
-		// 	const chartList = sheetFile.chart.filter(
-		// 		(i) => i.chartType === "chartmix"
-		// 	);
-
-		// }
+			});
+		}
 	}
 	//单元格数据更新联动
 	if (isRunExecFunction) {

@@ -317,9 +317,7 @@ function renderCharts(chartList, isDemo) {
 function jfrefreshchartall(flowdata1, r_st, r_ed, c_st, c_ed) {
 	// 取 currentchart 不对，应该是 当前单元格关联的所有统计图 都需要重新渲染数据
 	let chart = chartInfo.currentChart;
-	if (!chart) {
-		return;
-	}
+	if (!chart) return;
 	if (chart.rangeArray.length == 1) {
 		var row = chart.rangeArray[0].row;
 		var column = chart.rangeArray[0].column;
@@ -339,15 +337,11 @@ function jfrefreshchartall(flowdata1, r_st, r_ed, c_st, c_ed) {
 				? 0
 				: luckysheetgetcellrange.sheetIndex; //sheetIndex为-1时，转化为0
 
-		var selection = {
-			row: luckysheetgetcellrange.row,
-			column: luckysheetgetcellrange.column,
-			dataSheetIndex: sheetIndex,
-		}; //数组
-
 		// 关键步骤： 设置当前 sheet index
 		Store.calculateSheetIndex = sheetIndex;
-		var getcelldata = luckysheet_getcelldata(chart.rangeTxt);
+		// 强制不使用缓存，不然 charmix 数据更新会导致取不到最新数据
+		var getcelldata = luckysheet_getcelldata(chart.rangeTxt, false);
+
 		if (
 			typeof getcelldata === "object" &&
 			getcelldata.length != 0 &&
@@ -1557,6 +1551,7 @@ function showNeedRangeShow(chart_id) {
 		if (chartLists[chartId].chart_id == chart_id) {
 			chartLists[chartId].needRangeShow = true;
 
+			// 为了拿到当前图表的信息 chartOptions
 			chartInfo.currentChart = chartInfo.getChartJson(chart_id);
 		}
 		// }
@@ -1747,4 +1742,5 @@ export {
 	setChartMoveableEffect,
 	selectRangeBorderShow,
 	showChartSettingComponent,
+	jfrefreshchartall,
 };

@@ -1551,12 +1551,12 @@ function luckysheet_calcADPMM(fp, sp, tp) {
 	return value;
 }
 
-function luckysheet_getcelldata(txt) {
+function luckysheet_getcelldata(txt, useCache = true) {
 	if (window.luckysheet_getcelldata_cache == null) {
 		window.luckysheet_getcelldata_cache = {};
 	}
 
-	if (txt in window.luckysheet_getcelldata_cache) {
+	if (txt in window.luckysheet_getcelldata_cache && useCache) {
 		return window.luckysheet_getcelldata_cache[txt];
 	}
 

@@ -25,6 +25,8 @@ import {
 import { deepCopy } from "../../utils/chartUtil";
 import locale from "../../locale/locale";
 import server from "../../controllers/server";
+import formula from "../../global/formula";
+import Store from "../../store";
 
 /**
  * VChart 相关依赖及样式文件
@@ -72,6 +74,11 @@ function registerVChartPlugin(data, isDemo) {
  * 渲染图表 - 是初始化页面时，如果 sheet file 有数据的话，应该调用 render 创建图表
  */
 function renderVCharts(chartList, isDemo) {
+	if (!Reflect.get(window, "VChart")) {
+		console.warn("VChart is not defined.");
+		return;
+	}
+
 	// no chart
 	if (chartList == undefined) return;
 
@@ -266,6 +273,10 @@ function renderVCharts(chartList, isDemo) {
  * 创建图表
  */
 function createVChart(width, height, left, top) {
+	if (!Reflect.get(window, "VChart")) {
+		console.warn("VChart is not defined.");
+		return;
+	}
 	// 获取用户选区
 	var jfgird_select_save = luckysheet.getluckysheet_select_save();
 
@@ -473,6 +484,7 @@ function createVChart(width, height, left, top) {
 		top,
 		sheetIndex: sheetFile.index,
 		chartOptions,
+		vchart,
 	});
 
 	setChartMoveableEffect($t);
@@ -839,6 +851,70 @@ function showNeedRangeShow(chart_id) {
 }
 
 /**
+ * 更新数据项
+ * 	1. 执行 vchart.updateData('pie', [  ]);
+ *  2. 需要唯一获取 数据项的 id 属性 而恰好，定义时 所有数据的 id = 'data'
+ * @returns
+ */
+function jfrefreshvchartall(item, r_st, r_ed, c_st, c_ed) {
+	// 取 currentchart 不对，应该是 当前单元格关联的所有统计图 都需要重新渲染数据
+	if (!item) return;
+
+	const chart = item.chartOptions;
+
+	if (chart.rangeArray.length == 1) {
+		var row = chart.rangeArray[0].row;
+		var column = chart.rangeArray[0].column;
+		//不在范围内的不更新
+		if (
+			r_st > row[1] ||
+			r_ed < row[0] ||
+			c_st > column[1] ||
+			c_ed < column[0]
+		) {
+			return;
+		}
+		//根据原有的范围取得数据
+		var luckysheetgetcellrange = formula.getcellrange(chart.rangeTxt);
+		var sheetIndex =
+			luckysheetgetcellrange.sheetIndex == -1
+				? 0
+				: luckysheetgetcellrange.sheetIndex; //sheetIndex为-1时，转化为0
+
+		// 关键步骤： 设置当前 sheet index
+		Store.calculateSheetIndex = sheetIndex;
+		var getcelldata = luckysheet_getcelldata(chart.rangeTxt);
+		if (
+			typeof getcelldata === "object" &&
+			getcelldata.length != 0 &&
+			getcelldata.data.length != null
+		) {
+			//getcelldata有值，且不为空数组 && getcelldata.data为二维数组
+			var chartData = getcelldata.data;
+			// 根据拿到的数据项，重新获取 options.data.values
+
+			const rowColCheck = getRowColCheck(chartData);
+			const rangeRowCheck = rowColCheck[0];
+			const rangeColCheck = rowColCheck[1];
+
+			// 按照数据范围文字得到具体数据范围
+			const rangeSplitArray = getRangeSplitArray(
+				chartData,
+				chart.rangeArray,
+				rangeColCheck,
+				rangeRowCheck
+			);
+
+			// 获取 vchart 的配置项
+			const spec = getVChartOption(rangeSplitArray);
+			const newValue = spec.data[0].values;
+			// 更新时 无法获取 vchart 实例对象
+			item.vchart.updateData("data", newValue);
+		}
+	}
+}
+
+/**
  * 操作DOM当前图表选择区域高亮
  */
 function selectRangeBorderShow(chart_id) {
@@ -1157,4 +1233,12 @@ function closeVChartSetting(spec) {
 	console.groupEnd();
 }
 
-export { registerVChartPlugin, createVChart, renderVCharts, delVChart };
+export {
+	registerVChartPlugin,
+	createVChart,
+	renderVCharts,
+	delVChart,
+	jfrefreshvchartall,
+	showNeedRangeShow,
+	openVChartSetting,
+};

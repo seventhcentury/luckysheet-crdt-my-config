@@ -225,8 +225,6 @@ async function rv(data: string) {
 				vt: item?.vt,
 			};
 
-			
-
 			if (exist) {
 				// 如果存在则更新 - 注意全量的样式数据
 				await CellDataService.updateCellData({
@@ -703,6 +701,11 @@ async function c(data: string) {
 	if (op === "del") {
 		await ChartService.deleteChart(v.chart_id);
 	}
+
+	// TODO:
+	// 图表更新单元格数据 update_data 光靠这几项数据是无法更新图表的，应该在源码中更新完成后触发图表更新事件，将整个配置项传过来
+	// 下面的 update_data 操作，仅作为协同传输使用
+	// {"t":"c","i":0,"v":{"r_st":1,"r_ed":1,"c_st":1,"c_ed":1},"op":"update_data"}
 }
 
 // 修改工作簿名称
