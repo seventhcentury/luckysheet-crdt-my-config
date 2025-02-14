@@ -103,7 +103,7 @@ type BASE_CELL_DATA_TYPE = {
 		value: string; //批注内容
 		isshow: boolean; //批注框为显示状态
 	};
-	f: string; //单元格是一个求和公式 "=SUM(233)"
+	f: string | null; //单元格是一个求和公式 "=SUM(233)"
 };
 
 // 合并单元格类型

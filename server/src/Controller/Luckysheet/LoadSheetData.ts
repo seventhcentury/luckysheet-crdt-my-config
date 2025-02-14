@@ -208,7 +208,11 @@ async function parseCellData(
 					cl: Boolean(data.cl),
 					ht: data.ht || 0,
 					vt: data.vt || 0,
-					f: data.f || "",
+					/**
+					 * 此处的 '' 可能会引起 源码 formula.js xssDeal 解析值时，进入 f 判断
+					 * 源码已修改 => if (cell.f != null || (cell.f && cell.f != ""))
+					 */
+					f: data.f || null,
 					un: Boolean(data.un),
 				},
 			});
