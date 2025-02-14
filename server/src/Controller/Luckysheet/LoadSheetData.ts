@@ -116,36 +116,36 @@ function getSheetDataTemp(item: WorkerSheetModelType) {
  */
 function getEmptyData() {
 	// // 测试功能
-	return JSON.stringify([
-		{
-			name: "Cell",
-			index: "Sheet_6az6nei65t1i_1596209937084",
-			order: "0",
-			status: 1,
-			celldata: [
-				{
-					r: 0,
-					c: 0,
-					v: { v: "A", ct: { fa: "General", t: "n" }, m: "1" },
-				},
-				{
-					r: 0,
-					c: 1,
-					v: { v: "1", ct: { fa: "General", t: "n" }, m: "1" },
-				},
-				{
-					r: 1,
-					c: 0,
-					v: { v: "B", ct: { fa: "General", t: "n" }, m: "1" },
-				},
-				{
-					r: 1,
-					c: 1,
-					v: { v: "2", ct: { fa: "General", t: "n" }, m: "1" },
-				},
-			],
-		},
-	]);
+	// return JSON.stringify([
+	// 	{
+	// 		name: "Cell",
+	// 		index: "Sheet_6az6nei65t1i_1596209937084",
+	// 		order: "0",
+	// 		status: 1,
+	// 		celldata: [
+	// 			{
+	// 				r: 0,
+	// 				c: 0,
+	// 				v: { v: "A", ct: { fa: "General", t: "n" }, m: "1" },
+	// 			},
+	// 			{
+	// 				r: 0,
+	// 				c: 1,
+	// 				v: { v: "1", ct: { fa: "General", t: "n" }, m: "1" },
+	// 			},
+	// 			{
+	// 				r: 1,
+	// 				c: 0,
+	// 				v: { v: "B", ct: { fa: "General", t: "n" }, m: "1" },
+	// 			},
+	// 			{
+	// 				r: 1,
+	// 				c: 1,
+	// 				v: { v: "2", ct: { fa: "General", t: "n" }, m: "1" },
+	// 			},
+	// 		],
+	// 	},
+	// ]);
 	return JSON.stringify([
 		{
 			name: "Sheet1",
@@ -167,14 +167,6 @@ function getEmptyData() {
 					},
 				},
 			],
-			config: {
-				rowlen: {
-					0: 60,
-				},
-				columnlen: {
-					0: 320,
-				},
-			},
 		},
 	]);
 }

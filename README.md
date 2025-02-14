@@ -366,6 +366,31 @@ luckysheet.create(options)
 3. Please configure plugins correctly Use the import function after `fileExport`.
 
 
+### 7️⃣ Expand menu functionality
+<span style="font-weight:900">Configuration:</span>
+<p align="center">
+  <img src='/public/result/menu.png' />
+</p>
+
+```js
+const options = {
+   lang: "zh",
+   title: "Luckysheet",
+   // ...other config
+   menuHandler: {
+      // new file
+      newFile() {},
+      // save as
+      saveAs() {},
+      // shear
+      fileShear(){},
+      // exit
+      exit() {}
+   }
+}
+```
+
+
 ## frequently asked questions
 1. **When importing files, prompt `file format error`：**
 ```ts
@@ -428,5 +453,4 @@ So, it will cause a problem that the actual project in the front-end is probably
 3. Join the communication group:
 <p align="center">
   <img src='/public/result/qq-group.png' />
-  <img src='/public/result/wechat-group.jpg' />
 </p>

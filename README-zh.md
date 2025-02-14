@@ -362,6 +362,30 @@ luckysheet.create(options)
 3. 请正确配置 `plugins: [ 'fileExport' ]` 后使用导入功能。
 
 
+### 7️⃣ 拓展菜单功能
+<span style="font-weight:900">配置方法：</span>
+<p align="center">
+  <img src='/public/result/menu.png' />
+</p>
+
+```js
+const options = {
+   lang: "zh",
+   title: "Luckysheet",
+   // ...other config
+   menuHandler: {
+      // 新建
+      newFile() {},
+      // 另存为
+      saveAs() {},
+      // 分享发送
+      fileShear(){},
+      // 退出功能
+      exit() {}
+   }
+}
+```
+
 ## 常见问题
 1. **导入文件时，提示 `文件格式错误`**：
 ```ts
@@ -424,5 +448,4 @@ const dependScripts = [
 3. 加入交流群：
 <p align="center">
   <img src='/public/result/qq-group.png' />
-  <img src='/public/result/wechat-group.jpg' />
 </p>
