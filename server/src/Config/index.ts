@@ -6,13 +6,20 @@ import path from "path";
 import dayjs from "dayjs";
 
 /**
- * server port、ws server port
- * 共用一个端口，通过 ws 创建传入 server 实现
+ * HTTP 服务 与 websocket服务 共用一个端口
  */
 const SERVER_PORT = 9000;
 
 /**
  * 数据库配置对象 - sequelize
+ * 数据库引擎 'mysql' | 'postgres' | 'sqlite' | 'mariadb' | 'mssql' | 'db2' | 'snowflake' | 'oracle'
+ * # 选择以下之一（请注意：目前默认为 MySQL 如果使用其他引擎，请自行下载其他的驱动程序）:
+ *   npm install --save pg pg-hstore # Postgres
+ *   npm install --save mysql2
+ *   npm install --save mariadb
+ *   npm install --save sqlite3
+ *   npm install --save tedious # Microsoft SQL Server
+ *   npm install --save oracledb # Oracle Database
  */
 const SQL_CONFIG = {
 	port: 3306, // 端口号 3306 3309
@@ -20,16 +27,6 @@ const SQL_CONFIG = {
 	database: "luckysheet_crdt",
 	user: "root",
 	password: "root",
-	/**
-	 * 数据库引擎 'mysql' | 'postgres' | 'sqlite' | 'mariadb' | 'mssql' | 'db2' | 'snowflake' | 'oracle'
-	 * # 选择以下之一（请注意：目前默认为 MySQL 如果使用其他引擎，请自行下载其他的驱动程序）:
-	 *   npm install --save pg pg-hstore # Postgres
-	 *   npm install --save mysql2
-	 *   npm install --save mariadb
-	 *   npm install --save sqlite3
-	 *   npm install --save tedious # Microsoft SQL Server
-	 *   npm install --save oracledb # Oracle Database
-	 */
 	logger: true, // 开启日志
 	enable: true, // 是否启用数据库服务
 };

@@ -1,9 +1,9 @@
-import { WebSocket } from "ws";
 import {
-	BASE_CELL_DATA_TYPE,
 	BorderInfoType,
 	CellDataItemType,
+	BASE_CELL_DATA_TYPE,
 } from "./luckysheet";
+import { WebSocket } from "ws";
 
 interface CustomWebSocket extends WebSocket {
 	clientInfo: {
