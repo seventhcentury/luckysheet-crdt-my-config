@@ -1,9 +1,9 @@
-import { WebSocket } from "ws";
 import {
-	BASE_CELL_DATA_TYPE,
 	BorderInfoType,
 	CellDataItemType,
+	BASE_CELL_DATA_TYPE,
 } from "./luckysheet";
+import { WebSocket } from "ws";
 
 interface CustomWebSocket extends WebSocket {
 	clientInfo: {
@@ -42,6 +42,9 @@ type CRDTDataType<T> = {
 
 	// Chart
 	op?: "add" | "xy" | "wh" | "update" | "del";
+
+	// drc
+	rc?: string;
 };
 
 // 1. v
@@ -104,13 +107,29 @@ type SHA = {
 	};
 };
 
+// 删除行列
+type DRC = {
+	index: number;
+	len: number;
+};
+
+// 增加行列
+type ARC = {
+	index: number;
+	len: number;
+	direction: string;
+	data: BASE_CELL_DATA_TYPE[][];
+};
+
 export {
-	CustomWebSocket,
-	type CRDTDataType,
 	type V,
 	type RV,
 	type CG,
-	type MERGE,
-	type CHART,
 	type SHA,
+	type DRC,
+	type ARC,
+	type CHART,
+	type MERGE,
+	CustomWebSocket,
+	type CRDTDataType,
 };

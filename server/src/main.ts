@@ -16,9 +16,7 @@ import { createWebSocketServer } from "./WebSocket/index"; // 导入 ws
  */
 
 (async () => {
-	logger.info("✨ ");
 	logger.info("✨ Server is starting, wait a moment please... ");
-	logger.info("✨ ");
 
 	/** 创建 express 实例对象 */
 	const app = express();
@@ -26,7 +24,7 @@ import { createWebSocketServer } from "./WebSocket/index"; // 导入 ws
 	/** 注册中间件 */
 	initMeddlewear(app);
 
-	/** 连接数据库 DB 请注意需要 await 不然后续的操作可能会收到影响 */
+	/** 连接数据库 DB 请注意需要 await 不然后续的操作可能会受到影响 */
 	try {
 		await DB.connect();
 	} catch (error) {
@@ -51,8 +49,8 @@ import { createWebSocketServer } from "./WebSocket/index"; // 导入 ws
 	 *  **下列代码仅作演示使用**
 	 */
 	try {
-		if (DB.getConnectState())
-			await WorkerBookService.create(WORKER_BOOK_INFO);
+		if (!DB.getConnectState()) return;
+		await WorkerBookService.create(WORKER_BOOK_INFO);
 	} catch (error) {
 		logger.error(error);
 	}

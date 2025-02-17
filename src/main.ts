@@ -6,35 +6,29 @@
  * @time 2024年12月05日
  */
 
-import { SERVER_URL, WS_SERVER_URL } from "./config";
-import { fetch } from "./axios";
 import "./style/index.css";
+import { API_getWorkerBook } from "./axios";
+import { defaultSheetData, WS_SERVER_URL } from "./config";
+import { uploadImage, imageUrlHandle, getRandom } from "./utils";
 
 window.onload = initLuckysheet;
+
+const luckysheet = Reflect.get(window, "luckysheet");
 
 /**
  * 需要监听刷新、退出浏览器事件，关闭socket 连接，避免协同异常
  */
-window.onbeforeunload = () => {
-	const luckysheet = Reflect.get(window, "luckysheet");
-	if (!luckysheet) return;
-	luckysheet.closeWebSocket();
-};
+window.onbeforeunload = () => luckysheet && luckysheet.closeWebSocket();
 
 /**
  * 初始化前台 Luckysheet
+ * 请注意，目前前台仅为展示，并无其他能力，因此加载的是默认协同演示 worker books 数据，gridkey = gridkey_demo
+ * 常理来说，当前工作簿的数据，都应该通过 fileid （gridkey） 请求得来
  */
 async function initLuckysheet() {
-	const luckysheet = Reflect.get(window, "luckysheet");
-	const id = Math.random().toString(16).slice(2, 8);
+	const id = getRandom();
 	const username = `user_${id}`;
-
 	const gridKey = "gridkey_demo"; // 请注意大小写哈~
-
-	/**
-	 * 请注意，目前前台仅为展示，并无其他能力，因此加载的是默认协同演示 worker books 数据，gridkey = gridkey_demo
-	 * 常理来说，当前工作簿的数据，都应该通过 fileid （gridkey） 请求得来
-	 */
 
 	const options = {
 		lang: "zh",
@@ -45,52 +39,26 @@ async function initLuckysheet() {
 		loadUrl: "",
 		updateUrl: "", // 协同服务转发服务
 		plugins: ["chart", "vchart", "fileImport", "fileExport"],
-
-		// 处理协同图片上传
-		uploadImage: async (file: File) => {
-			// 此处拿到的是上传的 file 对象，进行文件上传 ，配合 node 接口实现
-			const formData = new FormData();
-			formData.append("image", file);
-			const { data } = await fetch({
-				url: "/api/uploadImage",
-				method: "POST",
-				data: formData,
-			});
-			// *** 关键步骤：需要返回一个地址给 luckysheet ，用于显示图片
-			if (data.code === 200) return Promise.resolve(data.url);
-			else return Promise.resolve("image upload error");
-		},
-		// 处理上传图片的地址
-		imageUrlHandle: (url: string) => {
-			// 已经是 // http data 开头则不处理
-			if (/^(?:\/\/|(?:http|https|data):)/i.test(url)) {
-				return url;
-			}
-			// 不然拼接服务器路径
-			return SERVER_URL + url;
-		},
 	};
 
-	// 请求当前 workerbook 数据
 	try {
-		const { data } = await fetch({
-			url: "/api/getWorkerBook",
-			method: "post",
-			data: { gridKey },
-		});
+		// 根据 gridkey 请求当前 workerbook 数据
+		const { data } = await API_getWorkerBook(gridKey);
+
+		// 定义请求是否成功
+		const isSuccess = data.code === 200;
 
 		/**
 		 * 兼容无数据库服务场景
+		 *  1. 如果请求成功，则使用数据库配置的 workerbook 数据
+		 *  2. 如果请求失败，则使用默认配置的 workerbook 数据
 		 */
-		if (data.code !== 200) {
-			// 协同服务可用场景下，才初始化协同
-			options.lang = "zh";
-			options.title = "未命名工作簿";
-		} else {
-			// 协同服务可用场景下，才初始化协同
-			options.lang = data.data.lang;
-			options.title = data.data.title;
-		}
+		options.lang = isSuccess ? data.data.lang : "zh";
+		options.title = isSuccess ? data.data.title : "未命名工作簿";
+
+		// 协同场景下，才进行图片优化
+		Reflect.set(options, "uploadImage", uploadImage);
+		Reflect.set(options, "imageUrlHandle", imageUrlHandle);
 
 		options.allowUpdate = true;
 		options.loadUrl = `/api/loadSheetData?gridkey=${gridKey}`;
@@ -99,15 +67,7 @@ async function initLuckysheet() {
 	} catch (error) {
 		console.error("==> 协同服务异常", error);
 		// 不然初始化普通模式，避免页面空白
-		Reflect.set(options, "data", [
-			{
-				name: "Sheet1",
-				celldata: [
-					{ r: 0, c: 0, v: { v: "协同服务不可用，当前为普通模式" } },
-				],
-			},
-		]);
-
+		Reflect.set(options, "data", defaultSheetData);
 		luckysheet.create(options);
 	}
 }

@@ -215,16 +215,16 @@ type ChartType = {
 };
 
 export {
-	type WorkerBookType,
-	type WorkerSheetItemType,
-	type CellDataItemType,
+	type ChartType,
 	type MergeType,
 	type RowLenType,
+	type ImagesType,
 	type ColumnLenType,
 	type RowHiddenType,
 	type ColHiddenType,
 	type BorderInfoType,
-	type ImagesType,
+	type WorkerBookType,
+	type CellDataItemType,
 	type BASE_CELL_DATA_TYPE,
-	type ChartType,
+	type WorkerSheetItemType,
 };

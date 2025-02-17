@@ -26,13 +26,15 @@
  * 注意一点，对象中的i为当前sheet的index值，而不是order
  */
 import {
-	CG,
-	CHART,
-	CRDTDataType,
-	MERGE,
-	RV,
-	SHA,
 	V,
+	CG,
+	RV,
+	DRC,
+	ARC,
+	SHA,
+	CHART,
+	MERGE,
+	CRDTDataType,
 } from "../Interface/WebSocket";
 import { isEmpty } from "../Utils";
 import { logger } from "../Utils/Logger";
@@ -56,23 +58,23 @@ import { HiddenAndLenModelType } from "../Sequelize/Models/HiddenAndLen";
 export function databaseHandler(data: string, gridKey: string) {
 	const { t } = JSON.parse(data);
 	if (t === "v") v(data);
-	if (t === "rv") rv(data);
-	if (t === "cg") cg(data);
-	if (t === "all") all(data);
-	if (t === "fc") fc(data);
-	if (t === "drc") drc(data);
-	if (t === "arc") arc(data);
-	if (t === "fsc") fsc(data);
-	if (t === "fsr") fsr(data);
-	if (t === "sha") sha(data, gridKey);
-	if (t === "shc") shc(data, gridKey);
-	if (t === "shd") shd(data);
-	if (t === "shre") shre(data);
-	if (t === "shr") shr(data);
-	if (t === "c") c(data);
-	//   if (t === "shs") shs(data); // 切换到指定 sheet 是前台操作，可不存储数据库
-	if (t === "sh") sh(data);
-	if (t === "na") na(data, gridKey);
+	else if (t === "rv") rv(data);
+	else if (t === "cg") cg(data);
+	else if (t === "all") all(data);
+	else if (t === "fc") fc(data);
+	else if (t === "drc") drc(data);
+	else if (t === "arc") arc(data);
+	else if (t === "fsc") fsc(data);
+	else if (t === "fsr") fsr(data);
+	else if (t === "sha") sha(data, gridKey);
+	else if (t === "shc") shc(data, gridKey);
+	else if (t === "shd") shd(data);
+	else if (t === "shre") shre(data);
+	else if (t === "shr") shr(data);
+	else if (t === "c") c(data);
+	// else  if (t === "shs") shs(data); // 切换到指定 sheet 是前台操作，可不存储数据库
+	else if (t === "sh") sh(data);
+	else if (t === "na") na(data, gridKey);
 }
 
 // 单个单元格刷新
@@ -178,12 +180,25 @@ async function v(data: string) {
 	}
 }
 
-// 范围单元格刷新
+/**
+ * 范围单元格刷新 - 与 单个单元格刷新的场景一致，也存在 复制粘贴 删除多个单元格 v m =null 的场景，都需要做区分
+ * @param data
+ * @returns
+ */
 async function rv(data: string) {
 	/**
 	 * 范围单元格刷新
 	 * 需要先取 range 范围行列数，v 的内容是根据 range 循环而来
 	 */
+	// {"t":"rv","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364",
+	// "v":[
+	// 	[
+	// 		{"ct":{"fa":"General","t":"n"},"bg":"#FFFFFF","ff":"5","fc":"#000000","bl":false,"it":false,"fs":10,"cl":false,"ht":0,"vt":0,"f":null,"un":false}
+	// 	],
+	// 	[
+	// 		{"ct":{"fa":"General","t":"n"},"bg":"#FFFFFF","ff":"5","fc":"#000000","bl":false,"it":false,"fs":10,"cl":false,"ht":0,"vt":0,"f":null,"un":false}
+	// 	]
+	// ],"range":{"row":[0,1],"column":[0,0]}}
 	const { t, i, v, range } = <CRDTDataType<RV>>JSON.parse(data);
 	if (t !== "rv") return logger.error("t is not rv.");
 	if (isEmpty(i)) return logger.error("i is undefined.");
@@ -193,50 +208,58 @@ async function rv(data: string) {
 	logger.info("[CRDT DATA]:", data);
 
 	// 循环列，取 v 的内容，然后创建记录
-	for (let index = 0; index < v.length; index++) {
+	for (let k = 0; k < v.length; k++) {
 		// 这里面的每一项，都是一条记录
-		for (let j = 0; j < v[index].length; j++) {
+		for (let j = 0; j < v[k].length; j++) {
 			// 解析内部的 r c 值
-			const item = v[index][j];
-			const r = range.row[0] + index;
+			const item = v[k][j];
+			const r = range.row[0] + k;
 			const c = range.column[0] + j;
-			// i r c 先判断是否存在记录，存在则更新，不存在则创建
-			const exist = await CellDataService.hasCellData(i, r, c);
 
-			// 检查 item 是否为 null 或 undefined
-			const cellInfo = {
-				worker_sheet_id: i,
-				r,
-				c,
-				f: item?.f || "",
-				ctfa: item?.ct?.fa,
-				ctt: item?.ct?.t,
-				v: <string>item?.v || "",
-				m: <string>item?.m || "",
-				bg: item?.bg,
-				bl: <boolean>item?.bl,
-				cl: <boolean>item?.cl,
-				fc: item?.fc,
-				ff: <string>item?.ff,
-				fs: <number>item?.fs,
-				ht: item?.ht,
-				it: <boolean>item?.it,
-				un: <boolean>item?.un,
-				vt: item?.vt,
-			};
+			// 场景一：设置空单元格的样式数据 加粗、背景、颜色、字号等
+			if (item && item.v === null) {
+				// i r c 先判断是否存在记录，存在则更新，不存在则创建
+				const exist = await CellDataService.hasCellData(i, r, c);
 
-			if (exist) {
-				// 如果存在则更新 - 注意全量的样式数据
-				await CellDataService.updateCellData({
-					cell_data_id: exist.cell_data_id,
-					...cellInfo,
-					bg: cellInfo.bg,
-					bl: <boolean>cellInfo.bl,
-					cl: <boolean>cellInfo.cl,
-					fc: cellInfo.fc,
-					ff: <string>cellInfo.ff,
-				});
-			} else await CellDataService.createCellData(cellInfo);
+				// 检查 item 是否为 null 或 undefined
+				const cellInfo = {
+					worker_sheet_id: i,
+					r,
+					c,
+					f: item?.f || "",
+					ctfa: item?.ct?.fa,
+					ctt: item?.ct?.t,
+					v: <string>item?.v || "",
+					m: <string>item?.m || "",
+					bg: item?.bg,
+					bl: <boolean>item?.bl,
+					cl: <boolean>item?.cl,
+					fc: item?.fc,
+					ff: <string>item?.ff,
+					fs: <number>item?.fs,
+					ht: item?.ht,
+					it: <boolean>item?.it,
+					un: <boolean>item?.un,
+					vt: item?.vt,
+				};
+
+				if (exist) {
+					// 如果存在则更新 - 注意全量的样式数据
+					await CellDataService.updateCellData({
+						cell_data_id: exist.cell_data_id,
+						...cellInfo,
+						bg: cellInfo.bg,
+						bl: <boolean>cellInfo.bl,
+						cl: <boolean>cellInfo.cl,
+						fc: cellInfo.fc,
+						ff: <string>cellInfo.ff,
+					});
+				} else await CellDataService.createCellData(cellInfo);
+			}
+
+			// 场景二：删除单元格内容
+			else if (item && !item.v && !item.m)
+				await CellDataService.deleteCellData(i, r, c); // 删除记录
 		}
 	}
 }
@@ -424,14 +447,116 @@ async function fc(data: string) {
 	console.log("==> fc", data);
 }
 
+// 删除的该行，可能会引起其他的一些变化，因此，也会触发 all 事件类型
+// {"t":"all","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364","v":[],"k":"calcChain"}
+// {"t":"all","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364","v":null,"k":"filter_select"}
+// {"t":"all","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364","v":null,"k":"filter"}
+// {"t":"all","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364","v":[],"k":"luckysheet_conditionformat_save"}
+// {"t":"all","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364","v":[],"k":"luckysheet_alternateformat_save"}
+// {"t":"all","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364","v":{},"k":"dataVerification"}
+// {"t":"all","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364","v":{},"k":"hyperlink"}
 // 删除行或列 - 会影响 celldata r c 的值，需要更新比新增行列大/小的 r c 值
 async function drc(data: string) {
-	console.log("==> drc", data);
+	logger.info("[CRDT DATA]:", data);
+
+	const { t, i, v, rc } = <CRDTDataType<DRC>>JSON.parse(data);
+
+	if (t !== "drc") return logger.error("t is not drc.");
+	if (isEmpty(i)) return logger.error("i is undefined.");
+
+	// {"t":"drc","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364","v":{"index":5,"len":1},"rc":"r"}
+	// {"t":"drc","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364","v":{"index":1,"len":5},"rc":"r"}
+	// {"t":"drc","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364","v":{"index":7,"len":3},"rc":"c"}
+
+	// TODO: 删除该列触发的 all 事件
+
+	// 删除行，则删除该行所有的列数据
+	await CellDataService.deleteCellDataRC(i, v.index, <"r" | "c">rc);
+
+	// 通过 index  len 来实现标记 从那里开始删除、删除多少行
+	// 删除的索引 index 小的，不需要处理，只需要将 比 索引大的 记录 减小 len 即可
+	await CellDataService.updateCellDataRC({
+		worker_sheet_id: i,
+		index: v.index,
+		len: v.len,
+		update_type: <"r" | "c">rc,
+	});
+
+	// 删除该列的 hide and len
+	await HiddenAndLenService.deleteRC(i, v.index.toString());
 }
 
 // 增加行或列 - 会影响 celldata r c 的值，需要更新比新增行列大/小的 r c 值
+// 撤销删除行列时，也会触发该事件，并且携带 data 字段
 async function arc(data: string) {
-	console.log("==> arc", data);
+	logger.info("[CRDT DATA]:", data);
+
+	const { t, i, v, rc } = <CRDTDataType<ARC>>JSON.parse(data);
+
+	if (t !== "arc") return logger.error("t is not arc.");
+	if (isEmpty(i)) return logger.error("i is undefined.");
+
+	// 如果rc的值是r新增行，
+	// 如果rc的值为c则新增列，
+	// 例如rc=r，index=4，len=5， 则代表从第4行开始增加5行，
+
+	// direction 标识添加行列的方向 lefttop 上方/左方添加 rightbottom 下方/右方添加
+
+	// 无数据示例(一般是新增空白行列)
+	// {"t":"arc","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364","v":{"index":0,"len":1,"direction":"rightbottom","data":[]},"rc":"r"}
+
+	// 有数据示例(一般是撤销删除行列时，会携带数据)：
+	// {"t":"arc","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364","v":{"index":3,"len":1,"direction":"lefttop","data":[[null,
+	// {"ct":{"fa":"General","t":"n"},"v":"333","m":"333","bg":"#FFFFFF","ff":"5","fc":"#000000","bl":false,"it":false,"fs":10,"cl":false,"ht":0,"vt":0,"f":null,"un":false},
+	// ... 没值部分均为 null ...,null]]},"rc":"r"}
+	// {"t":"arc","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364",
+	// "v":{"index":6,"len":3,"direction":"lefttop",
+	// "data":[
+	// 		[null,null,null,{"v":"1","ct":{"fa":"General","t":"n"},"m":"1"},null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
+	// 		[null,null,null,{"v":"2","ct":{"fa":"General","t":"n"},"m":"2"},null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
+	// 		[null,null,null,{"v":"3","ct":{"fa":"General","t":"n"},"m":"3"},null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]]},"rc":"r"}
+
+	// 1. 先新增行列 - 先处理 celldata r c 的关系
+	await CellDataService.addCellDataRC({
+		worker_sheet_id: i,
+		index: v.index,
+		len: v.len,
+		update_type: <"r" | "c">rc,
+	});
+
+	// 2. 后处理 data - 如果是撤销的话，需要新增 celldata 记录
+	if (!v.data.length) return;
+
+	for (let k = 0; k < v.data.length; k++) {
+		const item = v.data[k]; // 同时操作的可能有多列，因此这个item也是个数组，并且是 cellDataTypeItem []
+		for (let j = 0; j < item.length; j++) {
+			const cellItem = item[j];
+			if (cellItem === null) continue;
+
+			let r = 0;
+			let c = 0;
+			// 注意撤销后的 r/c 取值
+			if (rc === "r") {
+				r = v.index + k;
+				c = j;
+			} else if (rc === "c") {
+				r = k;
+				c = v.index + j;
+			}
+			// 不然 执行celldata 的插入操作
+			const celldata: CellDataModelType = {
+				worker_sheet_id: i,
+				...cellItem,
+				r,
+				c, // 注意撤销后的 r/c 取值
+				m: <string>cellItem.m,
+				v: <string>cellItem.v,
+				ctfa: <string>cellItem?.ct?.fa,
+				ctt: <string>cellItem?.ct?.t,
+			};
+			await CellDataService.createCellData(celldata);
+		}
+	}
 }
 
 // 清除筛选
@@ -586,7 +711,8 @@ async function shc(data: string, gridKey: string) {
 	await WorkerSheetService.createSheet(copy_sheet_info);
 }
 
-// 删除sheet - 不可以直接删除记录，因为还需要恢复，应该标记 deleteFlag 属性即可（celldata可能存在外键关联，因此，不可以直接删除）
+// 删除sheet - 不可以直接删除记录，因为还需要恢复，应该标记 deleteFlag 属性即可
+// celldata可能存在外键关联，请注意删除顺序
 // 请注意： 删除 Sheet 请真实删除 celldata 数据
 async function shd(data: string) {
 	logger.info("[CRDT DATA]:", data);

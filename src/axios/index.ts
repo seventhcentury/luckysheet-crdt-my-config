@@ -2,31 +2,40 @@
 import axios, { AxiosRequestConfig } from "axios";
 
 export const fetch = (options: AxiosRequestConfig) => {
-  return axios({
-    ...options,
-  });
+	return axios({
+		...options,
+	});
 };
 
 // 添加请求拦截器
 axios.interceptors.request.use(
-  (config) => {
-    // 在发送请求之前进行操作
-    return config;
-  },
-  (error) => {
-    // 对请求错误进行操作
-    return Promise.reject(error);
-  }
+	(config) => {
+		// 在发送请求之前进行操作
+		return config;
+	},
+	(error) => {
+		// 对请求错误进行操作
+		return Promise.reject(error);
+	}
 );
 
 // 添加响应拦截器
 axios.interceptors.response.use(
-  function (res) {
-    // 解构返回
-    return res;
-  },
-  function (error) {
-    // 对响应错误进行操作
-    return Promise.reject(error);
-  }
+	function (res) {
+		// 解构返回
+		return res;
+	},
+	function (error) {
+		// 对响应错误进行操作
+		return Promise.reject(error);
+	}
 );
+
+// 导出 API
+export const API_getWorkerBook = (gridKey: string) => {
+	return fetch({
+		url: "/api/getWorkerBook",
+		method: "post",
+		data: { gridKey },
+	});
+};

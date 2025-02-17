@@ -7,7 +7,7 @@ import { DataTypes, InferAttributes, Model, Sequelize } from "sequelize";
 
 export class HiddenAndLenModel extends Model {
   // 类型定义
-  declare config_hidden_id?: string;
+  declare config_id?: string;
   declare worker_sheet_id: string;
   declare config_type: string; /** 隐藏类型 row/col */
   declare config_index?: string; /** 隐藏的行号/列号  */
@@ -17,10 +17,10 @@ export class HiddenAndLenModel extends Model {
   static registerModule(sequelize: Sequelize) {
     HiddenAndLenModel.init(
       {
-        config_hidden_id: {
+        config_id: {
           type: DataTypes.STRING, // 类型
           allowNull: false, // 非空
-          comment: "config_hidden_id", // 描述
+          comment: "config_id", // 描述
           primaryKey: true,
           defaultValue: DataTypes.UUIDV4, // 默认使用 uuid 作为 主键ID
         },
