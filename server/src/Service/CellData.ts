@@ -113,28 +113,27 @@ async function addCellDataRC(payload: {
 	index: number;
 	len: number;
 	update_type: "r" | "c";
-	direction: string;
 }) {
-	const { worker_sheet_id, index, len, update_type, direction } = payload;
+	const { worker_sheet_id, index, len, update_type } = payload;
 	// 在上面加一列跟在下面加一列的区别：就是标记的这一行是否也跟着变化
 	try {
 		// 遍历查询
 		const cellData = await CellDataModel.findAll({
 			where: { worker_sheet_id },
 		});
-		if (cellData.length) {
-			for (let i = 0; i < cellData.length; i++) {
-				if (direction === "lefttop") {
-					// lefttop 标识在上面/左边添加，则index 行也需要修改 r/c
-					if (cellData[i][update_type] === index) {
-						cellData[i][update_type] =
-							cellData[i][update_type] + len;
-						await cellData[i].save();
-					}
-				} else if (cellData[i][update_type] > index) {
-					cellData[i][update_type] = cellData[i][update_type] + len;
-					await cellData[i].save();
-				}
+
+		// {"t":"arc","i":"2b62e1f2...","v":{"index":8,"len":1,"direction":"lefttop","data":[]},"rc":"r"}
+
+		if (!cellData.length) return null;
+
+		// 不然执行增加操作
+		// 如果rc的值是r新增行， 如果rc的值为c则新增列， 例如 rc=r，index=4，len=5，则代表从第4行开始增加5行
+		// 然后把r大于4的单元格的整体的r值+5
+
+		for (let i = 0; i < cellData.length; i++) {
+			if (cellData[i][update_type] >= index) {
+				cellData[i][update_type] = cellData[i][update_type] + len;
+				await cellData[i].save();
 			}
 		}
 	} catch (error) {

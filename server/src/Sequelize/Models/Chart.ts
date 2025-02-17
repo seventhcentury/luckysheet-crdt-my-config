@@ -13,7 +13,7 @@ export class ChartModel extends Model {
 	declare height?: number | string;
 	declare left?: number | string;
 	declare top?: number | string;
-	declare needRangeShow?: boolean;
+	declare needRangeShow?: boolean; // 目前不需要这个字段
 	declare chartOptions?: string;
 
 	static registerModule(sequelize: Sequelize) {

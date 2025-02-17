@@ -501,7 +501,6 @@ async function arc(data: string) {
 		index: v.index,
 		len: v.len,
 		update_type: <"r" | "c">rc,
-		direction: v.direction,
 	});
 
 	// 2. 后处理 data - 如果是撤销的话，需要新增 celldata 记录
