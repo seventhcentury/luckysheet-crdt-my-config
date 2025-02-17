@@ -29,6 +29,7 @@ import {
 	CG,
 	CHART,
 	CRDTDataType,
+	DRC,
 	MERGE,
 	RV,
 	SHA,
@@ -424,14 +425,57 @@ async function fc(data: string) {
 	console.log("==> fc", data);
 }
 
+// 删除的该行，可能会引起其他的一些变化，因此，也会触发 all 事件类型
+// {"t":"all","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364","v":[],"k":"calcChain"}
+// {"t":"all","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364","v":null,"k":"filter_select"}
+// {"t":"all","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364","v":null,"k":"filter"}
+// {"t":"all","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364","v":[],"k":"luckysheet_conditionformat_save"}
+// {"t":"all","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364","v":[],"k":"luckysheet_alternateformat_save"}
+// {"t":"all","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364","v":{},"k":"dataVerification"}
+// {"t":"all","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364","v":{},"k":"hyperlink"}
+
 // 删除行或列 - 会影响 celldata r c 的值，需要更新比新增行列大/小的 r c 值
 async function drc(data: string) {
-	console.log("==> drc", data);
+	logger.info("[CRDT DATA]:", data);
+
+	const { t, i, v, rc } = <CRDTDataType<DRC>>JSON.parse(data);
+
+	if (t !== "drc") return logger.error("t is not drc.");
+	if (isEmpty(i)) return logger.error("i is undefined.");
+
+	// {"t":"drc","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364","v":{"index":5,"len":1},"rc":"r"}
+	// {"t":"drc","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364","v":{"index":1,"len":5},"rc":"r"}
+	// {"t":"drc","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364","v":{"index":7,"len":3},"rc":"c"}
+
+	// TODO: 删除该列触发的 all 事件
+
+	// 删除行，则删除该行所有的列数据
+	await CellDataService.deleteCellDataRC(i, v.index, <"r" | "c">rc);
+
+	// 通过 index  len 来实现标记 从那里开始删除、删除多少行
+	// 删除的索引 index 小的，不需要处理，只需要将 比 索引大的 记录 减小 len 即可
+	await CellDataService.updateCellDataRC({
+		worker_sheet_id: i,
+		index: v.index,
+		len: v.len,
+		update_type: <"r" | "c">rc,
+	});
+
+	// 删除该列的 hide and len
+	await HiddenAndLenService.deleteRC(i, v.index.toString());
 }
 
 // 增加行或列 - 会影响 celldata r c 的值，需要更新比新增行列大/小的 r c 值
 async function arc(data: string) {
 	console.log("==> arc", data);
+	// 如果rc的值是r新增行，
+	// 如果rc的值为c则新增列，
+	// 例如rc=r，index=4，len=5， 则代表从第4行开始增加5行，
+	// 如果data为空则增加空行，如果data不为空则用data中的数组添加新增的行中。
+	// 主要是对 celldata 中的单元格进行操作，以上述为例，首先 luckysheetfile[i].row 加5，然后把r大于4的单元格的整体的r值+5，
+	// 如果data为空则增加空行则结束，如果data不为空则把二维数组data转换为 {r:0,c:0,v} 的格式并添加到celldata中
+	// { "t": "arc", "i": "0", "v": { "index": 1, "len": 1, "direction": "lefttop", "data": [] },	"rc": "r"}
+	
 }
 
 // 清除筛选

@@ -58,4 +58,20 @@ async function deleteHidden(
 	}
 }
 
-export const HiddenAndLenService = { create, findConfig, deleteHidden };
+// 删除列
+async function deleteRC(worker_sheet_id: string, config_index: string) {
+	try {
+		return await HiddenAndLenModel.destroy({
+			where: { worker_sheet_id, config_index },
+		});
+	} catch (error) {
+		logger.error(error);
+	}
+}
+
+export const HiddenAndLenService = {
+	create,
+	findConfig,
+	deleteHidden,
+	deleteRC,
+};

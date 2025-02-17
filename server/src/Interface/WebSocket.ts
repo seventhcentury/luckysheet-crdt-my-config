@@ -42,6 +42,9 @@ type CRDTDataType<T> = {
 
 	// Chart
 	op?: "add" | "xy" | "wh" | "update" | "del";
+
+	// drc
+	rc?: string;
 };
 
 // 1. v
@@ -104,6 +107,12 @@ type SHA = {
 	};
 };
 
+// 删除行列
+type DRC = {
+	index: number;
+	len: number;
+};
+
 export {
 	CustomWebSocket,
 	type CRDTDataType,
@@ -113,4 +122,5 @@ export {
 	type MERGE,
 	type CHART,
 	type SHA,
+	type DRC,
 };

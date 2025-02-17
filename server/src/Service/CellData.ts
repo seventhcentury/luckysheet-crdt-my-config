@@ -5,62 +5,112 @@ import { CellDataModel, CellDataModelType } from "../Sequelize/Models/CellData";
  * 通过 sheetid 查找当前数据表的单元格数据
  */
 async function getCellData(worker_sheet_id: string) {
-  try {
-    return await CellDataModel.findAll({ where: { worker_sheet_id } });
-  } catch (error) {
-    logger.error(error);
-    return null;
-  }
+	try {
+		return await CellDataModel.findAll({ where: { worker_sheet_id } });
+	} catch (error) {
+		logger.error(error);
+		return null;
+	}
 }
 
 /**
  * 根据传入的 sheetid rc 判断是否存在记录
  */
 async function hasCellData(worker_sheet_id: string, r: number, c: number) {
-  try {
-    return await CellDataModel.findOne({
-      where: { worker_sheet_id, r, c },
-    });
-  } catch (error) {
-    logger.error(error);
-    return null;
-  }
+	try {
+		return await CellDataModel.findOne({
+			where: { worker_sheet_id, r, c },
+		});
+	} catch (error) {
+		logger.error(error);
+		return null;
+	}
 }
 
 async function updateCellData(info: CellDataModelType) {
-  try {
-    return await CellDataModel.update(info, {
-      where: { cell_data_id: info.cell_data_id },
-    });
-  } catch (error) {
-    logger.error(error);
-    return null;
-  }
+	try {
+		return await CellDataModel.update(info, {
+			where: { cell_data_id: info.cell_data_id },
+		});
+	} catch (error) {
+		logger.error(error);
+		return null;
+	}
 }
 async function createCellData(info: CellDataModelType) {
-  try {
-    return await CellDataModel.create(info);
-  } catch (error) {
-    logger.error(error);
-    return null;
-  }
+	try {
+		return await CellDataModel.create(info);
+	} catch (error) {
+		logger.error(error);
+		return null;
+	}
 }
 
+async function deleteCellDataRC(
+	worker_sheet_id: string,
+	index: number,
+	rc: "r" | "c"
+) {
+	try {
+		return await CellDataModel.destroy({
+			where: { worker_sheet_id, [rc]: index },
+		});
+	} catch (error) {
+		logger.error(error);
+		return null;
+	}
+}
 async function deleteCellData(worker_sheet_id: string, r: number, c: number) {
-  try {
-    return await CellDataModel.destroy({
-      where: { worker_sheet_id, r, c },
-    });
-  } catch (error) {
-    logger.error(error);
-    return null;
-  }
+	try {
+		return await CellDataModel.destroy({
+			where: { worker_sheet_id, r, c },
+		});
+	} catch (error) {
+		logger.error(error);
+		return null;
+	}
+}
+
+/**
+ * 删除/增加行列
+ */
+async function updateCellDataRC(payload: {
+	worker_sheet_id: string;
+	index: number;
+	len: number;
+	update_type: "r" | "c";
+}) {
+	// {"t":"drc","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364","v":{"index":0,"len":1},"rc":"r"}
+	const { worker_sheet_id, index, len, update_type } = payload;
+
+	try {
+		// 1. 查询所有的 celldata  的 数据
+		const cellData = await CellDataModel.findAll({
+			where: { worker_sheet_id },
+		});
+
+		// 2. 更新 r = r + len
+		if (cellData.length) {
+			for (let i = 0; i < cellData.length; i++) {
+				// 只有比 index 大的值，才进行处理
+				if (cellData[i][update_type] > index) {
+					cellData[i][update_type] = cellData[i][update_type] - len;
+					await cellData[i].save();
+				}
+			}
+		}
+	} catch (error) {
+		logger.error(error);
+		return null;
+	}
 }
 
 export const CellDataService = {
-  getCellData,
-  hasCellData,
-  updateCellData,
-  createCellData,
-  deleteCellData,
+	getCellData,
+	hasCellData,
+	updateCellData,
+	createCellData,
+	deleteCellData,
+	updateCellDataRC,
+	deleteCellDataRC,
 };
