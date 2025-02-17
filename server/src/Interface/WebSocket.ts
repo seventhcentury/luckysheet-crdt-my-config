@@ -113,14 +113,23 @@ type DRC = {
 	len: number;
 };
 
+// 增加行列
+type ARC = {
+	index: number;
+	len: number;
+	direction: string;
+	data: BASE_CELL_DATA_TYPE[][];
+};
+
 export {
-	CustomWebSocket,
-	type CRDTDataType,
 	type V,
 	type RV,
 	type CG,
-	type MERGE,
-	type CHART,
 	type SHA,
 	type DRC,
+	type ARC,
+	type CHART,
+	type MERGE,
+	CustomWebSocket,
+	type CRDTDataType,
 };

@@ -72,7 +72,7 @@ async function deleteCellData(worker_sheet_id: string, r: number, c: number) {
 }
 
 /**
- * 删除/增加行列
+ * 删除行列
  */
 async function updateCellDataRC(payload: {
 	worker_sheet_id: string;
@@ -105,6 +105,44 @@ async function updateCellDataRC(payload: {
 	}
 }
 
+/**
+ * 增加行列
+ */
+async function addCellDataRC(payload: {
+	worker_sheet_id: string;
+	index: number;
+	len: number;
+	update_type: "r" | "c";
+	direction: string;
+}) {
+	const { worker_sheet_id, index, len, update_type, direction } = payload;
+	// 在上面加一列跟在下面加一列的区别：就是标记的这一行是否也跟着变化
+	try {
+		// 遍历查询
+		const cellData = await CellDataModel.findAll({
+			where: { worker_sheet_id },
+		});
+		if (cellData.length) {
+			for (let i = 0; i < cellData.length; i++) {
+				if (direction === "lefttop") {
+					// lefttop 标识在上面/左边添加，则index 行也需要修改 r/c
+					if (cellData[i][update_type] === index) {
+						cellData[i][update_type] =
+							cellData[i][update_type] + len;
+						await cellData[i].save();
+					}
+				} else if (cellData[i][update_type] > index) {
+					cellData[i][update_type] = cellData[i][update_type] + len;
+					await cellData[i].save();
+				}
+			}
+		}
+	} catch (error) {
+		logger.error(error);
+		return null;
+	}
+}
+
 export const CellDataService = {
 	getCellData,
 	hasCellData,
@@ -113,4 +151,5 @@ export const CellDataService = {
 	deleteCellData,
 	updateCellDataRC,
 	deleteCellDataRC,
+	addCellDataRC,
 };

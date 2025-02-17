@@ -26,14 +26,15 @@
  * 注意一点，对象中的i为当前sheet的index值，而不是order
  */
 import {
-	CG,
-	CHART,
-	CRDTDataType,
-	DRC,
-	MERGE,
-	RV,
-	SHA,
 	V,
+	CG,
+	RV,
+	DRC,
+	ARC,
+	SHA,
+	CHART,
+	MERGE,
+	CRDTDataType,
 } from "../Interface/WebSocket";
 import { isEmpty } from "../Utils";
 import { logger } from "../Utils/Logger";
@@ -57,23 +58,23 @@ import { HiddenAndLenModelType } from "../Sequelize/Models/HiddenAndLen";
 export function databaseHandler(data: string, gridKey: string) {
 	const { t } = JSON.parse(data);
 	if (t === "v") v(data);
-	if (t === "rv") rv(data);
-	if (t === "cg") cg(data);
-	if (t === "all") all(data);
-	if (t === "fc") fc(data);
-	if (t === "drc") drc(data);
-	if (t === "arc") arc(data);
-	if (t === "fsc") fsc(data);
-	if (t === "fsr") fsr(data);
-	if (t === "sha") sha(data, gridKey);
-	if (t === "shc") shc(data, gridKey);
-	if (t === "shd") shd(data);
-	if (t === "shre") shre(data);
-	if (t === "shr") shr(data);
-	if (t === "c") c(data);
-	//   if (t === "shs") shs(data); // 切换到指定 sheet 是前台操作，可不存储数据库
-	if (t === "sh") sh(data);
-	if (t === "na") na(data, gridKey);
+	else if (t === "rv") rv(data);
+	else if (t === "cg") cg(data);
+	else if (t === "all") all(data);
+	else if (t === "fc") fc(data);
+	else if (t === "drc") drc(data);
+	else if (t === "arc") arc(data);
+	else if (t === "fsc") fsc(data);
+	else if (t === "fsr") fsr(data);
+	else if (t === "sha") sha(data, gridKey);
+	else if (t === "shc") shc(data, gridKey);
+	else if (t === "shd") shd(data);
+	else if (t === "shre") shre(data);
+	else if (t === "shr") shr(data);
+	else if (t === "c") c(data);
+	// else  if (t === "shs") shs(data); // 切换到指定 sheet 是前台操作，可不存储数据库
+	else if (t === "sh") sh(data);
+	else if (t === "na") na(data, gridKey);
 }
 
 // 单个单元格刷新
@@ -433,7 +434,6 @@ async function fc(data: string) {
 // {"t":"all","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364","v":[],"k":"luckysheet_alternateformat_save"}
 // {"t":"all","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364","v":{},"k":"dataVerification"}
 // {"t":"all","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364","v":{},"k":"hyperlink"}
-
 // 删除行或列 - 会影响 celldata r c 的值，需要更新比新增行列大/小的 r c 值
 async function drc(data: string) {
 	logger.info("[CRDT DATA]:", data);
@@ -466,16 +466,77 @@ async function drc(data: string) {
 }
 
 // 增加行或列 - 会影响 celldata r c 的值，需要更新比新增行列大/小的 r c 值
+// 撤销删除行列时，也会触发该事件，并且携带 data 字段
 async function arc(data: string) {
-	console.log("==> arc", data);
+	logger.info("[CRDT DATA]:", data);
+
+	const { t, i, v, rc } = <CRDTDataType<ARC>>JSON.parse(data);
+
+	if (t !== "arc") return logger.error("t is not arc.");
+	if (isEmpty(i)) return logger.error("i is undefined.");
+
 	// 如果rc的值是r新增行，
 	// 如果rc的值为c则新增列，
 	// 例如rc=r，index=4，len=5， 则代表从第4行开始增加5行，
-	// 如果data为空则增加空行，如果data不为空则用data中的数组添加新增的行中。
-	// 主要是对 celldata 中的单元格进行操作，以上述为例，首先 luckysheetfile[i].row 加5，然后把r大于4的单元格的整体的r值+5，
-	// 如果data为空则增加空行则结束，如果data不为空则把二维数组data转换为 {r:0,c:0,v} 的格式并添加到celldata中
-	// { "t": "arc", "i": "0", "v": { "index": 1, "len": 1, "direction": "lefttop", "data": [] },	"rc": "r"}
-	
+
+	// direction 标识添加行列的方向 lefttop 上方/左方添加 rightbottom 下方/右方添加
+
+	// 无数据示例(一般是新增空白行列)
+	// {"t":"arc","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364","v":{"index":0,"len":1,"direction":"rightbottom","data":[]},"rc":"r"}
+
+	// 有数据示例(一般是撤销删除行列时，会携带数据)：
+	// {"t":"arc","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364","v":{"index":3,"len":1,"direction":"lefttop","data":[[null,
+	// {"ct":{"fa":"General","t":"n"},"v":"333","m":"333","bg":"#FFFFFF","ff":"5","fc":"#000000","bl":false,"it":false,"fs":10,"cl":false,"ht":0,"vt":0,"f":null,"un":false},
+	// ... 没值部分均为 null ...,null]]},"rc":"r"}
+	// {"t":"arc","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364",
+	// "v":{"index":6,"len":3,"direction":"lefttop",
+	// "data":[
+	// 		[null,null,null,{"v":"1","ct":{"fa":"General","t":"n"},"m":"1"},null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
+	// 		[null,null,null,{"v":"2","ct":{"fa":"General","t":"n"},"m":"2"},null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
+	// 		[null,null,null,{"v":"3","ct":{"fa":"General","t":"n"},"m":"3"},null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]]},"rc":"r"}
+
+	// 1. 先新增行列 - 先处理 celldata r c 的关系
+	await CellDataService.addCellDataRC({
+		worker_sheet_id: i,
+		index: v.index,
+		len: v.len,
+		update_type: <"r" | "c">rc,
+		direction: v.direction,
+	});
+
+	// 2. 后处理 data - 如果是撤销的话，需要新增 celldata 记录
+	if (!v.data.length) return;
+
+	for (let k = 0; k < v.data.length; k++) {
+		const item = v.data[k]; // 同时操作的可能有多列，因此这个item也是个数组，并且是 cellDataTypeItem []
+		for (let j = 0; j < item.length; j++) {
+			const cellItem = item[j];
+			if (cellItem === null) continue;
+
+			let r = 0;
+			let c = 0;
+			// 注意撤销后的 r/c 取值
+			if (rc === "r") {
+				r = v.index + k;
+				c = j;
+			} else if (rc === "c") {
+				r = k;
+				c = v.index + j;
+			}
+			// 不然 执行celldata 的插入操作
+			const celldata: CellDataModelType = {
+				worker_sheet_id: i,
+				...cellItem,
+				r,
+				c, // 注意撤销后的 r/c 取值
+				m: <string>cellItem.m,
+				v: <string>cellItem.v,
+				ctfa: <string>cellItem?.ct?.fa,
+				ctt: <string>cellItem?.ct?.t,
+			};
+			await CellDataService.createCellData(celldata);
+		}
+	}
 }
 
 // 清除筛选
@@ -630,7 +691,8 @@ async function shc(data: string, gridKey: string) {
 	await WorkerSheetService.createSheet(copy_sheet_info);
 }
 
-// 删除sheet - 不可以直接删除记录，因为还需要恢复，应该标记 deleteFlag 属性即可（celldata可能存在外键关联，因此，不可以直接删除）
+// 删除sheet - 不可以直接删除记录，因为还需要恢复，应该标记 deleteFlag 属性即可
+// celldata可能存在外键关联，请注意删除顺序
 // 请注意： 删除 Sheet 请真实删除 celldata 数据
 async function shd(data: string) {
 	logger.info("[CRDT DATA]:", data);
