@@ -13,6 +13,15 @@
   <img src='/public/result/result.gif' alt='result' />
 </p>
 
+## Copyright Notice
+1. This project is based on the [Luckysheet source code](https://github.com/mengshukeji/Luckysheet) modification. Please follow the original author's open source agreement, and do not delete or modify the source code header copyright statement。
+2. This project is open sourced under the **Apache 2.0 protocol**, so please feel free to use it. At the same time, this project will also contribute to the Luksysheet community, enriching the community ecosystem. Thank you again to the @[Luckysheet](https://github.com/mengshukeji/Luckysheet) team ❤️
+
+## BUG
+1. My personal energy is limited, and there are bugs and incomplete functions. Please submit an [issue](https://gitee.com/wfeng0/luckysheet-crdt/issues/new) and I will handle it promptly;
+2. Welcome everyone to fork the project, submit PR, and work together to improve the project.
+
+
 
 ## DESCRIPTION
 1. The project is **Luckysheet Collaborative Enhanced Edition (fully functional implementation)**, aiming to provide collaborative implementation ideas, data storage services, collaborative demonstrations, etc. The project is based on [Luckysheet](https://github.com/mengshukeji/Luckysheet) Implemented, thank you to the original author for open-source.
@@ -24,20 +33,19 @@
 
 
 
-## Copyright Notice
-1. This project is based on the [Luckysheet source code](https://github.com/mengshukeji/Luckysheet) modification. Please follow the original author's open source agreement, and do not delete or modify the source code header copyright statement。
-2. This project is open sourced under the **Apache 2.0 protocol**, so please feel free to use it. At the same time, this project will also contribute to the Luksysheet community, enriching the community ecosystem. Thank you again to the @[Luckysheet](https://github.com/mengshukeji/Luckysheet) team ❤️
-3. Please note that there is no Luckymeet source code available for the startup, operation, deployment, and other stages of this project, which does not affect the actual collaborative functionality。
-4. In order to better drive open source, starting from the git head of `bf75470121f0f52737e604233add82ad2502218d`, the source code modification part will no longer be provided. If necessary, please contact the author for a fee to obtain it。
-5. **The lack of Luckysheet source code does not affect the actual functionality, and all collaborative features are open source**。
-6. **The impact of no source code:**
+
+## Fee Statement
+1. Please note that there is no Luckymeet source code available for the startup, operation, deployment, and other stages of this project, which does not affect the actual collaborative functionality。
+2. In order to better drive open source, starting from the git head of `bf75470121f0f52737e604233add82ad2502218d`, the source code modification part will no longer be provided. If necessary, please contact the author for a fee to obtain it。
+3. **The lack of Luckysheet source code does not affect the actual functionality, and all collaborative features are open source**。
+4. **The impact of no source code:**
    1. The source code is only used for functional expansion in binary scenarios;
    2. If there is no requirement for secondary opening, you do not need to use the source code. If there is a requirement for secondary opening, please contact the author for payment first；
-7. **Please note that:**
+5. **Please note that:**
    1.Luckysheet source will be retained, but will not be continuously updated. Subsequent feature upgrades will only provide lib plugin packages；
-   2. Fee standard:**`￥ 99`**
-   3. Provide services: Only provide source code packages (do not provide continuous feature upgrades, bug fixes, and not purchase products!)
-8. **Contact Author**：
+   1. Fee standard:**`￥ 99`**
+   2. Provide services: Only provide source code packages (do not provide continuous feature upgrades, bug fixes, and not purchase products!)
+6. **Contact Author**：
    1. V: 18276861941
    2. qq group: 522121825 (recommend)
 
@@ -168,8 +176,8 @@ npm run db
   - ❌️ Add rows or columns
 
 - Filter operations
-  - ❌️ Clear filter
-  - ❌️ Restore filter
+  - ✅️ Clear filter
+  - ✅️ Restore filter
 
 - Sheet operations
   - ✅️ Add sheet
