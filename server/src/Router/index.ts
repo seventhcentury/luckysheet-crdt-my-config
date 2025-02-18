@@ -3,6 +3,9 @@ import { Controller } from "../Controller";
 
 const routes = express.Router();
 
+// 用于处理 html 页面，部署使用
+routes.get("/", Controller.initPages);
+
 // 用于上传图片 - 先定义 upload name 属性
 routes.post("/uploadImage", Controller.uploadImage);
 

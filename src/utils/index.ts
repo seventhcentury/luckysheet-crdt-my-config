@@ -26,3 +26,15 @@ export const imageUrlHandle = (url: string) => {
 export const getRandom = () => {
 	return Math.random().toString(16).slice(2, 8);
 };
+
+// 获取当前环境是否为 开发环境
+export const isDev = () => {
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
+	return import.meta.env.MODE === "development";
+};
+
+// 获取 loadUrl 地址
+export const getLoadUrl = (gridKey: string) => {
+	return `${isDev() ? "/api" : ""} /loadSheetData?gridkey=${gridKey}`;
+};

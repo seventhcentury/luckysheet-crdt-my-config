@@ -9,7 +9,7 @@
 import "./style/index.css";
 import { API_getWorkerBook } from "./axios";
 import { defaultSheetData, WS_SERVER_URL } from "./config";
-import { uploadImage, imageUrlHandle, getRandom } from "./utils";
+import { uploadImage, imageUrlHandle, getRandom, getLoadUrl } from "./utils";
 
 window.onload = initLuckysheet;
 
@@ -61,7 +61,7 @@ async function initLuckysheet() {
 		Reflect.set(options, "imageUrlHandle", imageUrlHandle);
 
 		options.allowUpdate = true;
-		options.loadUrl = `/api/loadSheetData?gridkey=${gridKey}`;
+		options.loadUrl = getLoadUrl(gridKey);
 		options.updateUrl = `${WS_SERVER_URL}?type=luckysheet&userid=${id}&username=${username}&gridkey=${gridKey}`;
 		luckysheet.create(options);
 	} catch (error) {

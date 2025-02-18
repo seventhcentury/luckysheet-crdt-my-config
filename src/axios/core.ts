@@ -1,11 +1,14 @@
 // 封装用户请求axios
 import axios, { AxiosRequestConfig } from "axios";
+import { isDev } from "../utils";
 
 export const fetch = (options: AxiosRequestConfig) => {
 	return axios({
 		...options,
 	});
 };
+
+axios.defaults.baseURL = isDev() ? "/api" : "";
 
 // 添加请求拦截器
 axios.interceptors.request.use(

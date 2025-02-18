@@ -101,8 +101,32 @@ npm run db
 1. Start Service: 
     - Front-desk service：`npm run dev`
     - Back-up services：`npm run server`
-2. Open the URL：`http://localhost:5000`, You can experience the collaborative function.
+2. Open the URL：`http://localhost:5000` | `http://localhost:9000`, You can experience the collaborative function.
 
+
+## Project Deployment
+1. Pack the front-end project first: `npm run build`
+```js
+build: {
+  // Package output directory - will automatically package to the server directory
+   outDir: "./server/public/dist",
+   rollupOptions: {
+      input: {
+        // Front end entrance file - Please note that the entry used is the entrance file
+      	main: "./entry.html",
+      },
+   },
+},
+```
+2. Deployment server
+```js
+// 1. When the server is running, it will automatically build a build directory containing JS files. Please deploy the following folder to the server:
+- 🗂️wwwroot
+  + 📂build // js files
+  + 📂public // Static resources
+  + 🗒️package-lock.json
+  + 🗒️package.json
+```
 
 ## Project Structure Description
 

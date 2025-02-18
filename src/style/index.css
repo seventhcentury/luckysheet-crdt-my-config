@@ -6,7 +6,8 @@
 
 html,
 body,
-#app {
+#app,
+.luckysheetContainer {
 	width: 100vw;
 	height: 100vh;
 	overflow: hidden;
