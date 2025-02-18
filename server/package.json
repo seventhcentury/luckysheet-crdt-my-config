@@ -4,7 +4,8 @@
   "private": true,
   "description": "luckysheet-crdt-server",
   "scripts": {
-    "start": "tsc && node build/main.js",
+    "start": "node build/main.js",
+    "server": "tsc && node build/main.js",
     "dev": "nodemon -w src/* -e ts && tsc && node build/main.js",
     "build": "tsc",
     "db": "tsc && node build/Sequelize/synchronization.js"

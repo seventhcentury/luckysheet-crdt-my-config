@@ -12,6 +12,7 @@ export default [
 		ignores: [
 			"**/node_modules/**",
 			"**/dist/**",
+			"**/server/public/dist/**",
 			"**/Luckysheet-source/**",
 			"**/Luckysheet-source-private/**",
 			"**/build/**",

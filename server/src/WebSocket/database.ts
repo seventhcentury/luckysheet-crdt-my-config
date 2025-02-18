@@ -800,7 +800,7 @@ async function c(data: string) {
 
 	// 更新图表
 	//  {"t":"c","i":"89357e56-c6bc-4de0-bfd1-0e00b3086da4","v":{"chart_id":"chart_01ieK40e4Kal_1734335434241","left":"172.3px","top":"158.3px","scrollTop":0,"scrollLeft":0},"cid":"chart_01ieK40e4Kal_1734335434241","op":"xy"}
-	if (op === "xy" || op === "wh") {
+	else if (op === "xy" || op === "wh") {
 		await ChartService.updateChart({
 			chartType: v.chartType,
 			worker_sheet_id: i,
@@ -813,7 +813,7 @@ async function c(data: string) {
 	}
 
 	// 更新图表配置
-	if (op === "update") {
+	else if (op === "update") {
 		await ChartService.updateChart({
 			chartType: v.chartType,
 			worker_sheet_id: i,
@@ -824,14 +824,22 @@ async function c(data: string) {
 
 	// 删除图表
 	// {"t":"c","i":"89357e56-c6bc-4de0-bfd1-0e00b3086da4","v":{"cid":"chart_WW0t3io1towN_1734335743092"},"cid":"chart_WW0t3io1towN_1734335743092","op":"del"}
-	if (op === "del") {
+	else if (op === "del") {
 		await ChartService.deleteChart(v.chart_id);
 	}
 
 	// TODO:
-	// 图表更新单元格数据 update_data 光靠这几项数据是无法更新图表的，应该在源码中更新完成后触发图表更新事件，将整个配置项传过来
-	// 下面的 update_data 操作，仅作为协同传输使用
-	// {"t":"c","i":0,"v":{"r_st":1,"r_ed":1,"c_st":1,"c_ed":1},"op":"update_data"}
+	// 图表更新单元格数据 update_data
+	// {"t":"c","i":0,"v":{"r_st":1,"r_ed":1,"c_st":1,"c_ed":1,chart_id:"",chartOptions:""},"op":"update_data"}
+	else if (op === "update_data") {
+		// 更新 ChartModel options 配置项
+		await ChartService.updateChart({
+			chartType: v.chartType,
+			worker_sheet_id: i,
+			chart_id: v.chart_id,
+			chartOptions: JSON.stringify(v.chartOptions),
+		});
+	}
 }
 
 // 修改工作簿名称
