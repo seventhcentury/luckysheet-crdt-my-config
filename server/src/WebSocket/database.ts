@@ -190,15 +190,6 @@ async function rv(data: string) {
 	 * 范围单元格刷新
 	 * 需要先取 range 范围行列数，v 的内容是根据 range 循环而来
 	 */
-	// {"t":"rv","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364",
-	// "v":[
-	// 	[
-	// 		{"ct":{"fa":"General","t":"n"},"bg":"#FFFFFF","ff":"5","fc":"#000000","bl":false,"it":false,"fs":10,"cl":false,"ht":0,"vt":0,"f":null,"un":false}
-	// 	],
-	// 	[
-	// 		{"ct":{"fa":"General","t":"n"},"bg":"#FFFFFF","ff":"5","fc":"#000000","bl":false,"it":false,"fs":10,"cl":false,"ht":0,"vt":0,"f":null,"un":false}
-	// 	]
-	// ],"range":{"row":[0,1],"column":[0,0]}}
 	const { t, i, v, range } = <CRDTDataType<RV>>JSON.parse(data);
 	if (t !== "rv") return logger.error("t is not rv.");
 	if (isEmpty(i)) return logger.error("i is undefined.");
@@ -207,17 +198,34 @@ async function rv(data: string) {
 
 	logger.info("[CRDT DATA]:", data);
 
+	// {"t":"rv","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364",
+	// "v":[
+	// 		[{"ct":{"fa":"General","t":"g"},"v":"B","m":"B","bg":"#FFFFFF","ff":"5","fc":"#000000","bl":false,"it":false,"fs":10,"cl":false,"ht":0,"vt":0,"f":null,"un":false},
+	// 		 {"ct":{"fa":"General","t":"n"},"v":"111","m":"111","bg":"#FFFFFF","ff":"5","fc":"#000000","bl":false,"it":false,"fs":10,"cl":false,"ht":0,"vt":0,"f":null,"un":false}
+	// 		],
+	// 		[{"ct":{"fa":"General","t":"g"},"v":"C","m":"C","bg":"#FFFFFF","ff":"5","fc":"#000000","bl":false,"it":false,"fs":10,"cl":false,"ht":0,"vt":0,"f":null,"un":false},
+	// 		 {"ct":{"fa":"General","t":"n"},"v":"111","m":"111","bg":"#FFFFFF","ff":"5","fc":"#000000","bl":false,"it":false,"fs":10,"cl":false,"ht":0,"vt":0,"f":null,"un":false}
+	// 		]
+	// 	 ],"range":{"row":[5,6],"column":[1,2]}}
+	// {"t":"rv","i":"2b62e1f2-...",
+	// "v":[
+	// 			[{"ct":{"fa":"General","t":"g"},"v":"B","m":"B","bg":"#FFFFFF","ff":"5","fc":"#000000","bl":false,"it":false,"fs":10,"cl":false,"ht":0,"vt":0,"f":null,"un":false},
+	// 			 	{"ct":{"fa":"General","t":"n"},"v":"111","m":"111","bg":"#FFFFFF","ff":"5","fc":"#000000","bl":false,"it":false,"fs":10,"cl":false,"ht":0,"vt":0,"f":null,"un":false}
+	// 			]
+	// 		],
+	// "range":{"row":[4,4],"column":[0,1]}}
 	// 循环列，取 v 的内容，然后创建记录
 	for (let k = 0; k < v.length; k++) {
 		// 这里面的每一项，都是一条记录
 		for (let j = 0; j < v[k].length; j++) {
 			// 解析内部的 r c 值
 			const item = v[k][j];
-			const r = range.row[0] + k;
-			const c = range.column[0] + j;
-
+			const r = range!.row[0] + k;
+			const c = range!.column[0] + j;
 			// 场景一：设置空单元格的样式数据 加粗、背景、颜色、字号等
-			if (item && item.v === null) {
+			// 场景二：范围添加内容 v m 不为空
+			// {"t":"rv","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364","v":[[{"v":null,"bl":1},{"v":null,"bl":1}],[{"v":null,"bl":1},{"v":null,"bl":1}]],"range":{"row":[6,7],"column":[3,4]}}
+			if ((item && item.v === null) || (item && item.v && item.m)) {
 				// i r c 先判断是否存在记录，存在则更新，不存在则创建
 				const exist = await CellDataService.hasCellData(i, r, c);
 
@@ -256,10 +264,10 @@ async function rv(data: string) {
 					});
 				} else await CellDataService.createCellData(cellInfo);
 			}
-
-			// 场景二：删除单元格内容
-			else if (item && !item.v && !item.m)
+			// 场景三：删除单元格内容
+			else if (item && !item.v && !item.m) {
 				await CellDataService.deleteCellData(i, r, c); // 删除记录
+			}
 		}
 	}
 }

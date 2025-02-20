@@ -36,5 +36,5 @@ export const isDev = () => {
 
 // 获取 loadUrl 地址
 export const getLoadUrl = (gridKey: string) => {
-	return `${isDev() ? "/api" : ""} /loadSheetData?gridkey=${gridKey}`;
+	return `${isDev() ? "/api/" : "/"}loadSheetData?gridkey=${gridKey}`;
 };
