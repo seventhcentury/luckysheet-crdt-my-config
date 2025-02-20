@@ -7,3 +7,22 @@
  *  5. 提供应答服务
  */
 
+import { Ollama } from "ollama";
+import { DEEPSEEKAI_URL } from "../Config";
+
+class DeepSeekAI {
+	private ollama: Ollama;
+	constructor(host: string) {
+		this.ollama = new Ollama({ host });
+	}
+
+	// 问询
+	async ask(prompt: string) {
+		return await this.ollama.chat({
+			model: "llama3.1",
+			messages: [{ role: "user", content: prompt }],
+		});
+	}
+}
+
+export const deepseekAI = new DeepSeekAI(DEEPSEEKAI_URL);

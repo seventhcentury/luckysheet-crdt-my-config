@@ -56,11 +56,17 @@ const MULTER_CONFIG = {
 	dest: path.resolve(__dirname, "../../public/uploads"),
 };
 
+/**
+ * 导出 DeepSeek AI 配置
+ */
+const DEEPSEEKAI_URL = "http://127.0.0.1:11434";
+
 // 统一导出配置对象
 export {
 	SQL_CONFIG,
 	SERVER_PORT,
 	LOGGER_CONFIG,
 	MULTER_CONFIG,
+	DEEPSEEKAI_URL,
 	WORKER_BOOK_INFO,
 };
