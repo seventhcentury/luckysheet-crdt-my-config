@@ -35,21 +35,21 @@ import {
 	CHART,
 	MERGE,
 	CRDTDataType,
-} from "../Interface/WebSocket";
-import { isEmpty } from "../Utils";
-import { logger } from "../Utils/Logger";
-import { ImageService } from "../Service/Image";
-import { ChartService } from "../Service/Chart";
-import { MergeService } from "../Service/Merge";
-import { BorderInfoService } from "../Service/Border";
-import { CellDataService } from "../Service/CellData";
-import { WorkerBookService } from "../Service/WorkerBook";
-import { WorkerSheetService } from "../Service/WorkerSheet";
-import { HiddenAndLenService } from "../Service/HiddenAndLen";
-import { CellDataModelType } from "../Sequelize/Models/CellData";
-import { BorderInfoModelType } from "../Sequelize/Models/BorderInfo";
-import { WorkerSheetModelType } from "../Sequelize/Models/WorkerSheet";
-import { HiddenAndLenModelType } from "../Sequelize/Models/HiddenAndLen";
+} from "../../Interface/WebSocket";
+import { isEmpty } from "../../Utils";
+import { logger } from "../../Utils/Logger";
+import { ImageService } from "../../Service/Image";
+import { ChartService } from "../../Service/Chart";
+import { MergeService } from "../../Service/Merge";
+import { BorderInfoService } from "../../Service/Border";
+import { CellDataService } from "../../Service/CellData";
+import { WorkerBookService } from "../../Service/WorkerBook";
+import { WorkerSheetService } from "../../Service/WorkerSheet";
+import { HiddenAndLenService } from "../../Service/HiddenAndLen";
+import { CellDataModelType } from "../../Sequelize/Models/CellData";
+import { BorderInfoModelType } from "../../Sequelize/Models/BorderInfo";
+import { WorkerSheetModelType } from "../../Sequelize/Models/WorkerSheet";
+import { HiddenAndLenModelType } from "../../Sequelize/Models/HiddenAndLen";
 
 /**
  * 协同消息映射的操作

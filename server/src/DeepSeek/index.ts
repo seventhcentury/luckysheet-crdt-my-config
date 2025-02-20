@@ -19,7 +19,7 @@ class DeepSeekAI {
 	// 问询
 	async ask(prompt: string) {
 		return await this.ollama.chat({
-			model: "llama3.1",
+			model: "deepseek-r1",
 			messages: [{ role: "user", content: prompt }],
 		});
 	}

@@ -4,9 +4,9 @@
   "private": true,
   "description": "luckysheet-crdt-server",
   "scripts": {
-    "start": "tsc && node build/main.js",
-    "dev": "nodemon -w src -e ts && npm run start",
-    "build": "tsc",
+    "ai": "ollama run deepseek-r1",
+    "serve": "tsc && node build/main.js",
+    "dev": "nodemon -w src -e ts && npm run serve",
     "db": "tsc && node build/Sequelize/synchronization.js"
   },
   "dependencies": {

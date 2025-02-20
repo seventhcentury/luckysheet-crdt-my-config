@@ -1,7 +1,11 @@
 <p align="center">
   <img src='/public/logo.svg' />
 </p>
+
+
+
 <h1 align="center">Luckysheet CRDT</h1>
+<h4 align="center">Connected to DeepSeek-R1 AI model(#alpha)</h4>
 
 
 [简体中文](./README-zh.md) | English

@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "server": "cd server && npm run server",
+    "server": "cd server && npm run serve",
     "server:dev": "cd server && npm run dev",
     "lint": "eslint --fix",
     "db": "cd server && npm run db",

@@ -6,7 +6,6 @@ import { initMeddlewear } from "./Middleware";
 import { WorkerBookService } from "./Service/WorkerBook";
 import { SERVER_PORT, WORKER_BOOK_INFO } from "./Config";
 import { createWebSocketServer } from "./WebSocket/index"; // 导入 ws
-import { test } from "./Test";
 
 /**
  * @author https://gitee.com/wfeng0/luckysheet-crdt
@@ -55,5 +54,4 @@ import { test } from "./Test";
 	} catch (error) {
 		logger.error(error);
 	}
-	test();
 })();
