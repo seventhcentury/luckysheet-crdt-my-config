@@ -49,6 +49,26 @@
    1. V: 18276861941
    2. qq群: 522121825 (推荐)
 
+## [DeepSeek AI模型](./server/src/DeepSeek/README.md) (仍在调试中...)
+1. 目前AI模型仍在接入测试中，**请耐心等待**；
+2. 需要先在服务端启动 AI 服务：`npm run ai-server`
+<!-- 3. 前台增加 AI 插件 : `plugins: ["ai"]` -->
+3. 前台增加 AI 配置 ：
+```js
+// 配置AI功能
+aiconfig: [
+   {
+      	name: "deepseek",
+      	model: "deepseek-r1",
+      	url: `ws://localhost:9000?userid=${id}`,
+      	messageMode: "stream", // chat or stream
+   },
+],
+```
+4. 初步效果展示:
+<p align="center">
+  <img src='/public/result/ai.gif' />
+</p>
 
 
 ## 项目启动

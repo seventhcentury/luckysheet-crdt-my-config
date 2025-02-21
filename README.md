@@ -54,6 +54,26 @@
    2. qq group: 522121825 (recommend)
 
 
+## [DeepSeek AI model](./server/src/DeepSeek/README.md) (still under debugging...)
+1. At present, the AI model is still undergoing integration testing. Please be patient and wait;
+2. Need to start AI service on the server first：`npm run ai-server`
+3. Add AI configuration to the front desk ：
+```js
+// 配置AI功能
+aiconfig: [
+   {
+      	name: "deepseek",
+      	model: "deepseek-r1",
+      	url: `ws://localhost:9000?userid=${id}`,
+      	messageMode: "stream", // chat or stream
+   },
+],
+```
+4. 初步效果展示:
+<p align="center">
+  <img src='/public/result/ai.gif' />
+</p>
+
 
 ## START
 1. Clone project：

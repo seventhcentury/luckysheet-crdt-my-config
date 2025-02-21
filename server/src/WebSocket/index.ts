@@ -10,6 +10,7 @@ import { broadcastOtherClients } from "./luckysheet/broadcast";
 
 /**
  * 创建 Web Socket 服务
+ *  应该通过命名空间来处理 ai 及 luckysheet 协同消息的处理函数
  * @param port 服务端口
  */
 export function createWebSocketServer(server: Server) {
@@ -50,9 +51,8 @@ export function createWebSocketServer(server: Server) {
 	 */
 	function onmessage(data: RawData, client: CustomWebSocket) {
 		// deepseek AI 消息处理函数
-		if (client.clientInfo.type === "deepseek") {
-			deepSeekHandler(wss, client, data);
-			return;
+		if (client.clientInfo.type === "ai") {
+			return deepSeekHandler(wss, client, data);
 		}
 
 		// Luckysheet 协同消息处理函数
