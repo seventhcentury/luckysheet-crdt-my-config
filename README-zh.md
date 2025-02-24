@@ -50,9 +50,11 @@
    2. qq群: 522121825 (推荐)
 
 ## [DeepSeek AI模型](./server/src/DeepSeek/README.md) (仍在调试中...)
+
+**仅 master-deepseek-alpha 分支**
+
 1. 目前AI模型仍在接入测试中，**请耐心等待**；
 2. 需要先在服务端启动 AI 服务：`npm run ai-server`
-<!-- 3. 前台增加 AI 插件 : `plugins: ["ai"]` -->
 3. 前台增加 AI 配置 ：
 ```js
 // 配置AI功能

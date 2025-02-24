@@ -55,6 +55,9 @@
 
 
 ## [DeepSeek AI model](./server/src/DeepSeek/README.md) (still under debugging...)
+
+**only master-deepseek-alpha branch is available**
+
 1. At present, the AI model is still undergoing integration testing. Please be patient and wait;
 2. Need to start AI service on the server first：`npm run ai-server`
 3. Add AI configuration to the front desk ：

@@ -2,6 +2,7 @@ import pako from "pako";
 import locale from "../../locale/locale";
 import { refreshChatbox } from "./plugin";
 import { getAllSheets } from "../../global/api";
+import { AI_getAllSheet } from "./utils";
 
 export class AIWebSocket {
 	constructor(name, model, url, messageMode) {
@@ -19,6 +20,8 @@ export class AIWebSocket {
 		 * uuid
 		 */
 		this.chatContent = [];
+
+		this.getPrompt()
 	}
 
 	getChatContent() {
@@ -113,13 +116,26 @@ export class AIWebSocket {
 		this.websocket.close(1000);
 	}
 
+	getPrompt(d) {
+		// 获取当前的 所有数据
+		const allData = AI_getAllSheet(getAllSheets());
+		const prompt = `目前表格的所有数据如下：\n${JSON.stringify(allData)},
+		备注：
+		1. 行列号均从0开始；
+		2. 结果以 markdown 格式返回；
+		3. A、B、C... 表示列号；
+		4. 1、2、3... 表示行号；
+		5. 省去思考过程，请直接给出答案即可
+`;
+		console.log("==> prompt", prompt);
+		return prompt + d
+	}
+
 	sendMessage(d) {
+		if (!d) return
 		if (this.websocket) {
-			// 获取当前的 所有数据
-			const allData = getAllSheets();
-			const prompt = `目前表格的所有数据如下：\n${allData[0].data},${d}`;
 			// message 需要经过压缩
-			let msg = pako.gzip(encodeURIComponent(JSON.stringify(d)), {
+			let msg = pako.gzip(encodeURIComponent(JSON.stringify(this.getPrompt(d))), {
 				to: "string",
 			});
 			this.websocket.send(msg);

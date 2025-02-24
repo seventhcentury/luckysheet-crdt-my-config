@@ -1,7 +1,6 @@
 import { DB } from "../Sequelize";
 import { logger } from "../Utils/Logger";
 import { getURLQuery, unzip } from "../Utils";
-import { deepSeekHandler } from "./deepseek";
 import { RawData, WebSocketServer } from "ws";
 import { IncomingMessage, Server } from "http";
 import { databaseHandler } from "./luckysheet/database";
@@ -50,11 +49,6 @@ export function createWebSocketServer(server: Server) {
 	 * @param client
 	 */
 	function onmessage(data: RawData, client: CustomWebSocket) {
-		// deepseek AI 消息处理函数
-		if (client.clientInfo.type === "ai") {
-			return deepSeekHandler(wss, client, data);
-		}
-
 		// Luckysheet 协同消息处理函数
 		try {
 			// 1. 进行 pako 解压，将 buffer 转成 可识别 json 字符串
