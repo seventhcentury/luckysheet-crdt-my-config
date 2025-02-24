@@ -7,11 +7,10 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "server": "cd server && npm run server",
+    "server": "cd server && npm run serve",
     "server:dev": "cd server && npm run dev",
     "lint": "eslint --fix",
     "db": "cd server && npm run db",
-    "source": "cd Luckysheet-source && npm run dev",
     "dep": "npm install --s && cd server && npm install --s"
   },
   "description": "A CRDT library for Luckysheet",
