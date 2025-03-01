@@ -40,17 +40,17 @@
 					container: "luckysheet",
 					lang: "zh",
 					// showinfobar: false,
-					plugins: [],
+					plugins: ['chart','vchart'],
 					data: [sheetCell],
 					// 配置AI功能
-					aiconfig: [
-						{
-							name: "deepseek",
-							model: "deepseek-r1",
-							url: `ws://localhost:9000?userid=${id}`,
-							messageMode: "chat", // chat or stream
-						},
-					],
+					// aiconfig: [
+					// 	{
+					// 		name: "deepseek",
+					// 		model: "deepseek-r1",
+					// 		url: `ws://localhost:9000?userid=${id}`,
+					// 		messageMode: "chat", // chat or stream
+					// 	},
+					// ],
 					// allowUpdate: true, // 配置协同功能
 					// loadUrl:
 					// 	"http://localhost:9000/loadSheetData?gridkey=gridkey_demo",
