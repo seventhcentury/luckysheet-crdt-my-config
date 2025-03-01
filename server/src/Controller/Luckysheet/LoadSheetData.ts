@@ -187,7 +187,8 @@ async function parseCellData(
 
 		cellDatas?.forEach((item) => {
 			const data = <CellDataModelType>item.dataValues;
-			delete data.cell_data_id; // 移除多余的字段
+
+			console.log("==> data", data);
 			// 解析 cellData 生成 luckysheet 初始数据
 			result.push({
 				r: data.r,
@@ -199,9 +200,9 @@ async function parseCellData(
 					},
 					v: data.v || "",
 					m: data.m || "",
-					bg: data.bg || "",
+					bg: data.bg || "#FFFFFF",
 					ff: data.ff || "",
-					fc: data.fc || "",
+					fc: data.fc || "#000000",
 					bl: Boolean(data.bl),
 					it: Boolean(data.it),
 					fs: data.fs || 10,
@@ -214,6 +215,7 @@ async function parseCellData(
 					 */
 					f: data.f || null,
 					un: Boolean(data.un),
+					ps: data.ps ? { value: data.ps } : null,
 				},
 			});
 		});

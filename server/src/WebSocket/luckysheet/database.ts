@@ -119,6 +119,7 @@ async function v(data: string) {
 			it: <boolean>v.it,
 			un: <boolean>v.un,
 			vt: v.vt,
+			ps: <string>v?.ps?.value,
 		};
 
 		// 如果存在则更新
@@ -561,6 +562,7 @@ async function arc(data: string) {
 				v: <string>cellItem.v,
 				ctfa: <string>cellItem?.ct?.fa,
 				ctt: <string>cellItem?.ct?.t,
+				ps: <string>cellItem?.ps?.value,
 			};
 			await CellDataService.createCellData(celldata);
 		}
@@ -643,6 +645,7 @@ async function sha(data: string, gridKey: string) {
 				vt: item.v.vt || 0,
 				f: item.v.f || "",
 				un: Boolean(item.v.un),
+				ps: <string>item.v.ps?.value,
 			};
 
 			// 执行插入操作

@@ -94,15 +94,15 @@ type BASE_CELL_DATA_TYPE = {
 		rs: number; //合并单元格占的行数
 		cs: number; //合并单元格占的列数
 	};
-	ps?: {
+	ps: {
 		//批注
-		left: number; //批注框左边距
-		top: number; //批注框上边距
-		width: number; //批注框宽度
-		height: number; //批注框高度
+		left?: number; //批注框左边距
+		top?: number; //批注框上边距
+		width?: number; //批注框宽度
+		height?: number; //批注框高度
 		value: string; //批注内容
-		isshow: boolean; //批注框为显示状态
-	};
+		isshow?: boolean; //批注框为显示状态
+	} | null;
 	f: string | null; //单元格是一个求和公式 "=SUM(233)"
 };
 
