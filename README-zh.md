@@ -16,22 +16,17 @@
   <img src='/public/result/result.gif' />
 </p>
 
-## 版权声明
+## 项目说明
 1. 本项目基于 [Luckysheet](https://github.com/mengshukeji/Luckysheet) 源码修改，**请遵循原作者开源协议**，同时，**请不要删除或修改源码头部版权声明**。
 2. 本项目以 **Apache2.0 协议开源**，请放心使用，同时，本项目也将回馈于 Luksysheet 社区，丰富社区生态，再次感谢 @[Luckysheet](https://github.com/mengshukeji/Luckysheet) 团队 ❤️
-
-
-## BUG
-1. 个人精力有限，**存在BUG及功能未完善之处**，请提交 [issue](https://gitee.com/wfeng0/luckysheet-crdt/issues/new) ，我会及时处理；
-2. 也欢迎大家 fork 项目，提交 pr ，一起完善项目；
-
-## 项目说明
-1. 项目为 **Luckysheet 协同增强版（全功能实现）**，意在提供协同实现思路、数据存储服务、协同演示等，项目基于 [Luckysheet](https://github.com/mengshukeji/Luckysheet) 实现，感谢原作者开源。
-2. 本项目主要**实现协同功能**模块，对其他内容不做修改，功能使用上并无影响；
-3. 项目支持 **可选数据库服务**，没有数据库的用户数据无法持久化存储，协同功能并不受影响。
-4. 项目使用 **[Sequelize](https://www.sequelize.cn/)** 作为ORM数据服务技术，支持mysql、sqlite、postgres、mssql等数据库，方便用户快速迁移。
-5. 项目使用 **Typescript** 作为主要开发语言，提供完整的类型提示，规范代码，提高开发效率。
-6. **项目有 `master` 分支和 `master-alpha` 分支，最新发布的特性，会在 alpha 上进行测试，稳定后会合并到 master 上。**
+3. 项目为 **Luckysheet 协同增强版（全功能实现）**，意在**提供协同实现思路、数据存储服务、协同演示**等，项目基于 [Luckysheet](https://github.com/mengshukeji/Luckysheet) 实现，感谢原作者开源。
+4. 本项目主要**实现协同功能**模块，对其他内容不做修改，功能使用上并无影响；
+5. 项目支持 **可选数据库服务**，没有数据库的用户数据无法持久化存储，协同功能并不受影响。
+6. 项目使用 **[Sequelize](https://www.sequelize.cn/)** 作为ORM数据服务技术，支持mysql、sqlite、postgres、mssql等数据库，方便用户快速迁移。
+7. 项目使用 **Typescript** 作为主要开发语言，提供完整的类型提示，规范代码，提高开发效率。
+8. **项目有 `master` 分支和 `master-alpha` 分支，最新发布的特性，会在 alpha 上进行测试，稳定后会合并到 master 上。**
+9. 个人精力有限，**存在BUG及功能未完善之处**，请提交 [issue](https://gitee.com/wfeng0/luckysheet-crdt/issues/new) ，我会及时处理；
+10. 也欢迎大家 fork 项目，提交 pr ，一起完善项目；
 
 
 ## 收费声明
@@ -46,12 +41,11 @@
    2. 收费标准：**`99 元`**
    3. 提供服务：仅提供源码包(不提供持续的功能升级、BUG修复，更不是买产品！)
 6. **联系作者**：
-   1. V: 18276861941
-   2. qq群: 522121825 (推荐)
+   1. qq群: 522121825 (推荐)
 
-## [DeepSeek AI模型](./server/src/DeepSeek/README.md) (仍在调试中...)
+<!-- ## [DeepSeek AI模型](https://gitee.com/wfeng0/luckysheet-crdt/blob/master-deepseek-alpha/server/src/DeepSeek/README.md) (仍在调试中...) -->
 
-**仅 master-deepseek-alpha 分支**
+<!-- **仅 master-deepseek-alpha 分支**
 
 1. 目前AI模型仍在接入测试中，**请耐心等待**；
 2. 需要先在服务端启动 AI 服务：`npm run ai-server`
@@ -70,7 +64,7 @@ aiconfig: [
 4. 初步效果展示:
 <p align="center">
   <img src='/public/result/ai.gif' />
-</p>
+</p> -->
 
 
 ## 项目启动
@@ -79,7 +73,7 @@ aiconfig: [
 git clone https://gitee.com/wfeng0/luckysheet-crdt
 ```
 
-1. **下载依赖:** 
+2. **下载依赖:** 
 ```bash
 ## "dep": "npm install --s && cd server && npm install --s"
 npm run dep
@@ -148,7 +142,7 @@ build: {
   + 🗒️package.json
 ```
 
-## 项目结构说明
+<!-- ## 项目结构说明
 
 ```js
 // 源码
@@ -182,7 +176,7 @@ build: {
     + 📂config // 前台项目配置文件
     + 📂style // 前台项目样式文件
     + 🗒️main.ts // 前台项目主程序
-```
+``` -->
 
 ## 协同功能计划表
 <!-- **已实现功能 ✅️，未实现功能 ❌️** -->
@@ -329,8 +323,8 @@ export const WS_SERVER_URL = "ws://127.0.0.1:9000";
   <img src='/public/result/picture-new.gif' />
 </p>
 
-### 4️⃣ 文档加密解密
-<span style="font-weight:900">文档加密功能</span>
+<!-- ### 4️⃣ 文档加密解密 -->
+<!-- <span style="font-weight:900">文档加密功能</span>
 <p align="center">
   <img src='/public/result/file-encrypt.png' />
 </p>
@@ -343,8 +337,8 @@ export const WS_SERVER_URL = "ws://127.0.0.1:9000";
 <p align="center">
   <img src='/public/result/encryption.gif' />
 </p>
-<span style="font-weight:900">配置方法：</span>
-
+<span style="font-weight:900">配置方法：</span> -->
+<!-- 
 ```js
 /**
  * 这里涉及三个方法及其校验，均交由用户自行处理：
@@ -383,10 +377,10 @@ const options = {
       },
   }
 }
-```
+``` -->
 
 
-### 5️⃣ 文件导入
+### 4️⃣ 文件导入
 <span style="font-weight:900">支持协同~</span>
 <p align="center">
   <img src='/public/result/file-import.gif' />
@@ -409,7 +403,7 @@ luckysheet.create(options)
 3. 请正确配置 `plugins: [ 'fileImport' ]` 后使用导入功能。
 
 
-### 6️⃣ 文件导出
+### 5️⃣ 文件导出
 <p align="center">
   <img src='/public/result/file-export.gif' />
 </p>
@@ -431,7 +425,7 @@ luckysheet.create(options)
 3. 请正确配置 `plugins: [ 'fileExport' ]` 后使用导入功能。
 
 
-### 7️⃣ 拓展菜单功能
+### 6️⃣ 拓展菜单功能
 <span style="font-weight:900">配置方法：</span>
 <p align="center">
   <img src='/public/result/menu.png' />
@@ -450,7 +444,26 @@ const options = {
       // 分享发送
       fileShear(){},
       // 退出功能
-      exit() {}
+      exit() {},
+      // 菜单解密 返回值为 Boolean
+      decrypt(password) {
+      	// 执行后续 server 操作
+      	console.log("==> 解密文档：", password);
+      	// 解密过程需要校验密码，因此需要提供返回值
+      	return password === "123456";
+      },
+
+      // 菜单加密
+      encryption: (password) => {
+      	// 拿到password可执行后续 server操作
+      	console.log("==> 文档已加密:", password);
+      },
+
+      // 打开文档输入密码 标记文档是否加密 返回值为 Boolean
+      openDocumentPassword: (password) => {
+      	console.log("==> 用户输入密码:", password);
+      	return password === "123456";
+      },
    }
 }
 ```
@@ -494,6 +507,7 @@ catch (error) {}
 当且仅当，这两个表有记录的场景下，才能渲染 luckysheet；
 
 注意！如果两个表没有一条记录，也可能造成无法协同（问题2）
+注意！如果 workersheets 表有记录，但是 deleteFlag 为 true 的情况下，也会导致无法渲染 luckysheet；
 ```
 
 4. **前台资源引用异常**

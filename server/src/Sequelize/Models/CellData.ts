@@ -30,6 +30,7 @@ export class CellDataModel extends Model {
 	declare vt?: number;
 	declare ht?: number;
 	declare f?: string | null;
+	declare ps?: string | null;
 
 	// 都需要导出一个 register 方法，用于注册模型
 	static registerModule(sequelize: Sequelize) {
@@ -152,6 +153,11 @@ export class CellDataModel extends Model {
 					type: DataTypes.STRING,
 					allowNull: true,
 					comment: "公式",
+				},
+				ps: {
+					type: DataTypes.STRING,
+					allowNull: true,
+					comment: "批注",
 				},
 			},
 			{

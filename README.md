@@ -17,23 +17,18 @@
   <img src='/public/result/result.gif' alt='result' />
 </p>
 
-## Copyright Notice
-1. This project is based on the [Luckysheet source code](https://github.com/mengshukeji/Luckysheet) modification. Please follow the original author's open source agreement, and do not delete or modify the source code header copyright statement。
-2. This project is open sourced under the **Apache 2.0 protocol**, so please feel free to use it. At the same time, this project will also contribute to the Luksysheet community, enriching the community ecosystem. Thank you again to the @[Luckysheet](https://github.com/mengshukeji/Luckysheet) team ❤️
-
-## BUG
-1. My personal energy is limited, and there are bugs and incomplete functions. Please submit an [issue](https://gitee.com/wfeng0/luckysheet-crdt/issues/new) and I will handle it promptly;
-2. Welcome everyone to fork the project, submit PR, and work together to improve the project.
-
-
 
 ## DESCRIPTION
-1. The project is **Luckysheet Collaborative Enhanced Edition (fully functional implementation)**, aiming to provide collaborative implementation ideas, data storage services, collaborative demonstrations, etc. The project is based on [Luckysheet](https://github.com/mengshukeji/Luckysheet) Implemented, thank you to the original author for open-source.
-2. This project mainly implements the collaborative function module, which has no impact on other content. The parts modified based on the source code are all reflected in the `Luckysheet source` folder.
-3. The project supports **optional database services**. User data without a database cannot be persistently stored, and collaborative functionality is not affected.
-4. Project Use **[Sequelize](https://www.sequelize.cn/)** As an ORM data service technology, it supports databases such as MySQL, SQLite, PostgreSQL, and MSSQL, making it easy for users to quickly migrate.
-5. The project uses **Typescript** as the main development language, providing complete type prompts, standardizing code, and improving development efficiency.
-6. **The project has a `master` branch and a `master-alpha` branch. The latest released features will be tested on alpha and will be merged into master after stabilization**
+1. This project is based on the [Luckysheet source code](https://github.com/mengshukeji/Luckysheet) modification. Please follow the original author's open source agreement, and do not delete or modify the source code header copyright statement。
+2. This project is open sourced under the **Apache 2.0 protocol**, so please feel free to use it. At the same time, this project will also contribute to the Luksysheet community, enriching the community ecosystem. Thank you again to the @[Luckysheet](https://github.com/mengshukeji/Luckysheet) team ❤️
+3. The project is **Luckysheet Collaborative Enhanced Edition (fully functional implementation)**, aiming to provide collaborative implementation ideas, data storage services, collaborative demonstrations, etc. The project is based on [Luckysheet](https://github.com/mengshukeji/Luckysheet) Implemented, thank you to the original author for open-source.
+4. This project mainly implements the collaborative function module, which has no impact on other content. The parts modified based on the source code are all reflected in the `Luckysheet source` folder.
+5. The project supports **optional database services**. User data without a database cannot be persistently stored, and collaborative functionality is not affected.
+6. Project Use **[Sequelize](https://www.sequelize.cn/)** As an ORM data service technology, it supports databases such as MySQL, SQLite, PostgreSQL, and MSSQL, making it easy for users to quickly migrate.
+7. The project uses **Typescript** as the main development language, providing complete type prompts, standardizing code, and improving development efficiency.
+8. **The project has a `master` branch and a `master-alpha` branch. The latest released features will be tested on alpha and will be merged into master after stabilization**
+9. My personal energy is limited, and there are bugs and incomplete functions. Please submit an [issue](https://gitee.com/wfeng0/luckysheet-crdt/issues/new) and I will handle it promptly;
+10. Welcome everyone to fork the project, submit PR, and work together to improve the project.
 
 
 
@@ -50,15 +45,15 @@
    1. Fee standard:**`￥ 99`**
    2. Provide services: Only provide source code packages (do not provide continuous feature upgrades, bug fixes, and not purchase products!)
 6. **Contact Author**：
-   1. V: 18276861941
-   2. qq group: 522121825 (recommend)
+   <!-- 1. V: 18276861941 -->
+   1. qq group: 522121825 (recommend)
 
 
-## [DeepSeek AI model](./server/src/DeepSeek/README.md) (still under debugging...)
+<!-- ## [DeepSeek AI model](https://gitee.com/wfeng0/luckysheet-crdt/blob/master-deepseek-alpha/server/src/DeepSeek/README.md) (still under debugging...)
 
-**only master-deepseek-alpha branch is available**
+**only master-deepseek-alpha branch is available** -->
 
-1. At present, the AI model is still undergoing integration testing. Please be patient and wait;
+<!-- 1. At present, the AI model is still undergoing integration testing. Please be patient and wait;
 2. Need to start AI service on the server first：`npm run ai-server`
 3. Add AI configuration to the front desk ：
 ```js
@@ -75,7 +70,7 @@ aiconfig: [
 4. 初步效果展示:
 <p align="center">
   <img src='/public/result/ai.gif' />
-</p>
+</p> -->
 
 
 ## START
@@ -84,7 +79,7 @@ aiconfig: [
 git clone https://gitee.com/wfeng0/luckysheet-crdt
 ```
 
-1. Download dependencies: 
+2. Download dependencies: 
 ```bash
 ## "dep": "npm install --s && cd server && npm install --s"
 npm run dep
@@ -155,7 +150,7 @@ build: {
   + 🗒️package.json
 ```
 
-## Project Structure Description
+<!-- ## Project Structure Description
 
 ```js
 // srource code
@@ -189,7 +184,7 @@ build: {
     + 📂config // Config
     + 📂style // Style
     + 🗒️main.ts // Entry file.
-```
+``` -->
 
 ## Collaborative Function Plan Table
 **Implemented  ✅️ Unrealized  ❌️**
@@ -323,7 +318,7 @@ export const WS_SERVER_URL = "ws://127.0.0.1:9000";
 </p>
 
 
-### 4️⃣ Document encryption and decryption
+<!-- ### 4️⃣ Document encryption and decryption
 <span style="font-weight:900">encryption</span>
 <p align="center">
   <img src='/public/result/file-encrypt.png' />
@@ -378,9 +373,9 @@ const options = {
       },
   }
 }
-```
+``` -->
 
-### 5️⃣ File Import
+### 4️⃣ File Import
 <span style="font-weight:900">Support collaboration~</span>
 <p align="center">
   <img src='/public/result/file-import.gif' />
@@ -403,7 +398,7 @@ luckysheet.create(options)
 3. Please configure plugins correctly Use the import function after `fileImport`.
 
 
-### 6️⃣ File Export
+### 5️⃣ File Export
 <p align="center">
   <img src='/public/result/file-export.gif' />
 </p>
@@ -425,7 +420,7 @@ luckysheet.create(options)
 3. Please configure plugins correctly Use the import function after `fileExport`.
 
 
-### 7️⃣ Expand menu functionality
+### 6️⃣ Expand menu functionality
 <span style="font-weight:900">Configuration:</span>
 <p align="center">
   <img src='/public/result/menu.png' />
@@ -444,7 +439,26 @@ const options = {
       // shear
       fileShear(){},
       // exit
-      exit() {}
+      exit() {},
+      //  Return Boolean
+      decrypt(password) {
+      	// 执行后续 server 操作
+      	console.log("==> 解密文档：", password);
+      	// 解密过程需要校验密码，因此需要提供返回值
+      	return password === "123456";
+      },
+
+      // 菜单加密
+      encryption: (password) => {
+      	// 拿到password可执行后续 server操作
+      	console.log("==> 文档已加密:", password);
+      },
+
+      // 打开文档输入密码 标记文档是否加密 返回值为 Boolean
+      openDocumentPassword: (password) => {
+      	console.log("==> 用户输入密码:", password);
+      	return password === "123456";
+      },
    }
 }
 ```
@@ -487,6 +501,7 @@ The appeal operation will create a database table by oneself and synchronize the
 And create a gridkey demo worker books and worker sheets record;
 If and only if there are recorded scenes in these two tables, the luckySheet can be rendered;
 be careful! If there is no record in two tables, it may also cause the inability to collaborate (problem 2)
+be careful! If there are records in the workersheets table, but deleteFlag is true, it will also result in the inability to render luckysheets;
 ```
 
 4. **Forefront resource reference exception**
