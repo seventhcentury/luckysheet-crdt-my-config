@@ -2,16 +2,11 @@
   <img src='/public/logo.svg' />
 </p>
 
-
-
 <h1 align="center">Luckysheet CRDT</h1>
-<h4 align="center">Connected to DeepSeek-R1 AI model(#alpha)</h4>
-
 
 [简体中文](./README-zh.md) | English
 
-
-<p style="border-bottom:solid rgba(85, 187, 138, 0.5) 1px"></p>
+---
 
 <p align="center">
   <img src='/public/result/result.gif' alt='result' />
@@ -149,6 +144,15 @@ build: {
   + 🗒️package-lock.json
   + 🗒️package.json
 ```
+
+3. Install node on the server
+```js
+// Related tutorials can be searched online by oneself, and this example provides：
+```
+[Install node on the centos](https://blog.csdn.net/weixin_61367575/article/details/138012405)
+
+4. Start Server：`npm run serve`
+Wait for compilation to complete, start the service, and access the `http://${ip}:9000` after deployment is complete
 
 <!-- ## Project Structure Description
 
