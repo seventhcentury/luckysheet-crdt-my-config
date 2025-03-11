@@ -224,8 +224,15 @@ async function rv(data: string) {
 			const r = range!.row[0] + k;
 			const c = range!.column[0] + j;
 			// 场景一：设置空单元格的样式数据 加粗、背景、颜色、字号等
-			// 场景二：范围添加内容 v m 不为空
 			// {"t":"rv","i":"2b62e1f2-7f7f-4889-b34d-007fe7277364","v":[[{"v":null,"bl":1},{"v":null,"bl":1}],[{"v":null,"bl":1},{"v":null,"bl":1}]],"range":{"row":[6,7],"column":[3,4]}}
+
+			// 场景二：范围添加内容 v m 不为空
+			// "v":[
+			// 			[{"ct":{"fa":"General","t":"g"},"v":"B","m":"B","bg":"#FFFFFF","ff":"5","fc":"#000000","bl":false,"it":false,"fs":10,"cl":false,"ht":0,"vt":0,"f":null,"un":false},
+			// 			 	{"ct":{"fa":"General","t":"n"},"v":"111","m":"111","bg":"#FFFFFF","ff":"5","fc":"#000000","bl":false,"it":false,"fs":10,"cl":false,"ht":0,"vt":0,"f":null,"un":false}
+			// 			]
+			// 		],
+			// "range":{"row":[4,4],"column":[0,1]}}
 			if ((item && item.v === null) || (item && item.v && item.m)) {
 				// i r c 先判断是否存在记录，存在则更新，不存在则创建
 				const exist = await CellDataService.hasCellData(i, r, c);
@@ -265,6 +272,21 @@ async function rv(data: string) {
 					});
 				} else await CellDataService.createCellData(cellInfo);
 			}
+
+			// 复制范围单元格，有样式与删除范围单元格触发的事件参数是一样的，目前未解决BUG
+			// {"t":"rv","i":"Sheet_eiro660he3z5_1740971352584",
+			// 		"v":[
+			// 			  [{"ct":{"fa":"General","t":"d"},"bg":"#FFFF00","ff":"5","fc":"#FF0000","bl":false,"it":false,"fs":10,"cl":false,"ht":0,"vt":0,"f":null,"un":false,"ps":null}],
+			// 			  [{"ct":{"fa":"General","t":"d"},"bg":"#FFFF00","ff":"5","fc":"#FF0000","bl":false,"it":false,"fs":10,"cl":false,"ht":0,"vt":0,"f":null,"un":false,"ps":null}]
+			// 			],
+			// 		"range":{"row":[5,6],"column":[0,0]}
+			// }
+			// {"t":"rv","i":"Sheet_eiro660he3z5_1740971352584",
+			// 		"v":[
+			// 			  [{"ct":{"fa":"General","t":"d"},"bg":"#FFFF00","ff":"5","fc":"#FF0000","bl":false,"it":false,"fs":10,"cl":false,"ht":0,"vt":0,"f":null,"un":false,"ps":null}],
+			// 			  [{"ct":{"fa":"General","t":"d"},"bg":"#FFFF00","ff":"5","fc":"#FF0000","bl":false,"it":false,"fs":10,"cl":false,"ht":0,"vt":0,"f":null,"un":false,"ps":null}]
+			// 			],
+			// 		"range":{"row":[5,6],"column":[0,0]}}
 			// 场景三：删除单元格内容
 			else if (item && !item.v && !item.m) {
 				await CellDataService.deleteCellData(i, r, c); // 删除记录

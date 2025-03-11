@@ -2,15 +2,11 @@
   <img src='/public/logo.svg' />
 </p>
 
-
 <h1 align="center">Luckysheet CRDT</h1>
-<h4 align="center">已接入 DeepSeek-R1 AI模型(#alpha)</h4>
-
 
 简体中文 | [English](./README.md)
 
-
-<p style="border-bottom:solid rgba(85, 187, 138, 0.5) 1px"></p>
+---
 
 <p align="center">
   <img src='/public/result/result.gif' />
@@ -42,29 +38,6 @@
    3. 提供服务：仅提供源码包(不提供持续的功能升级、BUG修复，更不是买产品！)
 6. **联系作者**：
    1. qq群: 522121825 (推荐)
-
-<!-- ## [DeepSeek AI模型](https://gitee.com/wfeng0/luckysheet-crdt/blob/master-deepseek-alpha/server/src/DeepSeek/README.md) (仍在调试中...) -->
-
-<!-- **仅 master-deepseek-alpha 分支**
-
-1. 目前AI模型仍在接入测试中，**请耐心等待**；
-2. 需要先在服务端启动 AI 服务：`npm run ai-server`
-3. 前台增加 AI 配置 ：
-```js
-// 配置AI功能
-aiconfig: [
-   {
-      	name: "deepseek",
-      	model: "deepseek-r1",
-      	url: `ws://localhost:9000?userid=${id}`,
-      	messageMode: "stream", // chat or stream
-   },
-],
-```
-4. 初步效果展示:
-<p align="center">
-  <img src='/public/result/ai.gif' />
-</p> -->
 
 
 ## 项目启动
@@ -141,6 +114,15 @@ build: {
   + 🗒️package-lock.json
   + 🗒️package.json
 ```
+
+3. 在服务器上安装node
+```js
+// 相关教程可自行上网查询，本例提供：
+```
+[centos参考此链接](https://blog.csdn.net/weixin_61367575/article/details/138012405)
+
+4. 启动服务：`npm run serve`
+等待编译完成，启动服务，部署完成后访问 `http://${ip}:9000` 即可
 
 <!-- ## 项目结构说明
 

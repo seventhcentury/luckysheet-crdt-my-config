@@ -188,7 +188,6 @@ async function parseCellData(
 		cellDatas?.forEach((item) => {
 			const data = <CellDataModelType>item.dataValues;
 
-			console.log("==> data", data);
 			// 解析 cellData 生成 luckysheet 初始数据
 			result.push({
 				r: data.r,
