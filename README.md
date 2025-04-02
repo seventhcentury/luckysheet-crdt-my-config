@@ -523,6 +523,8 @@ const dependScripts = [
 So, it will cause a problem that the actual project in the front-end is probably not the path of public/appendplugins/ * *. Please ensure that the expenndplugins directory is correctly placed and recognized.
 ```
 **Handling method:**
+
+```ts
 1. Source code packaging: `npm run build` ==> `dist` Place the directory into the `Accessing static resources`（`public`|`static`|`...`）；
 2. Register plugin： `plugins:['chart']`
 3. Analyze resource path:
@@ -530,10 +532,39 @@ So, it will cause a problem that the actual project in the front-end is probably
    2. If there are other paths after the port, it should be placed in another directory, such as: static。
 4. The file is backed up in the `dist` directory and can be copied directly。
 
+```
+
 <p align="center">
   <img src='/public/result/extendplugins.png' />
 </p>
+
  
+
+
+5. **Customize the creation of chart types**
+  At present, creating charts in vchart is a random 'pie chart' | 'line chart'. If you want to implement custom chart type transfer, you need to modify the chartmix related source code. The specific steps can be referred to as follows：
+
+
+<p align="center">
+  <img src='/public/result/changeChartType.png' />
+</p>
+
+```ts
+1. Download Source：https://gitee.com/mengshukeji/chartMix
+2. Modify the src/tiles/exportUtil.js create Chart method and add a chart type parameter;
+3. Repackage and place the file into the project
+```
+
+6. **Registration plugin error**
+<p align="center">
+  <img src='/public/result/register-plugin-error.png' />
+</p>
+
+```ts
+Solution Review: Abnormal Reference to Front end Resources`
+```
+
+
 
 
 ## Open source contribution

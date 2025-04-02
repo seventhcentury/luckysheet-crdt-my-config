@@ -507,6 +507,8 @@ const dependScripts = [
 那么，就会引发一个问题，前台实际的项目，估计不是 public/expendPlugins/ ** 的路径,请确保 expendPlugins 目录被正确放置并识别。
 ```
 **处理方式：**
+```ts
+
 1. 源码打包： `npm run build` ==> `dist` 目录放置到项目`可访问静态资源`（`public`|`static`|`...`）目录下；
 2. 注册插件： `plugins:['chart']`
 3. 分析资源路径：
@@ -517,7 +519,31 @@ const dependScripts = [
 <p align="center">
   <img src='/public/result/extendplugins.png' />
 </p>
- 
+```
+
+5. **自定义创建图表类型**
+  目前vchart 创建图表是随机的`饼图`|`折线图`，如果想实现自定义的图表类型传递，需要修改 chartmix 相关源码，具体步骤可参考如下：
+
+
+<p align="center">
+  <img src='/public/result/changeChartType.png' />
+</p>
+
+```ts
+1. 下载源码：https://gitee.com/mengshukeji/chartMix
+2. 修改 src/utils/exportUtil.js createChart 方法，添加图表类型参数
+3. 重新打包，将文件放置到项目中
+```
+
+6. **注册插件报错**
+<p align="center">
+  <img src='/public/result/register-plugin-error.png' />
+</p>
+
+```ts
+解决办法回看 `前台资源引用异常`
+```
+
 
 
 ## 开源贡献
