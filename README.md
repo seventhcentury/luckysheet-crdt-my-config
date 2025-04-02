@@ -522,7 +522,18 @@ const dependScripts = [
 
 So, it will cause a problem that the actual project in the front-end is probably not the path of public/appendplugins/ * *. Please ensure that the expenndplugins directory is correctly placed and recognized.
 ```
+**Handling method:**
+1. Source code packaging: `npm run build` ==> `dist` Place the directory into the `Accessing static resources`（`public`|`static`|`...`）；
+2. Register plugin： `plugins:['chart']`
+3. Analyze resource path:
+   1. If there are no other paths after the port, it should be placed in the public directory;
+   2. If there are other paths after the port, it should be placed in another directory, such as: static。
+4. The file is backed up in the `dist` directory and can be copied directly。
 
+<p align="center">
+  <img src='/public/result/extendplugins.png' />
+</p>
+ 
 
 
 ## Open source contribution
