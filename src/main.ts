@@ -31,7 +31,7 @@ async function initLuckysheet() {
 	const gridKey = 'gridkey_demo'; // 请注意大小写哈~
 
 	const options = {
-		lang: 'zh',
+		lang: 'en',
 		title: 'Luckysheet',
 		container: 'luckysheetContainer',
 		// showinfobar: false, // 隐藏顶部的信息栏
@@ -53,8 +53,8 @@ async function initLuckysheet() {
 		 *  1. 如果请求成功，则使用数据库配置的 workerbook 数据
 		 *  2. 如果请求失败，则使用默认配置的 workerbook 数据
 		 */
-		options.lang = isSuccess ? data.data.lang : 'zh';
-		options.title = isSuccess ? data.data.title : '未命名工作簿';
+		//options.lang = isSuccess ? data.data.lang : 'zh';
+		//options.title = isSuccess ? data.data.title : '未命名工作簿';
 
 		// 协同场景下，才进行图片优化
 		Reflect.set(options, 'uploadImage', uploadImage);

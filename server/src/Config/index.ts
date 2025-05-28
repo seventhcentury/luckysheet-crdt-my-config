@@ -24,9 +24,9 @@ const SERVER_PORT = 9000;
 const SQL_CONFIG = {
 	port: 3306, // 端口号 3306 3309
 	host: "127.0.0.1", // localhost or 127.0.0.1
-	database: "luckysheet_crdt",
-	user: "root",
-	password: "root",
+	database: "luckysheet_db",
+	user: "luckysheet_user",
+	password: "kali",
 	logger: true, // 开启日志
 	enable: true, // 是否启用数据库服务
 };
