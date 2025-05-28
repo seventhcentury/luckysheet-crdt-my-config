@@ -67,6 +67,19 @@ aiconfig: [
   <img src='/public/result/ai.gif' />
 </p> -->
 
+##RUN DB  
+CREATE DATABASE luckysheet_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; 
+CREATE USER 'luckysheet_user'@'localhost' IDENTIFIED BY 'your_strong_password';
+GRANT ALL PRIVILEGES ON luckysheet_db.* TO 'luckysheet_user'@'localhost';
+FLUSH PRIVILEGES;
+EXIT; 
+Filename: server/src/Config/index.ts
+##CHANGE LANG 
+AT luchysheet_crdt/src/main.ts 
+zh >> en 
+##DELETE SECOND TABLE 
+AT index.html 
+delte index-iframe div 
 
 ## START
 1. Clone project：
