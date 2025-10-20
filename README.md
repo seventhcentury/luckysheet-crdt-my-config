@@ -83,7 +83,7 @@ delte index-iframe div
 ## START
 1. Clone project：
 ```bash
-git clone https://gitee.com/wfeng0/luckysheet-crdt
+https://github.com/seventhcentury/luckysheet-crdt-my-config
 ```
 
 2. Download dependencies: 
