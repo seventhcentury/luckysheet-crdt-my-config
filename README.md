@@ -4,7 +4,7 @@
 
 <h1 align="center">Luckysheet CRDT</h1>
 
-[简体中文](./README-zh.md) | English
+| English
 
 ---
 
@@ -52,7 +52,6 @@
 2. Need to start AI service on the server first：`npm run ai-server`
 3. Add AI configuration to the front desk ：
 ```js
-// 配置AI功能
 aiconfig: [
    {
       	name: "deepseek",
